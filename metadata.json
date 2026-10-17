@@ -1,0 +1,6 @@
+{
+  "name": "RadarTech Brasil - Eventos & Hackathons",
+  "description": "Plataforma automatizada para descoberta e acompanhamento de eventos de tecnologia e hackathons no Brasil com filtros de data, localização e premiações em destaque.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

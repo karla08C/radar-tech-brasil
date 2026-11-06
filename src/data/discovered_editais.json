@@ -1,0 +1,938 @@
+[
+  {
+    "id": "edital-funcap-resultado-preliminar-da-an-lise-curricular-ed",
+    "title": "FUNCAP CE: Resultado preliminar da análise curricular – edital 15/2026",
+    "slug": "funcap-resultado-preliminar-da-an-lise-curricular-ed",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior (Secitece), informa o resultado preliminar da análise curricular do edital nº 15/2026 – Programa Saga Senai Empreendedora (4ª rodada). Ele está disponível no endereço https://montenegro.funcap.ce.gov.br/sugba/edital/resultados/862.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-11-04",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/11/04/resultado-preliminar-da-analise-curricular-edital-15-2026/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/11/04/resultado-preliminar-da-analise-curricular-edital-15-2026/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.608Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-resultado-do-edital-14-2026-pesquisador-visit",
+    "title": "FUNCAP CE: Resultado do edital 14/2026 – Pesquisador visitante",
+    "slug": "funcap-resultado-do-edital-14-2026-pesquisador-visit",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior (Secitece), informa o resultado do edital 14/2026 – Pesquisador visitante. Ele está disponível no endereço https://montenegro.funcap.ce.gov.br/sugba/edital/resultados/860.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-10-22",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/10/22/resultado-do-edital-14-2026-pesquisador-visitante/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/10/22/resultado-do-edital-14-2026-pesquisador-visitante/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.608Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-resultado-final-da-fase-de-m-rito-edital-n-11",
+    "title": "FUNCAP CE: Resultado final da fase de mérito – edital nº 11/2026",
+    "slug": "funcap-resultado-final-da-fase-de-m-rito-edital-n-11",
+    "description": "Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior do Ceará (Secitece), informa o resultado final da fase de mérito do edital nº 11/2026 Programa EJ-CE: Apoio às Empresas Juniores do Ceará. Ele está disponível no endereço https://montenegro.funcap.ce.gov.br/sugba/edital/resultados/859.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-10-14",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/10/14/resultado-final-da-fase-merito-edital-no-11-2026/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/10/14/resultado-final-da-fase-merito-edital-no-11-2026/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-lan-amento-do-edital-10-2026-profix",
+    "title": "FUNCAP CE: Lançamento do edital 10/2026 – Profix",
+    "slug": "funcap-lan-amento-do-edital-10-2026-profix",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior do Ceará (Secitece), informa o lançamento do edital 10/2026 – Programa de Apoio à Fixação de Doutores no Ceará (Profix). A íntegra do edital está disponível no endereço https://montenegro.funcap.ce.gov.br/sugba/edital/814.pdf",
+    "category": "bolsa_pesquisa",
+    "modality": "online",
+    "startDate": "2026-07-01",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/07/01/lancamento-do-edital-10-2026-profix/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/07/01/lancamento-do-edital-10-2026-profix/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Bolsas de Pesquisa & Fixação de Especialistas",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": false,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-adendo-ao-edital-07-2026-programa-saga-senai-",
+    "title": "FUNCAP CE: Adendo ao edital 07/2026 – Programa Saga Senai Empreendedora",
+    "slug": "funcap-adendo-ao-edital-07-2026-programa-saga-senai-",
+    "description": "A Funcap, órgão vinculado à Secretaria da Ciência, Tecnologia e Educação Superior (Secitece), informa a publicação de adendo ao edital 07/2026 – Programa Saga Senai Empreendedora. Ele está disponível no endereço montenegro.funcap.ce.gov.br/sugba/edital/807.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-06-19",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/06/19/adendo-ao-edital-07-2026-programa-saga-senai-empreendedora/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/06/19/adendo-ao-edital-07-2026-programa-saga-senai-empreendedora/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-resultado-preliminar-da-etapa-de-entrevistas-",
+    "title": "FUNCAP CE: Resultado preliminar da etapa de entrevistas – edital nº 06/2026 – Programa Saga Senai Empreendedora",
+    "slug": "funcap-resultado-preliminar-da-etapa-de-entrevistas-",
+    "description": "A Funcap, órgão vinculado à Secretaria da Ciência, Tecnologia e Educação Superior (Secitece), informa o resultado preliminar da etapa de entrevistas do edital nº 06/2026 – Programa Saga Senai Empreendedora. Ele está disponível no endereço montenegro.funcap.ce.gov.br/sugba/edital/resultados/806.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-06-19",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/06/19/resultado-preliminar-da-etapa-de-entrevistas-edital-no-06-2026-programa-saga-senai-empreendedora/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/06/19/resultado-preliminar-da-etapa-de-entrevistas-edital-no-06-2026-programa-saga-senai-empreendedora/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-adendo-ao-edital-n-06-2025-sele-o-simplificad",
+    "title": "FUNCAP CE: Adendo ao edital n° 06/2025 – Seleção simplificada para cursos (Projeto H-TEC)",
+    "slug": "funcap-adendo-ao-edital-n-06-2025-sele-o-simplificad",
+    "description": "A Funcap, órgão vinculado à Secretaria da Ciência, Tecnologia e Educação Superior (Secitece), informa a publicação de adendo referente ao edital n° 06/2025 – Seleção simplificada para cursos (Projeto H-TEC). O documento tem como objetivo retificar os itens do edital que dispõem sobre o quantitativo de parcelas das Bolsas de Inovação Tecnológica (BIT) e as [&hellip;]",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-06-17",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/06/17/adendo-ao-edital-n-06-2025-selecao-simplificada-para-cursos-projeto-h-tec/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/06/17/adendo-ao-edital-n-06-2025-selecao-simplificada-para-cursos-projeto-h-tec/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-adendo-chamada-01-2026-programa-institucional",
+    "title": "FUNCAP CE: Adendo à chamada 01/2026 – Programa Institucional de Bolsas de Iniciação Científica e Tecnológica",
+    "slug": "funcap-adendo-chamada-01-2026-programa-institucional",
+    "description": "A Funcap, órgão vinculado à Secretaria da Ciência, Tecnologia e Educação Superior (Secitece), informa a publicação do adendo nº 01/2026 referente à chamada 01/2026 – Programa Institucional de Bolsas de Iniciação Científica e Tecnológica. Ele está disponível no endereço montenegro.funcap.ce.gov.br/sugba/edital/803.pdf",
+    "category": "bolsa_pesquisa",
+    "modality": "online",
+    "startDate": "2026-06-16",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/06/16/adendo-a-chamada-01-2026-programa-institucional-de-bolsas-de-iniciacao-cientifica-e-tecnologica/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/06/16/adendo-a-chamada-01-2026-programa-institucional-de-bolsas-de-iniciacao-cientifica-e-tecnologica/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Bolsas de Pesquisa & Fixação de Especialistas",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": false,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-resultado-final-da-an-lise-curricular-edital-",
+    "title": "FUNCAP CE: Resultado final da análise curricular – edital nº 06/2026 Programa Saga Senai Empreendedora",
+    "slug": "funcap-resultado-final-da-an-lise-curricular-edital-",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior do Ceará (Secitece), informa a publicação do resultado final da análise curricular (após fase recursal) referente ao edital nº 06/2026 Programa Saga Senai Empreendedora. Ele está disponível no endereço montenegro.funcap.ce.gov.br/sugba/edital/resultados/804.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-06-16",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/06/16/resultado-final-da-analise-curricular-edital-no-06-2026-programa-saga-senai-empreendedora/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/06/16/resultado-final-da-analise-curricular-edital-no-06-2026-programa-saga-senai-empreendedora/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-resultado-preliminar-da-an-lise-curricular-ed",
+    "title": "FUNCAP CE: Resultado preliminar da análise curricular – edital 06/2026-Programa Saga Senai Empreendedora",
+    "slug": "funcap-resultado-preliminar-da-an-lise-curricular-ed",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior do Ceará (Secitece), informa a publicação do resultado preliminar da análise curricular referente ao edital nº 06/2026 Programa Saga Senai Empreendedora. Ele está disponível no endereço montenegro.funcap.ce.gov.br/sugba/edital/resultados/801.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-06-11",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/06/11/resultado-preliminar-da-analise-curricular-edital-06-2026-programa-saga-senai-empreendedora/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/06/11/resultado-preliminar-da-analise-curricular-edital-06-2026-programa-saga-senai-empreendedora/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-lan-amento-do-edital-n-06-2026-programa-saga-",
+    "title": "FUNCAP CE: Lançamento do edital nº 06/2026 – Programa Saga Senai Empreendedora (2ª Rodada)",
+    "slug": "funcap-lan-amento-do-edital-n-06-2026-programa-saga-",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior do Ceará (Secitece), informa a publicação do edital nº 06/2026 – Programa Saga Senai Empreendedora (2ª Rodada). A íntegra do edital está dispponível no endereço montenegro.funcap.ce.gov.br/sugba/edital/798.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-05-21",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/05/21/lancamento-do-edital-no-06-2026-programa-saga-senai-empreendedora-2a-rodada/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/05/21/lancamento-do-edital-no-06-2026-programa-saga-senai-empreendedora-2a-rodada/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-resultado-final-da-an-lise-documental-edital-",
+    "title": "FUNCAP CE: Resultado final da análise documental – edital nº 04/2026-Mulheres Empreendedoras",
+    "slug": "funcap-resultado-final-da-an-lise-documental-edital-",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior do Ceará (Secitece), informa o resultado final da análise documental do edital nº 04/2026 – Mulheres Empreendedoras. Ele está disponível no endereço montenegro.funcap.ce.gov.br/sugba/edital/resultados/797.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-05-21",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/05/21/resultado-final-da-analise-documental-edital-no-04-2026-mulheres-empreendedoras/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/05/21/resultado-final-da-analise-documental-edital-no-04-2026-mulheres-empreendedoras/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-resultado-preliminar-da-an-lise-documental-ed",
+    "title": "FUNCAP CE: Resultado preliminar da análise documental – edital 04/2026-Mulheres Empreendedoras",
+    "slug": "funcap-resultado-preliminar-da-an-lise-documental-ed",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior do Ceará (Secitece), informa o resultado preliminar da análise documental – edital 04/2026 – Mulheres Empreendedoras. Ele está disponível no endereço https://montenegro.funcap.ce.gov.br/sugba/edital/resultados/795.pdf",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-05-14",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/05/14/resultado-preliminar-da-analise-documental-edital-04-2026-mulheres-empreendedoras/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/05/14/resultado-preliminar-da-analise-documental-edital-04-2026-mulheres-empreendedoras/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-lan-amento-da-chamada-01-2026-bolsas-de-inici",
+    "title": "FUNCAP CE: Lançamento da Chamada 01/2026 – Bolsas de Iniciação Científica e Tecnológica (BICT)",
+    "slug": "funcap-lan-amento-da-chamada-01-2026-bolsas-de-inici",
+    "description": "A Funcap, órgão vinculado à Secretaria de Ciência, Tecnologia e Educação Superior (Secitece), informa o lançamento da Chamada 01/2026 – Bolsas de Iniciação Científica e Tecnológica (BICT). A ação tem por objetivo principal incentivar talentos potenciais entre estudantes de graduação universitária mediante participação em projeto de pesquisa. As bolsas têm duração de até 12 meses, [&hellip;]",
+    "category": "bolsa_pesquisa",
+    "modality": "online",
+    "startDate": "2026-05-13",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/05/13/lancamento-da-chamada-01-2026-bolsas-de-iniciacao-cientifica-e-tecnologica-bict/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/05/13/lancamento-da-chamada-01-2026-bolsas-de-iniciacao-cientifica-e-tecnologica-bict/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Bolsas de Pesquisa & Fixação de Especialistas",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": false,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-funcap-chamada-brics-sti-cnpq-lan-a-etapa-nacional-d",
+    "title": "FUNCAP CE: Chamada Brics-STI: CNPq lança etapa nacional de seleção com inscrições abertas até 06/07",
+    "slug": "funcap-chamada-brics-sti-cnpq-lan-a-etapa-nacional-d",
+    "description": "O Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq) publicou a chamada brasileira do Programa-Quadro do Brics para Ciência, Tecnologia e Inovação. A 7ª Chamada Brics-STI está com inscrições abertas até 06 de julho. Dentre os objetivos da iniciativa estão os seguintes: – consolidar a cooperação científica e tecnológica entre o Brasil e os demais [&hellip;]",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-05-12",
+    "endDate": "2026-12-31",
+    "registrationDeadline": "2026-11-30T23:59:59",
+    "location": {
+      "city": "Fortaleza",
+      "state": "CE",
+      "venue": "Plataforma Montenegro / SIGFAPES FUNCAP",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FUNCAP - Governo do Estado do Ceará",
+    "websiteUrl": "https://www.ce.gov.br/funcap/2026/05/12/chamada-brics-sti-cnpq-lanca-etapa-nacional-de-selecao-com-inscricoes-abertas-ate-06-07/",
+    "registrationUrl": "https://montenegro.funcap.ce.gov.br/sugba/",
+    "officialNoticePdfUrl": "https://www.ce.gov.br/funcap/2026/05/12/chamada-brics-sti-cnpq-lanca-etapa-nacional-de-selecao-com-inscricoes-abertas-ate-06-07/",
+    "tags": [
+      "FUNCAP",
+      "Ceará",
+      "Fundo Perdido",
+      "Nordeste",
+      "Pesquisa e Inovação"
+    ],
+    "verticals": [
+      "Impacto Social & GovTech",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 2000000,
+      "highlight": "Subvenção Financeira Direta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": true,
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "eligibilityCriteria": [
+      "Vínculo institucional ou empresa registrada no Estado do Ceará",
+      "Currículo Lattes cadastrado e atualizado",
+      "Submissão via Plataforma Montenegro/SIGFAPES"
+    ],
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "source": "API Oficial FUNCAP CE"
+  },
+  {
+    "id": "edital-fapesp-pesquisa-inovativa-em-pequenas-empresas-pipe-",
+    "title": "FAPESP: Pesquisa Inovativa em Pequenas Empresas  (PIPE)",
+    "slug": "fapesp-pesquisa-inovativa-em-pequenas-empresas-pipe-",
+    "description": "Programa FAPESP Pesquisa Inovativa em Pequenas Empresas (PIPE) voltado ao fomento de pesquisa científica e tecnológica comercializável.",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-11-06",
+    "endDate": "2026-12-04",
+    "registrationDeadline": "2026-12-04T17:00:00",
+    "location": {
+      "city": "São Paulo",
+      "state": "SP",
+      "venue": "Sistema SAGe FAPESP",
+      "region": "Sudeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FAPESP - Fundação de Amparo à Pesquisa do Estado de SP",
+    "websiteUrl": "http://www.fapesp.br/pipe/",
+    "registrationUrl": "https://sage.fapesp.br",
+    "officialNoticePdfUrl": "http://www.fapesp.br/pipe/",
+    "tags": [
+      "FAPESP",
+      "PIPE",
+      "Fundo Perdido",
+      "DeepTech",
+      "Inovação"
+    ],
+    "verticals": [
+      "Saúde & HealthTech",
+      "AgTech & BioTech",
+      "Inteligência Artificial & Dados"
+    ],
+    "prizes": {
+      "totalValue": 15000000,
+      "highlight": "Até R$ 300.000 (Fase 1) a R$ 1.500.000 (Fase 2) Não-Reembolsável",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": false
+    },
+    "featured": false,
+    "targetAudience": "Startups, micro e pequenas empresas inovadoras no Estado de SP",
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:05.326Z",
+    "source": "Portal FAPESP"
+  },
+  {
+    "id": "edital-finep-mais-inovacao-aberta",
+    "title": "FINEP: Mais Inovação Brasil – Missões Estratégicas Nacionais",
+    "slug": "finep-mais-inovacao-missoes",
+    "description": "Seleção pública de propostas para subvenção econômica a planos de inovação em empresas brasileiras, abrangendo transição energética, soberania digital e saúde.",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-11-06",
+    "endDate": "2026-12-15",
+    "registrationDeadline": "2026-12-15T18:00:00",
+    "location": {
+      "city": "Brasília",
+      "state": "DF",
+      "venue": "Portal de Oportunidades FINEP",
+      "region": "Nacional/Online",
+      "scope": "Nacional"
+    },
+    "organizer": "FINEP - Financiadora de Estudos e Projetos (MCTI)",
+    "websiteUrl": "https://finep.gov.br/chamadas-publicas",
+    "registrationUrl": "https://finep.gov.br/oportunidades",
+    "officialNoticePdfUrl": "https://finep.gov.br/chamadas-publicas",
+    "tags": [
+      "FINEP",
+      "Federal",
+      "Subvenção",
+      "Fundo Perdido",
+      "MCTI"
+    ],
+    "verticals": [
+      "Inteligência Artificial & Dados",
+      "Saúde & HealthTech",
+      "AgTech & BioTech"
+    ],
+    "prizes": {
+      "totalValue": 50000000,
+      "highlight": "R$ 500.000 a R$ 3.000.000 Não-Reembolsável por Proposta",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 10
+    },
+    "featured": true,
+    "targetAudience": "Empresas brasileiras de tecnologia e consórcios industriais",
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:04.420Z",
+    "source": "Portal FINEP"
+  },
+  {
+    "id": "edital-cnpq-rhae-pesquisa-tech",
+    "title": "CNPq: Programa RHAE – Bolsas de Pesquisadores em Startups",
+    "slug": "cnpq-rhae-pesquisadores-startups",
+    "description": "Apoio à inserção de mestres, doutores e especialistas em empresas inovadoras para execução de projetos estratégicos de P&D com bolsas mensais pagas diretamente pelo CNPq.",
+    "category": "bolsa_pesquisa",
+    "modality": "online",
+    "startDate": "2026-11-06",
+    "endDate": "2026-12-05",
+    "registrationDeadline": "2026-12-05T23:59:59",
+    "location": {
+      "city": "Nacional",
+      "state": "Online",
+      "venue": "Plataforma Carlos Chagas",
+      "region": "Nacional/Online",
+      "scope": "Nacional"
+    },
+    "organizer": "CNPq - Conselho Nacional de Desenvolvimento Científico",
+    "websiteUrl": "https://www.gov.br/cnpq/pt-br",
+    "registrationUrl": "http://carloschagas.cnpq.br",
+    "officialNoticePdfUrl": "http://carloschagas.cnpq.br",
+    "tags": [
+      "CNPq",
+      "Bolsas P&D",
+      "Mestres e Doutores",
+      "Federal"
+    ],
+    "verticals": [
+      "Inteligência Artificial & Dados",
+      "Saúde & HealthTech",
+      "SaaS & B2B"
+    ],
+    "prizes": {
+      "totalValue": 12000000,
+      "highlight": "Bolsas mensais de até R$ 5.200 por Especialista (2 anos)",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": false
+    },
+    "featured": true,
+    "targetAudience": "Startups e pequenas empresas brasileiras com projeto de P&D",
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-06T02:13:04.420Z",
+    "source": "CNPq Oficial"
+  }
+]

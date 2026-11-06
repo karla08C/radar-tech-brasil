@@ -1,4 +1,4 @@
-import { Trophy, Calendar, Sparkles, Flame, Rocket } from 'lucide-react';
+import { Trophy, Landmark, Flame, MapPin, Clock, ShieldCheck, ArrowRight } from 'lucide-react';
 import { TechEvent } from '../types';
 import { formatBRL, getDaysRemaining } from '../utils/eventUtils';
 
@@ -6,6 +6,9 @@ interface StatsBannerProps {
   events: TechEvent[];
   onFilterEndingSoon: () => void;
   onFilterHighPrizes: () => void;
+  onFilterEditais?: () => void;
+  onFilterAceleracao?: () => void;
+  onFilterCeara?: () => void;
   onFilterHackathons?: () => void;
   onFilterConferences?: () => void;
 }
@@ -14,13 +17,19 @@ export function StatsBanner({
   events,
   onFilterEndingSoon,
   onFilterHighPrizes,
+  onFilterEditais,
+  onFilterAceleracao,
+  onFilterCeara,
   onFilterHackathons,
   onFilterConferences,
 }: StatsBannerProps) {
   const totalPrizeSum = events.reduce((acc, evt) => acc + (evt.prizes?.totalValue || 0), 0);
 
-  const hackathonsCount = events.filter((evt) => evt.category === 'hackathon').length;
-  const conferencesCount = events.filter((evt) => evt.category !== 'hackathon').length;
+  const editaisCount = events.filter((evt) => 
+    evt.category === 'edital_fomento' || evt.category === 'bolsa_pesquisa'
+  ).length;
+
+  const cearaCount = events.filter((evt) => evt.location.state === 'CE').length;
 
   const urgentCount = events.filter((evt) => {
     const days = getDaysRemaining(evt.registrationDeadline);
@@ -28,107 +37,110 @@ export function StatsBanner({
   }).length;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      {/* Metric 1: Total Prizes (Highlight Bento block in Indigo-950) */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      {/* Metric 1: Total Mapeado */}
       <div
         onClick={onFilterHighPrizes}
-        className="cursor-pointer group rounded-3xl bg-slate-900 text-white p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:bg-black transition-all min-h-[155px]"
+        className="cursor-pointer group rounded-2xl bg-slate-900 text-white p-5 flex flex-col justify-between shadow-xs hover:bg-slate-800 transition-all min-h-[145px]"
       >
-        <div className="flex items-center justify-between text-slate-300">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-300">Premiações Totais</span>
-          <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-amber-300">
+        <div className="flex items-center justify-between text-slate-400">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-300">
+            Fomento Total Mapeado
+          </span>
+          <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-slate-200">
             <Trophy className="w-4 h-4" />
           </div>
         </div>
         <div className="my-1.5">
-          <div className="text-2xl sm:text-3xl font-black tracking-tight text-white">{formatBRL(totalPrizeSum)}</div>
-          <p className="text-xs text-slate-300 mt-1">
-            Somatório de prêmios em dinheiro e benefícios mapeados.
+          <div className="text-2xl font-bold tracking-tight text-white">{formatBRL(totalPrizeSum)}</div>
+          <p className="text-xs text-slate-400 mt-1">
+            Subvenção econômica, bolsas e prêmios.
           </p>
         </div>
-        <div className="text-[11px] font-bold text-amber-300 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          Ver maiores premiações →
+        <div className="text-[11px] font-semibold text-slate-300 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+          <span>Ver maiores valores</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
 
-      {/* Metric 2: Hackathons Mapeados */}
+      {/* Metric 2: Editais de Fomento */}
       <div
-        onClick={onFilterHackathons}
-        className="cursor-pointer group rounded-3xl bg-white border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col justify-between hover:border-indigo-300 transition-all min-h-[155px]"
+        onClick={onFilterEditais || onFilterConferences}
+        className="cursor-pointer group rounded-2xl bg-white border border-slate-200 p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all min-h-[145px]"
       >
-        <div className="flex items-center justify-between text-slate-400">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-700">Hackathons & Maratonas</span>
-          <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
-            <Rocket className="w-4 h-4" />
+        <div className="flex items-center justify-between text-slate-500">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+            Editais de Fomento & FAPs
+          </span>
+          <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
+            <Landmark className="w-4 h-4" />
           </div>
         </div>
-        <div>
-          <div className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2">
-            {hackathonsCount}
-            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
-              Competições
-            </span>
+        <div className="my-1.5">
+          <div className="text-2xl font-bold tracking-tight text-slate-900">
+            {editaisCount} editais
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            Desafios de código em squads com prêmios e contratações.
+            Chamadas da FUNCAP, FINEP, FAPESP e CNPq.
           </p>
         </div>
-        <div className="text-[11px] font-bold text-indigo-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          Ver só Hackathons →
+        <div className="text-[11px] font-semibold text-slate-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+          <span>Filtrar editais públicos</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
 
-      {/* Metric 3: Conferências & Summits */}
+      {/* Metric 3: Foco Ceará & Nordeste */}
       <div
-        onClick={onFilterConferences}
-        className="cursor-pointer group rounded-3xl bg-white border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col justify-between hover:border-sky-300 transition-all min-h-[155px]"
+        onClick={onFilterCeara}
+        className="cursor-pointer group rounded-2xl bg-white border border-slate-200 p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all min-h-[145px]"
       >
-        <div className="flex items-center justify-between text-slate-400">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-sky-700">Eventos & Conferências</span>
-          <div className="w-8 h-8 rounded-xl bg-sky-50 flex items-center justify-center text-sky-600">
-            <Calendar className="w-4 h-4" />
+        <div className="flex items-center justify-between text-slate-500">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+            Ecossistema Ceará
+          </span>
+          <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
+            <MapPin className="w-4 h-4" />
           </div>
         </div>
-        <div>
-          <div className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2">
-            {conferencesCount}
-            <span className="text-[10px] font-bold uppercase tracking-wider text-sky-800 bg-sky-50 border border-sky-100 px-2 py-0.5 rounded-full">
-              Summits & Encontros
-            </span>
+        <div className="my-1.5">
+          <div className="text-2xl font-bold tracking-tight text-slate-900">
+            {cearaCount} oportunidades
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            Grandes palcos de tecnologia, feiras e networking no país.
+            FUNCAP Inovafit, Corredores Digitais e Hubine.
           </p>
         </div>
-        <div className="text-[11px] font-bold text-sky-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          Ver só Conferências →
+        <div className="text-[11px] font-semibold text-slate-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+          <span>Filtrar Ceará</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
 
-      {/* Metric 4: Urgent / Ending soon */}
+      {/* Metric 4: Prazos Críticos (< 7 dias) */}
       <div
         onClick={onFilterEndingSoon}
-        className="cursor-pointer group rounded-3xl bg-white border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col justify-between hover:border-rose-300 transition-all min-h-[155px]"
+        className="cursor-pointer group rounded-2xl bg-white border border-slate-200 p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all min-h-[145px]"
       >
-        <div className="flex items-center justify-between text-slate-400">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600">Inscrições Urgentes</span>
-          <div className="w-8 h-8 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600">
-            <Flame className="w-4 h-4" />
+        <div className="flex items-center justify-between text-slate-500">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+            Prazos Próximos
+          </span>
+          <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
+            <Clock className="w-4 h-4" />
           </div>
         </div>
-        <div>
-          <div className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2">
-            {urgentCount}
-            <span className="text-[10px] font-bold uppercase tracking-wider text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full">
-              Últimos dias
-            </span>
+        <div className="my-1.5">
+          <div className="text-2xl font-bold tracking-tight text-slate-900">
+            {urgentCount} encerrando
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            Prazos de submissão encerrando nos próximos 7 dias.
+            Inscrições nos próximos 7 dias.
           </p>
         </div>
-        <div className="text-[11px] font-bold text-rose-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          Ver prazos que encerram logo →
+        <div className="text-[11px] font-semibold text-slate-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+          <span>Ver prazos urgentes</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
     </div>

@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin, Trophy, Bookmark, ExternalLink, Share2, Clock, Check, Sparkles, Building2, Tag } from 'lucide-react';
+import { 
+  Calendar, 
+  MapPin, 
+  Bookmark, 
+  ExternalLink, 
+  Share2, 
+  Check, 
+  Building2, 
+  ShieldCheck, 
+  Landmark,
+  Rocket,
+  GraduationCap,
+  Code2,
+  Coins,
+  Cloud
+} from 'lucide-react';
 import { TechEvent } from '../types';
-import { formatBRL, formatDateRange, getDaysRemaining, getStatusBadge, generateGoogleCalendarUrl, downloadIcsFile } from '../utils/eventUtils';
+import { generateGoogleCalendarUrl } from '../utils/eventUtils';
+import { CountdownBadge } from './CountdownBadge';
 
 interface EventCardProps {
   key?: string;
@@ -21,13 +37,9 @@ export function EventCard({
 }: EventCardProps) {
   const [copied, setCopied] = useState(false);
 
-  const status = getStatusBadge(event.registrationDeadline, event.endDate);
-  const daysLeft = getDaysRemaining(event.registrationDeadline);
-  const isHackathon = event.category === 'hackathon';
-
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const shareText = `${isHackathon ? '🚀 Hackathon' : '🎪 Evento'}: ${event.title}\n${isHackathon ? `🏆 Premiação: ${event.prizes.highlight}` : `📍 Local: ${event.location.city} - ${event.location.state}`}\n🗓 Data: ${formatDateRange(event.startDate, event.endDate)}\n👉 Saiba mais: ${event.registrationUrl || event.websiteUrl}`;
+    const shareText = `Oportunidade no Radar Tech: ${event.title}\nFomento/Aporte: ${event.prizes.highlight}\nPrazo final: ${event.registrationDeadline.split('T')[0]}\nLocal: ${event.location.city} - ${event.location.state}\nAcesse: ${event.registrationUrl || event.websiteUrl}`;
     navigator.clipboard.writeText(shareText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -43,139 +55,147 @@ export function EventCard({
     window.open(generateGoogleCalendarUrl(event), '_blank');
   };
 
-  const getCategoryLabel = () => {
+  const getCategoryConfig = () => {
     switch (event.category) {
+      case 'edital_fomento':
+        return { 
+          label: 'Edital de Fomento', 
+          icon: Landmark,
+          className: 'bg-emerald-50 text-emerald-900 border-emerald-200' 
+        };
+      case 'aceleracao':
+        return { 
+          label: 'Aceleração de Startups', 
+          icon: Rocket,
+          className: 'bg-sky-50 text-sky-900 border-sky-200' 
+        };
+      case 'bolsa_pesquisa':
+        return { 
+          label: 'Bolsa de P&D', 
+          icon: GraduationCap,
+          className: 'bg-indigo-50 text-indigo-900 border-indigo-200' 
+        };
       case 'hackathon':
-        return '🚀 Hackathon';
-      case 'conference':
-        return '🎪 Conferência';
-      case 'summit':
-        return '🌐 Summit Tech';
-      case 'bootcamp':
-        return '⚡ Imersão / Maratona';
-      case 'meetup':
-        return '👥 Meetup';
+        return { 
+          label: 'Hackathon / Desafio', 
+          icon: Code2,
+          className: 'bg-slate-100 text-slate-800 border-slate-200' 
+        };
       default:
-        return '📌 Evento Tech';
+        return { 
+          label: 'Oportunidade', 
+          icon: Landmark,
+          className: 'bg-slate-100 text-slate-700 border-slate-200' 
+        };
     }
   };
+
+  const categoryConfig = getCategoryConfig();
+  const CategoryIcon = categoryConfig.icon;
+  const isCeara = event.location.state === 'CE';
 
   return (
     <div
       onClick={() => onSelect(event)}
-      className="group relative cursor-pointer rounded-3xl bg-white border border-slate-200/90 hover:border-indigo-400/80 hover:shadow-md transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between"
+      className="group relative cursor-pointer rounded-2xl bg-white border border-slate-200 hover:border-slate-400 hover:shadow-md transition-all duration-150 p-5 flex flex-col justify-between"
     >
       <div>
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex flex-wrap items-center gap-1.5">
             {/* Category badge */}
-            <span
-              className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border ${
-                isHackathon
-                  ? 'bg-indigo-50 text-indigo-700 border-indigo-200/80'
-                  : 'bg-sky-50 text-sky-800 border-sky-200/80'
-              }`}
-            >
-              {getCategoryLabel()}
+            <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md border ${categoryConfig.className}`}>
+              <CategoryIcon className="w-3.5 h-3.5" />
+              <span>{categoryConfig.label}</span>
             </span>
 
-            {/* Modality badge */}
-            <span
-              className={`text-[10px] font-semibold px-2.5 py-1 rounded-xl border ${
-                event.modality === 'online'
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200/80'
-                  : event.modality === 'presencial'
-                  ? 'bg-amber-50 text-amber-800 border-amber-200/80'
-                  : 'bg-purple-50 text-purple-700 border-purple-200/80'
-              }`}
-            >
-              {event.modality === 'online' ? '100% Remoto' : event.modality === 'presencial' ? 'Presencial' : 'Híbrido'}
-            </span>
+            {/* Scope / Ceará badge */}
+            {isCeara && (
+              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-200">
+                Ceará
+              </span>
+            )}
 
-            {/* AI Discovered badge if applicable */}
-            {event.isAutomatedDiscovery && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-indigo-600" />
-                IA
+            {/* Funding type */}
+            {event.prizes.fundingType === 'nao_reembolsavel' && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Não-Reembolsável</span>
+              </span>
+            )}
+            {event.prizes.fundingType === 'equity_free' && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-sky-50 text-sky-800 border border-sky-200">
+                <span>Equity-Free</span>
+              </span>
+            )}
+            {event.prizes.fundingType === 'creditos_cloud' && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                <Cloud className="w-3.5 h-3.5 text-slate-500" />
+                <span>Créditos Cloud</span>
               </span>
             )}
           </div>
 
-          {/* Favorite toggle button */}
-          <button
-            onClick={handleFavorite}
-            className={`p-2 rounded-xl transition-colors ${
-              isFavorite
-                ? 'bg-amber-50 text-amber-500 border border-amber-200'
-                : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
-            }`}
-            title={isFavorite ? 'Remover dos favoritos' : 'Salvar evento'}
-          >
-            <Bookmark className={`w-4 h-4 ${isFavorite ? 'fill-amber-400' : ''}`} />
-          </button>
+          <CountdownBadge deadline={event.registrationDeadline} />
         </div>
 
-        {/* Dynamic Highlight Box: Prize for Hackathons vs Networking/Tracks for Conferences */}
-        {isHackathon ? (
-          <div className="my-2.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
-                <Trophy className="w-3.5 h-3.5 text-amber-500" />
-                Premiação Total
-              </span>
-              {event.prizes.totalValue > 0 && (
-                <span className="text-sm sm:text-base font-black text-emerald-600 font-mono tracking-tight">
-                  {formatBRL(event.prizes.totalValue)}
-                </span>
-              )}
-            </div>
-            <p className="text-xs text-slate-700 font-medium mt-1 line-clamp-1 italic">
-              "{event.prizes.highlight}"
-            </p>
-          </div>
-        ) : (
-          <div className="my-2.5 p-3.5 rounded-2xl bg-sky-50/50 border border-sky-100/80">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700 flex items-center gap-1">
-                <Building2 className="w-3.5 h-3.5 text-sky-600" />
-                Conferência & Networking
-              </span>
-              <span className="text-[11px] font-bold text-sky-800">
-                {event.location.state === 'Online' ? 'Edição Online' : event.location.city}
-              </span>
-            </div>
-            <p className="text-xs text-slate-700 font-medium mt-1 line-clamp-1">
-              {event.location.venue ? `📍 ${event.location.venue}` : event.description}
-            </p>
-          </div>
-        )}
-
-        {/* Event Title */}
-        <h3 className="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug mt-2">
+        {/* Title */}
+        <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-900 transition-colors line-clamp-2 leading-snug">
           {event.title}
         </h3>
 
         {/* Organizer */}
-        <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1.5">
+        <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium mt-1 mb-3">
           <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           <span className="truncate">{event.organizer}</span>
         </div>
 
-        {/* Location & Dates */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 mt-3 pt-3 border-t border-slate-100">
-          <div className="flex items-center gap-1.5 text-slate-500">
+        {/* Financial highlight block */}
+        <div className="my-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div className="flex items-center justify-between gap-2">
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                Aporte / Premiação
+              </span>
+              <span className="text-sm font-bold text-slate-900">
+                {event.prizes.highlight}
+              </span>
+            </div>
+
+            {event.prizes.hasCounterpart !== undefined && (
+              <div className="text-right shrink-0">
+                <span className="text-[10px] block text-slate-500 font-medium">Contrapartida</span>
+                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-md border ${
+                  event.prizes.hasCounterpart 
+                    ? 'bg-amber-50 text-amber-900 border-amber-200' 
+                    : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                }`}>
+                  {event.prizes.hasCounterpart ? `${event.prizes.counterpartPercentage || 5}%` : 'Sem contrapartida'}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-3">
+          {event.description}
+        </p>
+
+        {/* Location & Modality metadata */}
+        <div className="grid grid-cols-2 gap-2 text-xs text-slate-500 pt-2 border-t border-slate-100">
+          <div className="flex items-center gap-1.5 truncate">
             <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <span className="truncate">
-              {event.location.state === 'Online'
-                ? 'Remoto / Brasil'
-                : `${event.location.city} - ${event.location.state}`}
+              {event.location.city} • <strong className="text-slate-700">{event.location.state}</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-slate-500">
+          <div className="flex items-center gap-1.5 truncate">
             <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span className="truncate">{formatDateRange(event.startDate, event.endDate)}</span>
+            <span className="truncate">
+              Prazo: <strong className="text-slate-800">{event.registrationDeadline.split('T')[0]}</strong>
+            </span>
           </div>
         </div>
 
@@ -188,60 +208,61 @@ export function EventCard({
                 e.stopPropagation();
                 onFilterByTag?.(tag);
               }}
-              className="text-[10px] font-medium px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200/60 transition-colors"
+              className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
             >
               #{tag}
             </button>
           ))}
           {event.tags.length > 3 && (
-            <span className="text-[10px] text-slate-400 px-1 py-0.5">
+            <span className="text-[11px] text-slate-400 font-medium px-1 self-center">
               +{event.tags.length - 3}
             </span>
           )}
         </div>
       </div>
 
-      {/* Footer / Status & Action Buttons */}
-      <div className="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
-        {/* Status Badge */}
-        <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${status.colorClass}`}>
-          {daysLeft >= 0 && daysLeft <= 14
-            ? `Inscrições até ${event.registrationDeadline.split('-').reverse().slice(0, 2).join('/')}`
-            : status.label}
-        </span>
+      {/* Card Footer Actions */}
+      <div className="pt-3.5 mt-3.5 border-t border-slate-100 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1">
+          <button
+            onClick={handleFavorite}
+            title={isFavorite ? 'Remover dos salvos' : 'Salvar oportunidade'}
+            className={`p-2 rounded-lg transition-all ${
+              isFavorite
+                ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+            }`}
+          >
+            <Bookmark className={`w-4 h-4 ${isFavorite ? 'fill-amber-600 text-amber-600' : ''}`} />
+          </button>
 
-        {/* Quick Action Icons */}
-        <div className="flex items-center gap-1.5">
-          {/* Share */}
           <button
             onClick={handleShare}
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors cursor-pointer"
-            title="Copiar resumo e link"
+            title="Compartilhar"
+            className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Share2 className="w-3.5 h-3.5" />}
+            {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
           </button>
 
-          {/* Add to Google Calendar */}
           <button
             onClick={handleCalendar}
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors cursor-pointer"
-            title="Adicionar ao Google Agenda"
+            title="Adicionar ao Google Calendar"
+            className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
-            <Calendar className="w-3.5 h-3.5" />
+            <Calendar className="w-4 h-4" />
           </button>
-
-          {/* Direct Link */}
-          <a
-            href={event.registrationUrl || event.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl bg-slate-900 hover:bg-black text-white transition-colors ml-1"
-          >
-            <span>{isHackathon ? 'Inscrever' : 'Acessar'}</span>
-            <ExternalLink className="w-3 h-3" />
-          </a>
         </div>
+
+        <a
+          href={event.registrationUrl || event.websiteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-all"
+        >
+          <span>Ver Edital</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
       </div>
     </div>
   );

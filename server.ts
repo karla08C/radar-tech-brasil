@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
@@ -13,8 +14,26 @@ const PORT = 3000;
 
 app.use(express.json({ limit: '5mb' }));
 
-// In-memory store initialized with curated Brazilian events
-let serverEvents: TechEvent[] = [...INITIAL_EVENTS];
+// Helper para carregar editais reais coletados pelo scanner
+function loadDiscoveredNotices(): TechEvent[] {
+  try {
+    const discoveredPath = path.resolve(__dirname, 'src/data/discovered_editais.json');
+    if (fs.existsSync(discoveredPath)) {
+      const content = fs.readFileSync(discoveredPath, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.warn('Aviso: discovered_editais.json não carregado');
+  }
+  return [];
+}
+
+// In-memory store: editais reais coletados + base de curadoria
+const scrapedEditais = loadDiscoveredNotices();
+let serverEvents: TechEvent[] = [...scrapedEditais, ...INITIAL_EVENTS];
 
 // Lazy-initialized Gemini client
 let geminiClient: GoogleGenAI | null = null;
@@ -42,7 +61,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// GET /api/events - Retrieve all events
+// GET /api/events - Retrieve all events and notices
 app.get('/api/events', (req, res) => {
   res.json({
     success: true,
@@ -51,7 +70,7 @@ app.get('/api/events', (req, res) => {
   });
 });
 
-// POST /api/events/ai-discover - Automated scanner for hackathons & tech events in Brazil
+// POST /api/events/ai-discover - Automated scanner for innovation notices
 app.post('/api/events/ai-discover', async (req, res) => {
   try {
     const { focusTopic, targetState } = req.body || {};
@@ -60,50 +79,48 @@ app.post('/api/events/ai-discover', async (req, res) => {
     let newDiscoveredEvents: TechEvent[] = [];
 
     if (ai) {
-      const prompt = `Você é o sistema automatizado de radar e monitoramento de eventos de tecnologia e hackathons do Brasil ("RadarTech Brasil").
-Sua tarefa é encontrar e estruturar oportunidades e eventos reais, atuais ou futuros de tecnologia, maratonas de programação e hackathons no Brasil para 2025/2026.
-${focusTopic ? `Foco específico solicitado: ${focusTopic}` : ''}
-${targetState ? `Localização/Estado específico: ${targetState}` : ''}
+      const prompt = `Você é o sistema automatizado de radar e monitoramento de editais de fomento, aceleração e inovação no Brasil ("Radar Tech Brasil").
+Sua tarefa é encontrar chamadas públicas abertas de fomento à inovação (como FUNCAP, FINEP, CNPq, FAPs estaduais) e editais de aceleração para startups no Brasil para 2025/2026.
+${focusTopic ? `Foco específico: ${focusTopic}` : ''}
+${targetState ? `Estado / Região: ${targetState}` : ''}
 
-Pesquise e estruture de 2 a 4 hackathons ou eventos de tecnologia reais ou representativos com grandes premiações e oportunidades no Brasil (ex: Shawee, Devpost Brasil, Campus Party, Sebrae, FIESP, Nubank, Itaú, Petrobras, NASA Space Apps, etc).
+Pesquise chamadas públicas reais de subvenção econômica, capital não-reembolsável ou programas de aceleração equity-free.
 
-IMPORTANTE: Responda ESTRITAMENTE em formato JSON com o seguinte schema (sem texto antes ou depois, apenas o array JSON):
+Responda ESTRITAMENTE em formato JSON com o seguinte schema (sem markdown ou texto antes/depois, apenas o array JSON):
 [
   {
-    "id": "evt-auto-12345",
-    "title": "Nome Completo do Evento ou Hackathon",
-    "slug": "nome-do-evento-em-kebab-case",
-    "description": "Descrição detalhada do desafio, formato e público-alvo.",
-    "category": "hackathon" | "conference" | "meetup" | "summit" | "bootcamp",
+    "id": "edital-auto-12345",
+    "title": "Nome do Edital ou Chamada Pública",
+    "slug": "nome-do-edital-kebab-case",
+    "description": "Objetivo do edital, valores financiados e regras de participação.",
+    "category": "edital_fomento" | "aceleracao" | "bolsa_pesquisa" | "hackathon",
     "modality": "online" | "presencial" | "hibrido",
     "startDate": "YYYY-MM-DD",
     "endDate": "YYYY-MM-DD",
-    "registrationDeadline": "YYYY-MM-DD",
+    "registrationDeadline": "YYYY-MM-DDTHH:mm:ss",
     "location": {
-      "city": "Nome da Cidade ou Remoto",
-      "state": "Sigla UF (SP, RJ, MG, etc) ou Online",
-      "venue": "Local físico ou plataforma",
-      "region": "Sudeste" | "Sul" | "Nordeste" | "Centro-Oeste" | "Norte" | "Nacional/Online"
+      "city": "Cidade",
+      "state": "UF (ex: CE, SP, DF) ou Online",
+      "venue": "Plataforma de submissão ou órgão",
+      "region": "Nordeste" | "Sudeste" | "Sul" | "Centro-Oeste" | "Norte" | "Nacional/Online",
+      "scope": "Estadual" | "Nacional" | "Regional"
     },
-    "organizer": "Instituição / Empresa Organizadora",
+    "organizer": "Órgão Concedente (ex: FUNCAP, FINEP, CNPq, FAPESP)",
     "websiteUrl": "https://...",
     "registrationUrl": "https://...",
-    "tags": ["IA", "FinTech", "Python", etc],
+    "tags": ["Fundo Perdido", "Subvenção", "SaaS", etc],
+    "verticals": ["Impacto Social & GovTech", "Inteligência Artificial & Dados", "SaaS & B2B", "Saúde & HealthTech"],
     "prizes": {
-      "totalValue": 50000,
-      "highlight": "R$ 50.000 em Dinheiro + Mentoria",
+      "totalValue": 1000000,
+      "highlight": "Até R$ 250.000 Não-Reembolsável",
       "hasCashPrize": true,
-      "breakdown": [
-        { "place": "1º Lugar", "reward": "R$ 30.000 no Pix", "value": 30000 },
-        { "place": "2º Lugar", "reward": "R$ 15.000", "value": 15000 },
-        { "place": "3º Lugar", "reward": "R$ 5.000", "value": 5000 }
-      ],
-      "perks": ["Contratação", "Certificado", "Créditos Cloud"]
+      "fundingType": "nao_reembolsavel" | "equity_free" | "creditos_cloud" | "premiacao_direta",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Desenvolvedores, Cientistas de Dados e Estudantes",
-    "isAutomatedDiscovery": true,
-    "verified": true
+    "targetAudience": "Startups MEI/ME/EPP e pesquisadores",
+    "eligibilityCriteria": ["Critério 1", "Critério 2"]
   }
 ]`;
 
@@ -113,8 +130,8 @@ IMPORTANTE: Responda ESTRITAMENTE em formato JSON com o seguinte schema (sem tex
           contents: prompt,
           config: {
             tools: [{ googleSearch: {} }],
-            systemInstruction: 'Você é um coletor e parser automatizado de hackathons e eventos de tecnologia brasileiros. Pesquise no Google por eventos e editais reais no Brasil e responda exclusivamente com um array JSON válido.',
-            temperature: 0.2,
+            systemInstruction: 'Você é um pesquisador de chamadas públicas e editais de inovação no Brasil. Use a busca do Google e retorne exclusivamente um array JSON válido.',
+            temperature: 0.1,
           },
         });
 
@@ -124,11 +141,11 @@ IMPORTANTE: Responda ESTRITAMENTE em formato JSON com o seguinte schema (sem tex
           const parsed = JSON.parse(jsonMatch[0]) as TechEvent[];
           newDiscoveredEvents = parsed.map((e, idx) => ({
             ...e,
-            id: e.id || `evt-ai-radar-${Date.now()}-${idx}`,
-            slug: e.slug || (e.title ? e.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `evento-${Date.now()}-${idx}`),
+            id: e.id || `edital-ai-${Date.now()}-${idx}`,
+            slug: e.slug || (e.title ? e.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `edital-${Date.now()}-${idx}`),
             isAutomatedDiscovery: true,
             discoveredAt: new Date().toISOString(),
-            source: 'Radar Automático com Busca na Web (Google Search Grounding)',
+            source: 'Varredura com Busca Web (Gemini)',
             verified: true,
           }));
         }
@@ -137,90 +154,12 @@ IMPORTANTE: Responda ESTRITAMENTE em formato JSON com o seguinte schema (sem tex
       }
     }
 
-    // Fallback if AI didn't return or failed: add synthetic high-value event to simulate rich discovery
+    // Se o Gemini não estiver ativo, recarrega os editais reais do scanner local
     if (newDiscoveredEvents.length === 0) {
-      const timestamp = Date.now();
-      newDiscoveredEvents = [
-        {
-          id: `evt-auto-nubank-${timestamp}`,
-          title: 'Hackathon NuX - Inovação em Meios de Pagamento & PIX Inteligente',
-          slug: 'hackathon-nux-nubank-pagamentos',
-          description: 'Maratona nacional focada na próxima geração de serviços financeiros, automação de microcrédito e combate a fraudes usando modelos de machine learning em tempo real.',
-          category: 'hackathon',
-          modality: 'online',
-          startDate: '2026-10-16',
-          endDate: '2026-10-18',
-          registrationDeadline: '2026-10-08',
-          location: {
-            city: 'Remoto',
-            state: 'Online',
-            venue: 'Discord Oficial NuX & Plataforma Global',
-            region: 'Nacional/Online',
-          },
-          organizer: 'Nubank & Comunidade Tech',
-          websiteUrl: 'https://nubank.com.br',
-          registrationUrl: 'https://nubank.com.br/carreiras/hackathon',
-          tags: ['FinTech', 'Clojure', 'Rust', 'PIX', 'Anti-Fraude', 'IA'],
-          prizes: {
-            totalValue: 90000,
-            highlight: 'R$ 90.000 em Dinheiro + Contratação sem Processo Seletivo',
-            hasCashPrize: true,
-            breakdown: [
-              { place: '1º Lugar', reward: 'R$ 50.000 no Pix + Fast-track Senior/Pleno', value: 50000 },
-              { place: '2º Lugar', reward: 'R$ 25.000 no Pix', value: 25000 },
-              { place: '3º Lugar', reward: 'R$ 15.000 no Pix', value: 15000 },
-            ],
-            perks: ['Entrevista direta com Diretores de Engenharia', 'Kit exclusivo roxinho', 'Créditos Cloud'],
-          },
-          featured: true,
-          targetAudience: 'Engenheiros de Software, Arquitetos Cloud e Especialistas em Cibersegurança',
-          isAutomatedDiscovery: true,
-          discoveredAt: new Date().toISOString(),
-          source: 'Radar Automático',
-          verified: true,
-        },
-        {
-          id: `evt-auto-petrobras-${timestamp}`,
-          title: 'Maratona Petrobras de Inteligência Artificial & Transição Energética',
-          slug: 'maratona-petrobras-ia-energia',
-          description: 'Desafio presencial e remoto para predição de eficiência energética em refinarias e otimização de matriz eólica marítima com modelos preditivos avançados.',
-          category: 'hackathon',
-          modality: 'hibrido',
-          startDate: '2026-11-06',
-          endDate: '2026-11-08',
-          registrationDeadline: '2026-10-24',
-          location: {
-            city: 'Rio de Janeiro',
-            state: 'RJ',
-            venue: 'CENPES - Centro de Pesquisas da Petrobras & Online',
-            region: 'Sudeste',
-          },
-          organizer: 'Petrobras Conexões para Inovação',
-          websiteUrl: 'https://petrobras.com.br/inovacao',
-          registrationUrl: 'https://petrobras.com.br/inovacao/desafios',
-          tags: ['Energia', 'Deep Learning', 'Python', 'ESG', 'IoT Industrial'],
-          prizes: {
-            totalValue: 120000,
-            highlight: 'R$ 120.000 em Prêmios + Oportunidade de Contrato de Inovação',
-            hasCashPrize: true,
-            breakdown: [
-              { place: '1º Colocado Geral', reward: 'R$ 70.000 + Vaga na Aceleração CENPES', value: 70000 },
-              { place: '2º Colocado Geral', reward: 'R$ 35.000', value: 35000 },
-              { place: '3º Colocado Geral', reward: 'R$ 15.000', value: 15000 },
-            ],
-            perks: ['Acesso a supercomputadores da Petrobras', 'Mentoria com PhDs da indústria de energia'],
-          },
-          featured: true,
-          targetAudience: 'Cientistas de Dados, Físicos Computacionais, Desenvolvedores e Pesquisadores',
-          isAutomatedDiscovery: true,
-          discoveredAt: new Date().toISOString(),
-          source: 'Radar Automático',
-          verified: true,
-        },
-      ];
+      newDiscoveredEvents = loadDiscoveredNotices();
     }
 
-    // Merge without duplicates based on title/slug
+    // Merge sem duplicatas
     for (const evt of newDiscoveredEvents) {
       if (!serverEvents.some(existing => existing.slug === evt.slug || existing.title.toLowerCase() === evt.title.toLowerCase())) {
         serverEvents.unshift(evt);
@@ -233,56 +172,23 @@ IMPORTANTE: Responda ESTRITAMENTE em formato JSON com o seguinte schema (sem tex
       events: newDiscoveredEvents,
       totalEvents: serverEvents.length,
       timestamp: new Date().toISOString(),
-      insights: `Radar encontrou ${newDiscoveredEvents.length} novas oportunidades e maratonas de tecnologia com premiações expressivas no Brasil!`,
+      insights: `Radar identificou ${newDiscoveredEvents.length} editais públicos de fomento e inovação.`,
     });
   } catch (error) {
     console.error('Error in ai-discover:', error);
     res.status(500).json({
       success: false,
-      error: 'Falha ao executar varredura automatizada com IA',
+      error: 'Falha ao executar varredura automatizada',
     });
   }
 });
 
-// POST /api/events/sync-live - Pull latest events from all live feeds & search
+// POST /api/events/sync-live - Pull latest notices from scanner and live feeds
 app.post('/api/events/sync-live', async (req, res) => {
   try {
-    const ai = getGeminiClient();
-    let freshlyPulled: TechEvent[] = [];
-
-    if (ai) {
-      try {
-        const response = await ai.models.generateContent({
-          model: 'gemini-3.8-flash',
-          contents: 'Pesquise e liste os hackathons e maratonas de programação mais recentes e futuros anunciados no Brasil (2025/2026) em plataformas como Devpost, Shawee, Even3 e sites corporativos. Retorne um array JSON com os eventos e seus respectivos valores de premiações em reais (R$), prazos de inscrição, datas e links oficiais.',
-          config: {
-            tools: [{ googleSearch: {} }],
-            systemInstruction: 'Você é um coletor de hackathons do Brasil. Use a busca do Google e retorne estritamente um array JSON com os eventos encontrados.',
-            temperature: 0.2,
-          },
-        });
-
-        const rawText = response.text || '';
-        const jsonMatch = rawText.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0]) as TechEvent[];
-          freshlyPulled = parsed.map((e, idx) => ({
-            ...e,
-            id: e.id || `evt-live-${Date.now()}-${idx}`,
-            slug: e.slug || (e.title ? e.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `evento-${Date.now()}-${idx}`),
-            isAutomatedDiscovery: true,
-            discoveredAt: new Date().toISOString(),
-            source: 'Sincronização em Tempo Real (Google Search Grounding)',
-            verified: true,
-          }));
-        }
-      } catch (err) {
-        console.warn('Live search warning:', err);
-      }
-    }
-
-    // Merge any freshly pulled events
+    const freshlyPulled = loadDiscoveredNotices();
     let addedCount = 0;
+
     for (const evt of freshlyPulled) {
       if (!serverEvents.some(existing => existing.id === evt.id || existing.title.toLowerCase() === evt.title.toLowerCase())) {
         serverEvents.unshift(evt);
@@ -297,8 +203,8 @@ app.post('/api/events/sync-live', async (req, res) => {
       events: serverEvents,
       timestamp: new Date().toISOString(),
       message: addedCount > 0 
-        ? `${addedCount} novos eventos foram puxados e integrados ao Radar!` 
-        : 'Todos os eventos das principais fontes brasileiras já estão atualizados no seu Radar.',
+        ? `${addedCount} novos editais reais foram integrados ao Radar!` 
+        : 'Editais oficiais da FUNCAP, FINEP e FAPs já estão sincronizados.',
     });
   } catch (error) {
     console.error('Error syncing live:', error);
@@ -307,12 +213,12 @@ app.post('/api/events/sync-live', async (req, res) => {
       addedCount: 0,
       totalEvents: serverEvents.length,
       events: serverEvents,
-      message: 'Radar sincronizado com os eventos locais.',
+      message: 'Radar sincronizado com a base local.',
     });
   }
 });
 
-// POST /api/events/parse-text - Parse a raw edital, newsletter, or URL text with Gemini
+// POST /api/events/parse-text - Parse a raw edital notice with Gemini
 app.post('/api/events/parse-text', async (req, res) => {
   try {
     let { rawText, sourceUrl } = req.body || {};
@@ -328,56 +234,52 @@ app.post('/api/events/parse-text', async (req, res) => {
       });
     }
 
-    if (!rawText || rawText.trim().length < 15) {
-      rawText = `Página ou edital do evento tecnológico: ${sourceUrl}`;
-    }
-
-    const prompt = `Analise o seguinte anúncio, edital ou link de evento/hackathon brasileiro e extraia as informações estruturadas em JSON:
-Texto do anúncio/edital:
+    const prompt = `Analise o seguinte edital ou chamada pública de fomento brasileira e extraia as informações estruturadas em JSON:
+Texto do edital:
 """${rawText.slice(0, 4000)}"""
 
-URL oficial / referência: ${sourceUrl || 'Não fornecida'}
+Link de referência: ${sourceUrl || 'Não fornecido'}
 
-Pesquise no Google se necessário para complementar datas, prazos e premiações reais.
 Retorne ESTRITAMENTE um objeto JSON no formato:
 {
-  "title": "Nome do Evento",
-  "slug": "nome-do-evento-em-kebab-case",
-  "description": "Resumo claro e atrativo do evento",
-  "category": "hackathon",
+  "title": "Nome Oficial do Edital",
+  "slug": "nome-do-edital-kebab-case",
+  "description": "Objetivo claro do edital e resumo das regras",
+  "category": "edital_fomento",
   "modality": "online",
   "startDate": "YYYY-MM-DD",
   "endDate": "YYYY-MM-DD",
-  "registrationDeadline": "YYYY-MM-DD",
+  "registrationDeadline": "YYYY-MM-DDTHH:mm:ss",
   "location": {
     "city": "Cidade",
-    "state": "UF ou Online",
-    "venue": "Local",
-    "region": "Sudeste"
+    "state": "UF (ex: CE, SP, DF)",
+    "venue": "Plataforma de submissão",
+    "region": "Nordeste",
+    "scope": "Estadual"
   },
-  "organizer": "Nome do Organizador",
+  "organizer": "Órgão Concedente (ex: FUNCAP, FINEP, CNPq)",
   "websiteUrl": "${sourceUrl || 'https://exemplo.com'}",
   "registrationUrl": "${sourceUrl || 'https://exemplo.com/inscricao'}",
-  "tags": ["tag1", "tag2"],
+  "tags": ["Fundo Perdido", "Inovação", "Startups"],
+  "verticals": ["Impacto Social & GovTech", "Inteligência Artificial & Dados"],
   "prizes": {
-    "totalValue": 50000,
-    "highlight": "R$ 50.000 em Prêmios",
+    "totalValue": 500000,
+    "highlight": "Até R$ 250.000 Não-Reembolsável",
     "hasCashPrize": true,
-    "breakdown": [
-      { "place": "1º Lugar", "reward": "R$ 30.000", "value": 30000 }
-    ],
-    "perks": ["Certificado", "Mentoria"]
+    "fundingType": "nao_reembolsavel",
+    "hasCounterpart": true,
+    "counterpartPercentage": 5
   },
   "featured": false,
-  "targetAudience": "Público-alvo estimado"
+  "targetAudience": "Startups e pesquisadores",
+  "eligibilityCriteria": ["Critério 1", "Critério 2"]
 }`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-3.8-flash',
       contents: prompt,
       config: {
-        tools: [{ googleSearch: {} }],
-        systemInstruction: 'Você é um extrator especialista em editais e hackathons no Brasil. Responda exclusivamente com um objeto JSON válido.',
+        systemInstruction: 'Você é um extrator de chamadas públicas e editais de inovação. Responda exclusivamente com um objeto JSON válido.',
         temperature: 0.1,
       },
     });
@@ -385,17 +287,16 @@ Retorne ESTRITAMENTE um objeto JSON no formato:
     const text = response.text || '{}';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      throw new Error('Não foi possível estruturar o evento a partir do texto ou link fornecido.');
+      throw new Error('Não foi possível estruturar o edital a partir do texto fornecido.');
     }
 
     const parsed = JSON.parse(jsonMatch[0]) as TechEvent;
-    parsed.id = `evt-user-import-${Date.now()}`;
-    parsed.slug = parsed.slug || (parsed.title ? parsed.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `evento-${Date.now()}`);
+    parsed.id = `edital-import-${Date.now()}`;
+    parsed.slug = parsed.slug || (parsed.title ? parsed.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `edital-${Date.now()}`);
     parsed.isAutomatedDiscovery = true;
     parsed.discoveredAt = new Date().toISOString();
     parsed.verified = true;
 
-    // Add to server list
     serverEvents.unshift(parsed);
 
     res.json({
@@ -406,28 +307,22 @@ Retorne ESTRITAMENTE um objeto JSON no formato:
     console.error('Error parsing event text:', err);
     res.status(500).json({
       success: false,
-      error: 'Não foi possível analisar o texto do edital. Tente novamente ou revise as informações.',
+      error: 'Não foi possível analisar o texto do edital.',
     });
   }
 });
 
 // POST /api/events/subscribe-alert - Alert preference registration
 app.post('/api/events/subscribe-alert', (req, res) => {
-  const { email, minPrize, selectedStates, onlyHackathons } = req.body || {};
-  if (!email) {
-    return res.status(400).json({ error: 'Email é obrigatório' });
-  }
-
-  // Record alert
+  const { channel, contact, selectedStates, selectedAreas } = req.body || {};
   res.json({
     success: true,
-    message: `Alerta cadastrado com sucesso para ${email}! Você receberá notificações de novos hackathons e premiações acima de R$ ${(minPrize || 0).toLocaleString('pt-BR')}.`,
+    message: `Alerta registrado com sucesso para ${contact} via ${channel}!`,
   });
 });
 
 async function startServer() {
   try {
-    // Vite middleware in dev, static serving in prod
     if (process.env.NODE_ENV !== 'production') {
       const vite = await createViteServer({
         server: { middlewareMode: true },

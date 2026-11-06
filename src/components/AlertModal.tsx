@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
-import { X, Bell, CheckCircle2, ShieldCheck, Mail, Trophy, MapPin } from 'lucide-react';
-import { BRAZILIAN_STATES } from '../data/initialEvents';
+import { 
+  X, 
+  Bell, 
+  CheckCircle2, 
+  Mail, 
+  MapPin, 
+  MessageSquare, 
+  Send, 
+  Check, 
+  ExternalLink,
+  ShieldCheck
+} from 'lucide-react';
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -8,10 +18,15 @@ interface AlertModalProps {
 }
 
 export function AlertModal({ isOpen, onClose }: AlertModalProps) {
-  const [email, setEmail] = useState('');
-  const [minPrize, setMinPrize] = useState(20000);
-  const [onlyHackathons, setOnlyHackathons] = useState(true);
-  const [selectedStates, setSelectedStates] = useState<string[]>(['SP', 'RJ', 'Online']);
+  const [channel, setChannel] = useState<'whatsapp' | 'telegram' | 'email'>('whatsapp');
+  const [contact, setContact] = useState('');
+  const [selectedStates, setSelectedStates] = useState<string[]>(['CE', 'Online', 'Nacional']);
+  const [selectedAreas, setSelectedAreas] = useState<string[]>([
+    'Impacto Social & GovTech',
+    'Inteligência Artificial & Dados',
+    'SaaS & B2B'
+  ]);
+  const [onlyGrants, setOnlyGrants] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -19,14 +34,20 @@ export function AlertModal({ isOpen, onClose }: AlertModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!contact) return;
 
     setLoading(true);
     try {
       await fetch('/api/events/subscribe-alert', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, minPrize, onlyHackathons, selectedStates }),
+        body: JSON.stringify({ 
+          channel, 
+          contact, 
+          selectedStates, 
+          selectedAreas, 
+          onlyGrants 
+        }),
       });
       setIsSubmitted(true);
     } catch (err) {
@@ -45,137 +66,208 @@ export function AlertModal({ isOpen, onClose }: AlertModalProps) {
     }
   };
 
+  const toggleArea = (area: string) => {
+    if (selectedAreas.includes(area)) {
+      setSelectedAreas(selectedAreas.filter((a) => a !== area));
+    } else {
+      setSelectedAreas([...selectedAreas, area]);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
       <div
-        className="relative w-full max-w-lg bg-white border border-slate-200 rounded-3xl shadow-2xl p-6 sm:p-8 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="relative w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-xl p-6 sm:p-7 overflow-hidden animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 transition-colors"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
         {isSubmitted ? (
           <div className="py-6 text-center space-y-4">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-8 h-8" />
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Alerta Ativado com Sucesso!</h3>
-              <p className="text-xs text-slate-600 mt-1.5 max-w-sm mx-auto leading-relaxed">
-                Enviaremos notificações para <strong className="text-indigo-600">{email}</strong> sempre que um novo hackathon ou edital com premiação acima de <strong>R$ {minPrize.toLocaleString('pt-BR')}</strong> for mapeado pelo RadarTech.
+              <h3 className="text-lg font-bold text-slate-900">Alerta Registrado com Sucesso</h3>
+              <p className="text-xs text-slate-600 mt-2 max-w-sm mx-auto leading-relaxed">
+                Você receberá notificações via <strong className="text-slate-900 capitalize">{channel}</strong> ({contact}) quando novos editais da FUNCAP, FINEP ou CNPq forem publicados ou quando restarem 72 horas para submissão.
               </p>
             </div>
+
             <button
               onClick={onClose}
-              className="px-6 py-2.5 rounded-2xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-sm transition-colors"
+              className="px-6 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs transition-colors mt-2 cursor-pointer"
             >
-              Concluir
+              Fechar
             </button>
           </div>
         ) : (
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
-                <Bell className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                <Bell className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  Criar Alerta de Novos Hackathons
+                <h3 className="text-base font-bold text-slate-900">
+                  Alertas de Editais & Oportunidades
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Receba avisos instantâneos de editais com grandes premiações
+                  Avisos automáticos de abertura de chamadas e prazos finais
                 </p>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Escolha do Canal de Notificação */}
               <div>
-                <label className="block font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
-                  <Mail className="w-3.5 h-3.5 text-indigo-600" />
-                  Seu E-mail para Notificações
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Canal de Notificação
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setChannel('whatsapp')}
+                    className={`py-2 px-3 rounded-lg border text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      channel === 'whatsapp'
+                        ? 'bg-slate-900 border-slate-900 text-white'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>WhatsApp</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setChannel('telegram')}
+                    className={`py-2 px-3 rounded-lg border text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      channel === 'telegram'
+                        ? 'bg-slate-900 border-slate-900 text-white'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Telegram</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setChannel('email')}
+                    className={`py-2 px-3 rounded-lg border text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      channel === 'email'
+                        ? 'bg-slate-900 border-slate-900 text-white'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>E-mail</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Input do Contato */}
+              <div>
+                <label className="block text-xs font-medium text-slate-700 mb-1">
+                  {channel === 'whatsapp' ? 'Número WhatsApp com DDD' : channel === 'telegram' ? 'Usuário @telegram ou telefone' : 'E-mail institucional ou corporativo'}
                 </label>
                 <input
-                  type="email"
+                  type={channel === 'email' ? 'email' : 'text'}
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="exemplo@desenvolvedor.com.br"
-                  className="w-full bg-slate-50 text-slate-800 py-2.5 px-3.5 rounded-2xl border border-slate-200 focus:border-indigo-600 outline-none"
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  placeholder={channel === 'whatsapp' ? '(85) 99999-9999' : channel === 'telegram' ? '@usuario' : 'contato@empresa.com'}
+                  className="w-full bg-slate-50 text-xs sm:text-sm text-slate-900 px-3.5 py-2 rounded-lg border border-slate-200 focus:border-slate-400 focus:bg-white outline-none transition-all"
                 />
               </div>
 
+              {/* Áreas de Interesse */}
               <div>
-                <label className="block font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
-                  <Trophy className="w-3.5 h-3.5 text-amber-500" />
-                  Premiação Mínima para Notificar
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Áreas de Foco
                 </label>
-                <select
-                  value={minPrize}
-                  onChange={(e) => setMinPrize(Number(e.target.value))}
-                  className="w-full bg-slate-50 text-slate-800 font-semibold py-2.5 px-3.5 rounded-2xl border border-slate-200 focus:border-indigo-600 outline-none"
-                >
-                  <option value={0}>Qualquer valor (inclusive sem prêmio)</option>
-                  <option value={10000}>A partir de R$ 10.000</option>
-                  <option value={30000}>A partir de R$ 30.000</option>
-                  <option value={50000}>Apenas Grandes Maratonas (R$ 50.000+)</option>
-                  <option value={100000}>Exclusivo Elite (R$ 100.000+)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-indigo-600" />
-                  Regiões de Interesse
-                </label>
-                <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto p-2.5 bg-slate-50 rounded-2xl border border-slate-200">
-                  <button
-                    type="button"
-                    onClick={() => toggleState('Online')}
-                    className={`px-2.5 py-1 rounded-xl text-[11px] font-bold border transition-colors ${
-                      selectedStates.includes('Online')
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
-                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    100% Online
-                  </button>
-                  {BRAZILIAN_STATES.slice(0, 10).map((st) => (
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    'Impacto Social & GovTech',
+                    'Inteligência Artificial & Dados',
+                    'SaaS & B2B',
+                    'Saúde & HealthTech',
+                    'AgTech & BioTech',
+                    'FinTech'
+                  ].map((area) => (
                     <button
-                      key={st.uf}
                       type="button"
-                      onClick={() => toggleState(st.uf)}
-                      className={`px-2.5 py-1 rounded-xl text-[11px] font-bold border transition-colors ${
-                        selectedStates.includes(st.uf)
-                          ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
-                          : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                      key={area}
+                      onClick={() => toggleArea(area)}
+                      className={`text-[11px] font-medium px-2.5 py-1 rounded-md border transition-all cursor-pointer flex items-center gap-1 ${
+                        selectedAreas.includes(area)
+                          ? 'bg-slate-900 border-slate-900 text-white font-semibold'
+                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                       }`}
                     >
-                      {st.uf}
+                      {selectedAreas.includes(area) && <Check className="w-3 h-3" />}
+                      <span>{area}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="px-4 py-2.5 font-semibold rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-5 py-2.5 font-bold rounded-2xl bg-slate-900 hover:bg-black text-white shadow-sm transition-all"
-                >
-                  {loading ? 'Cadastrando...' : 'Salvar Alerta'}
-                </button>
+              {/* Estados & Abrangência */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Região de Interesse
+                </label>
+                <div className="flex flex-wrap gap-1.5">
+                  {['CE', 'Online', 'Nacional', 'PE', 'SP', 'DF'].map((uf) => (
+                    <button
+                      type="button"
+                      key={uf}
+                      onClick={() => toggleState(uf)}
+                      className={`text-[11px] font-medium px-2.5 py-1 rounded-md border transition-all cursor-pointer flex items-center gap-1 ${
+                        selectedStates.includes(uf)
+                          ? 'bg-slate-900 border-slate-900 text-white font-semibold'
+                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                      }`}
+                    >
+                      {selectedStates.includes(uf) && <Check className="w-3 h-3" />}
+                      <span>{uf === 'CE' ? 'Ceará' : uf}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Filtro de Fundo Perdido */}
+              <div className="pt-2">
+                <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={onlyGrants}
+                    onChange={(e) => setOnlyGrants(e.target.checked)}
+                    className="w-4 h-4 rounded text-slate-900 focus:ring-slate-900 border-slate-300"
+                  />
+                  <span>Priorizar capital a fundo perdido (não-reembolsável) e bolsas de P&D</span>
+                </label>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full mt-4 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {loading ? (
+                  <span>Processando...</span>
+                ) : (
+                  <>
+                    <Bell className="w-3.5 h-3.5" />
+                    <span>Cadastrar Alertas Gratuitos</span>
+                  </>
+                )}
+              </button>
             </form>
           </div>
         )}

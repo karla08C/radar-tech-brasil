@@ -4,18 +4,16 @@ import {
   Trophy,
   Calendar,
   MapPin,
-  RefreshCw,
   Bookmark,
-  AlertCircle,
-  Plus,
   Filter,
   Loader2,
   ArrowDownToLine,
-  CheckCircle2,
   Rocket,
   ArrowRight,
   ArrowLeft,
-  LayoutGrid,
+  Landmark,
+  ShieldCheck,
+  Code2
 } from 'lucide-react';
 import { TechEvent, EventFilters, BrazilianRegion } from './types';
 import { INITIAL_EVENTS } from './data/initialEvents';
@@ -43,6 +41,12 @@ const DEFAULT_FILTERS: EventFilters = {
   minPrizeValue: 0,
   timeframe: 'all',
   selectedTag: 'all',
+  maturity: 'all',
+  isContinuousFlowOnly: false,
+  deadlineLimit: '',
+  funder: 'all',
+  resourceOrigin: 'all',
+  scope: 'all',
   sortBy: 'featured',
 };
 
@@ -52,7 +56,6 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Merge saved with initial events without duplicate ids
         const ids = new Set(parsed.map((e: TechEvent) => e.id));
         const missingInitial = INITIAL_EVENTS.filter(e => !ids.has(e.id));
         return [...parsed, ...missingInitial];
@@ -75,7 +78,7 @@ export default function App() {
     return [];
   });
 
-  const [mainTab, setMainTab] = useState<'all' | 'hackathons' | 'events'>('all');
+  const [mainTab, setMainTab] = useState<'all' | 'editais' | 'aceleracao' | 'hackathons'>('all');
   const [filters, setFilters] = useState<EventFilters>(DEFAULT_FILTERS);
   const [viewMode, setViewMode] = useState<'grid' | 'calendar' | 'map' | 'table'>('grid');
   const [selectedEvent, setSelectedEvent] = useState<TechEvent | null>(null);
@@ -111,9 +114,7 @@ export default function App() {
         if (data.success && Array.isArray(data.events) && data.events.length > 0) {
           setEvents((prev) => {
             const map = new Map<string, TechEvent>();
-            // Keep existing ones or update
             prev.forEach((e) => map.set(e.id, e));
-            // Add or overwrite from backend
             data.events.forEach((e: TechEvent) => {
               if (!map.has(e.id)) {
                 map.set(e.id, e);
@@ -125,12 +126,12 @@ export default function App() {
           });
         }
       })
-      .catch((err) => console.log('Notice: using local seed events', err));
+      .catch((err) => console.log('Aviso: usando base local de editais', err));
   }, []);
 
   const handleSyncLiveEvents = async () => {
     setIsSyncing(true);
-    showToast('Sincronizando com feeds ao vivo e editais no Brasil...');
+    showToast('Sincronizando editais e chamadas públicas oficiais...');
     try {
       const res = await fetch('/api/events/sync-live', { method: 'POST' });
       const data = await res.json();
@@ -149,7 +150,7 @@ export default function App() {
       }
     } catch (err) {
       console.error(err);
-      showToast('Eventos locais sincronizados.');
+      showToast('Editais sincronizados.');
     } finally {
       setIsSyncing(false);
     }
@@ -158,16 +159,16 @@ export default function App() {
   const handleResetCatalog = () => {
     localStorage.removeItem('radartech_custom_events');
     setEvents(INITIAL_EVENTS);
-    showToast('Catálogo completo restaurado com todos os eventos e hackathons!');
+    showToast('Catálogo de editais restaurado com sucesso.');
   };
 
   const toggleFavorite = (id: string) => {
     if (favorites.includes(id)) {
       setFavorites(favorites.filter((f) => f !== id));
-      showToast('Evento removido dos salvos.');
+      showToast('Oportunidade removida dos salvos.');
     } else {
       setFavorites([...favorites, id]);
-      showToast('Evento salvo nos seus favoritos!');
+      showToast('Oportunidade salva com sucesso.');
     }
   };
 
@@ -189,12 +190,19 @@ export default function App() {
       return merged;
     });
     setSelectedEvent(newEvent);
-    showToast(`Evento "${newEvent.title}" adicionado e estruturado com sucesso!`);
+    showToast(`Edital "${newEvent.title}" cadastrado com sucesso.`);
   };
 
   // Total active prizes formatted
   const totalPrizeSum = useMemo(() => {
     return events.reduce((acc, evt) => acc + (evt.prizes?.totalValue || 0), 0);
+  }, [events]);
+
+  // Lista dinâmica de tags disponíveis
+  const availableTags = useMemo(() => {
+    const set = new Set<string>();
+    events.forEach((e) => e.tags?.forEach((t) => set.add(t)));
+    return Array.from(set);
   }, [events]);
 
   // Filtered and Sorted Events
@@ -212,9 +220,10 @@ export default function App() {
           const matchTitle = evt.title.toLowerCase().includes(q);
           const matchDesc = evt.description.toLowerCase().includes(q);
           const matchOrg = evt.organizer.toLowerCase().includes(q);
+          const matchFunder = evt.funder?.toLowerCase().includes(q);
           const matchTags = evt.tags.some((t) => t.toLowerCase().includes(q));
           const matchLocation = `${evt.location.city} ${evt.location.state}`.toLowerCase().includes(q);
-          if (!matchTitle && !matchDesc && !matchOrg && !matchTags && !matchLocation) {
+          if (!matchTitle && !matchDesc && !matchOrg && !matchFunder && !matchTags && !matchLocation) {
             return false;
           }
         }
@@ -229,11 +238,14 @@ export default function App() {
           return false;
         }
 
-        // Main Tab Separation (Hackathons vs Events/Conferences)
-        if (mainTab === 'hackathons' && evt.category !== 'hackathon') {
+        // Main Tab Separation
+        if (mainTab === 'editais' && evt.category !== 'edital_fomento' && evt.category !== 'bolsa_pesquisa') {
           return false;
         }
-        if (mainTab === 'events' && evt.category === 'hackathon') {
+        if (mainTab === 'aceleracao' && evt.category !== 'aceleracao') {
+          return false;
+        }
+        if (mainTab === 'hackathons' && evt.category !== 'hackathon') {
           return false;
         }
 
@@ -272,7 +284,6 @@ export default function App() {
         // Timeframe
         if (filters.timeframe !== 'all') {
           const daysLeft = getDaysRemaining(evt.registrationDeadline);
-          const endDaysLeft = getDaysRemaining(evt.endDate);
 
           if (filters.timeframe === 'open_only') {
             if (daysLeft < 0) return false;
@@ -296,6 +307,51 @@ export default function App() {
           }
         }
 
+        // Novo Filtro: Fluxo Contínuo
+        if (filters.isContinuousFlowOnly && !evt.isContinuousFlow) {
+          return false;
+        }
+
+        // Novo Filtro: Data Limite
+        if (filters.deadlineLimit && filters.deadlineLimit.trim() !== '') {
+          const evtDeadline = evt.registrationDeadline.split('T')[0];
+          if (evtDeadline > filters.deadlineLimit) {
+            return false;
+          }
+        }
+
+        // Novo Filtro: Maturidade (Ideação, Validação, Tração, Crescimento)
+        if (filters.maturity && filters.maturity !== 'all') {
+          if (!evt.maturityLevels || !evt.maturityLevels.includes(filters.maturity)) {
+            return false;
+          }
+        }
+
+        // Novo Filtro: Financiador
+        if (filters.funder && filters.funder !== 'all') {
+          const fLower = filters.funder.toLowerCase();
+          const matchFunder = evt.funder?.toLowerCase().includes(fLower);
+          const matchOrg = evt.organizer.toLowerCase().includes(fLower);
+          const matchTag = evt.tags.some(t => t.toLowerCase() === fLower);
+          if (!matchFunder && !matchOrg && !matchTag) {
+            return false;
+          }
+        }
+
+        // Novo Filtro: Origem do Recurso (Federal, Estadual, Municipal, etc)
+        if (filters.resourceOrigin && filters.resourceOrigin !== 'all') {
+          if (evt.resourceOrigin !== filters.resourceOrigin) {
+            return false;
+          }
+        }
+
+        // Novo Filtro: Abrangência (Nacional, Estadual, Regional)
+        if (filters.scope && filters.scope !== 'all') {
+          if (evt.location.scope !== filters.scope) {
+            return false;
+          }
+        }
+
         return true;
       })
       .sort((a, b) => {
@@ -315,25 +371,29 @@ export default function App() {
       });
   }, [events, filters, showFavoritesOnly, favorites, mainTab]);
 
+  const editaisEvents = useMemo(() => {
+    return filteredEvents.filter((e) => e.category === 'edital_fomento' || e.category === 'bolsa_pesquisa');
+  }, [filteredEvents]);
+
+  const aceleracaoEvents = useMemo(() => {
+    return filteredEvents.filter((e) => e.category === 'aceleracao');
+  }, [filteredEvents]);
+
   const hackathonEvents = useMemo(() => {
     return filteredEvents.filter((e) => e.category === 'hackathon');
   }, [filteredEvents]);
 
-  const conferenceEvents = useMemo(() => {
-    return filteredEvents.filter((e) => e.category !== 'hackathon');
-  }, [filteredEvents]);
+  const countEditais = useMemo(() => {
+    return events.filter((e) => e.category === 'edital_fomento' || e.category === 'bolsa_pesquisa').length;
+  }, [events]);
+
+  const countAceleracao = useMemo(() => {
+    return events.filter((e) => e.category === 'aceleracao').length;
+  }, [events]);
 
   const countHackathons = useMemo(() => {
     return events.filter((e) => e.category === 'hackathon').length;
   }, [events]);
-
-  const countConferences = useMemo(() => {
-    return events.filter((e) => e.category !== 'hackathon').length;
-  }, [events]);
-
-  const hackathonPrizeSum = useMemo(() => {
-    return hackathonEvents.reduce((acc, evt) => acc + (evt.prizes?.totalValue || 0), 0);
-  }, [hackathonEvents]);
 
   const handleFilterHighPrizes = () => {
     setFilters({
@@ -353,18 +413,10 @@ export default function App() {
     setViewMode('grid');
   };
 
-  const handleFilterOnline = () => {
-    setFilters({
-      ...filters,
-      modality: 'online',
-    });
-    setViewMode('grid');
-  };
-
   const handleFilterByTag = (tag: string) => {
     setFilters({
       ...filters,
-      search: tag,
+      selectedTag: tag,
     });
     setViewMode('grid');
   };
@@ -388,7 +440,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col selection:bg-indigo-600 selection:text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col selection:bg-slate-900 selection:text-white">
       {/* Global Header */}
       <Header
         onOpenAiScanner={() => setIsAiScannerOpen(true)}
@@ -403,8 +455,8 @@ export default function App() {
 
       {/* Floating Toast Message */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border border-slate-800 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3 duration-200">
-          <Sparkles className="w-4 h-4 text-indigo-400 shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border border-slate-800 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3 duration-200">
+          <Sparkles className="w-4 h-4 text-slate-300 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -414,15 +466,15 @@ export default function App() {
         {/* Hero Title & Mission */}
         <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>O Maior Hub de Oportunidades & Maratonas Tech do Brasil</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold mb-2">
+              <Landmark className="w-3.5 h-3.5 text-slate-600" />
+              <span>Radar de Editais & Oportunidades de Inovação</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-              Descubra Hackathons e Eventos de Tecnologia no Brasil 🇧🇷
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
+              Editais Abertos, Aceleração e Hackathons no Brasil
             </h2>
-            <p className="text-sm text-slate-500 mt-1.5 max-w-2xl">
-              Filtre por datas de inscrição, cidades brasileiras, formato online ou presencial, e acompanhe as maiores premiações em dinheiro e contratações.
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+              Centralizando chamadas da FUNCAP, FINEP, CNPq e FAPs estaduais. Filtre por financiador, origem do recurso, estágio de maturidade e prazos de submissão.
             </p>
           </div>
 
@@ -431,23 +483,23 @@ export default function App() {
             <button
               onClick={handleSyncLiveEvents}
               disabled={isSyncing}
-              title="Puxar editais e maratonas em tempo real das principais plataformas"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white transition-all shadow-xs disabled:opacity-75 cursor-pointer"
+              title="Sincronizar editais oficiais em tempo real"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white transition-all shadow-xs disabled:opacity-75 cursor-pointer"
             >
               {isSyncing ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
                 <ArrowDownToLine className="w-3.5 h-3.5" />
               )}
-              <span>{isSyncing ? 'Puxando Eventos...' : 'Puxar Eventos ao Vivo'}</span>
+              <span>{isSyncing ? 'Sincronizando...' : 'Sincronizar Editais'}</span>
             </button>
 
             <button
               onClick={() => setIsAiScannerOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 transition-all shadow-xs"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 transition-all shadow-xs cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Varredura com IA</span>
+              <Sparkles className="w-3.5 h-3.5 text-slate-600" />
+              <span>Scanner de Editais</span>
             </button>
           </div>
         </div>
@@ -457,17 +509,21 @@ export default function App() {
           events={events}
           onFilterEndingSoon={handleFilterEndingSoon}
           onFilterHighPrizes={handleFilterHighPrizes}
-          onFilterHackathons={() => {
-            setMainTab('hackathons');
+          onFilterEditais={() => {
+            setMainTab('editais');
             setViewMode('grid');
           }}
-          onFilterConferences={() => {
-            setMainTab('events');
+          onFilterAceleracao={() => {
+            setMainTab('aceleracao');
+            setViewMode('grid');
+          }}
+          onFilterCeara={() => {
+            setFilters({ ...filters, state: 'CE' });
             setViewMode('grid');
           }}
         />
 
-        {/* Featured Prizes Showcase (Top rewards in Brazil) */}
+        {/* Featured Prizes Showcase */}
         {!showFavoritesOnly && filters.minPrizeValue === 0 && filters.search === '' && (
           <PrizeSpotlight
             events={events}
@@ -476,7 +532,7 @@ export default function App() {
           />
         )}
 
-        {/* Filter Bar (Dates, Location/UF, Modality, Prizes, Search) */}
+        {/* Filter Bar com todos os novos filtros */}
         <FilterBar
           filters={filters}
           onChange={setFilters}
@@ -489,24 +545,26 @@ export default function App() {
           onChangeViewMode={setViewMode}
           mainTab={mainTab}
           onChangeMainTab={setMainTab}
+          countEditais={countEditais}
+          countAceleracao={countAceleracao}
           countHackathons={countHackathons}
-          countConferences={countConferences}
+          availableTags={availableTags}
         />
 
         {/* Favorites only filter banner */}
         {showFavoritesOnly && (
-          <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-between text-xs text-amber-900">
+          <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between text-xs text-amber-900">
             <div className="flex items-center gap-2">
-              <Bookmark className="w-4 h-4 text-amber-500 fill-amber-500" />
+              <Bookmark className="w-4 h-4 text-amber-600 fill-amber-600" />
               <span>
-                Exibindo apenas seus <strong>{favorites.length}</strong> eventos salvos nos favoritos.
+                Exibindo apenas suas <strong>{favorites.length}</strong> oportunidades salvas.
               </span>
             </div>
             <button
               onClick={() => setShowFavoritesOnly(false)}
-              className="text-xs font-bold text-amber-800 hover:underline cursor-pointer"
+              className="text-xs font-semibold text-amber-900 hover:underline cursor-pointer"
             >
-              Ver todos os eventos
+              Ver todas as oportunidades
             </button>
           </div>
         )}
@@ -534,15 +592,15 @@ export default function App() {
           <div>
             {filteredEvents.length === 0 ? (
               /* Empty State */
-              <div className="text-center py-16 px-4 rounded-3xl bg-white border border-slate-200 my-4 shadow-xs">
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <div className="text-center py-16 px-4 rounded-2xl bg-white border border-slate-200 my-4 shadow-xs">
+                <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-3">
                   <Filter className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900">
-                  Nenhum evento encontrado para os filtros selecionados
+                  Nenhum edital encontrado para os filtros selecionados
                 </h3>
                 <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-                  Tente ampliar seus filtros de localização, prazo de inscrição ou premiação mínima, ou execute uma varredura com inteligência artificial.
+                  Tente ajustar a data limite, estágio de maturidade ou financiador selecionado.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
@@ -551,248 +609,33 @@ export default function App() {
                       setFilters(DEFAULT_FILTERS);
                       setMainTab('all');
                     }}
-                    className="px-4 py-2.5 text-xs font-semibold rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
+                    className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors cursor-pointer"
                   >
-                    Limpar Todos os Filtros
+                    Limpar todos os filtros
                   </button>
                   <button
                     onClick={handleSyncLiveEvents}
                     disabled={isSyncing}
-                    className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white transition-colors cursor-pointer"
+                    className="flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
                   >
                     {isSyncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowDownToLine className="w-3.5 h-3.5" />}
-                    <span>Puxar Eventos ao Vivo</span>
+                    <span>Sincronizar Editais</span>
                   </button>
-                  <button
-                    onClick={() => setIsAiScannerOpen(true)}
-                    className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-slate-900 hover:bg-black text-white transition-colors cursor-pointer"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Buscar com IA na Web</span>
-                  </button>
-                  <button
-                    onClick={handleResetCatalog}
-                    className="text-xs text-slate-500 hover:text-slate-800 underline font-medium px-2 py-1 cursor-pointer"
-                  >
-                    Restaurar catálogo completo (22+ eventos)
-                  </button>
-                </div>
-              </div>
-            ) : mainTab === 'all' ? (
-              /* All Tab: Clearly Separated Bento Sections for Hackathons vs Conferences */
-              <div className="space-y-12">
-                {/* Section 1: Hackathons & Maratonas */}
-                <section id="section-hackathons" className="scroll-mt-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-3 border-b border-slate-200">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-xs">
-                        <Rocket className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2.5">
-                          <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-                            Hackathons & Maratonas de Código
-                          </h3>
-                          <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
-                            {hackathonEvents.length}
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          Desafios intensivos em squads com mentorias, contratações e prêmios em dinheiro
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2.5 self-start sm:self-auto">
-                      {hackathonPrizeSum > 0 && (
-                        <span className="text-xs font-bold px-3 py-1 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200">
-                          🏆 {formatBRL(hackathonPrizeSum)} em prêmios
-                        </span>
-                      )}
-                      <button
-                        onClick={() => setMainTab('hackathons')}
-                        className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 hover:underline cursor-pointer bg-indigo-50/50 hover:bg-indigo-50 px-3 py-1 rounded-xl border border-indigo-100 transition-colors"
-                      >
-                        <span>Focar só em Hackathons</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {hackathonEvents.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                      {hackathonEvents.map((evt) => (
-                        <EventCard
-                          key={evt.id}
-                          event={evt}
-                          onSelect={setSelectedEvent}
-                          isFavorite={favorites.includes(evt.id)}
-                          onToggleFavorite={toggleFavorite}
-                          onFilterByTag={handleFilterByTag}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-500">
-                      Nenhum hackathon encontrado com esses filtros.{' '}
-                      <button
-                        onClick={() => setFilters(DEFAULT_FILTERS)}
-                        className="font-bold text-indigo-600 hover:underline cursor-pointer ml-1"
-                      >
-                        Limpar filtros
-                      </button>
-                    </div>
-                  )}
-                </section>
-
-                {/* Section 2: Eventos & Conferências Tech */}
-                <section id="section-conferences" className="scroll-mt-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-3 border-b border-slate-200">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-700 shadow-xs">
-                        <Calendar className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2.5">
-                          <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-                            Eventos, Conferências & Summits
-                          </h3>
-                          <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-100">
-                            {conferenceEvents.length}
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          Grandes palcos de tecnologia, summits corporativos, feiras de inovação e networking
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 self-start sm:self-auto">
-                      <button
-                        onClick={() => setMainTab('events')}
-                        className="text-xs font-bold text-sky-700 hover:text-sky-900 flex items-center gap-1 hover:underline cursor-pointer bg-sky-50/50 hover:bg-sky-50 px-3 py-1 rounded-xl border border-sky-100 transition-colors"
-                      >
-                        <span>Focar só em Conferências</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {conferenceEvents.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                      {conferenceEvents.map((evt) => (
-                        <EventCard
-                          key={evt.id}
-                          event={evt}
-                          onSelect={setSelectedEvent}
-                          isFavorite={favorites.includes(evt.id)}
-                          onToggleFavorite={toggleFavorite}
-                          onFilterByTag={handleFilterByTag}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-500">
-                      Nenhuma conferência encontrada com esses filtros.{' '}
-                      <button
-                        onClick={() => setFilters(DEFAULT_FILTERS)}
-                        className="font-bold text-sky-700 hover:underline cursor-pointer ml-1"
-                      >
-                        Limpar filtros
-                      </button>
-                    </div>
-                  )}
-                </section>
-              </div>
-            ) : mainTab === 'hackathons' ? (
-              /* Hackathons Focused Tab */
-              <div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-3 border-b border-slate-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
-                      <Rocket className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2.5">
-                        <h3 className="text-xl font-black text-slate-900 tracking-tight">
-                          Hackathons & Maratonas de Programação
-                        </h3>
-                        <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
-                          {hackathonEvents.length} resultados
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Exibindo exclusivamente maratonas de desenvolvimento com premiações e desafios em squads.
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setMainTab('all')}
-                    className="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-xl transition-colors cursor-pointer self-start sm:self-auto"
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Ver todos (Hackathons + Eventos)</span>
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {hackathonEvents.map((evt) => (
-                    <EventCard
-                      key={evt.id}
-                      event={evt}
-                      onSelect={setSelectedEvent}
-                      isFavorite={favorites.includes(evt.id)}
-                      onToggleFavorite={toggleFavorite}
-                      onFilterByTag={handleFilterByTag}
-                    />
-                  ))}
                 </div>
               </div>
             ) : (
-              /* Conferences Focused Tab */
-              <div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-3 border-b border-slate-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-sky-700 text-white flex items-center justify-center shadow-xs">
-                      <Calendar className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2.5">
-                        <h3 className="text-xl font-black text-slate-900 tracking-tight">
-                          Conferências, Summits & Eventos Tech
-                        </h3>
-                        <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-100">
-                          {conferenceEvents.length} resultados
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Exibindo summits de inovação, feiras de tecnologia e congressos de desenvolvedores no Brasil.
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setMainTab('all')}
-                    className="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-xl transition-colors cursor-pointer self-start sm:self-auto"
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Ver todos (Hackathons + Eventos)</span>
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {conferenceEvents.map((evt) => (
-                    <EventCard
-                      key={evt.id}
-                      event={evt}
-                      onSelect={setSelectedEvent}
-                      isFavorite={favorites.includes(evt.id)}
-                      onToggleFavorite={toggleFavorite}
-                      onFilterByTag={handleFilterByTag}
-                    />
-                  ))}
-                </div>
+              /* Grid Results */
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {filteredEvents.map((evt) => (
+                  <EventCard
+                    key={evt.id}
+                    event={evt}
+                    onSelect={setSelectedEvent}
+                    isFavorite={favorites.includes(evt.id)}
+                    onToggleFavorite={toggleFavorite}
+                    onFilterByTag={handleFilterByTag}
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -800,27 +643,25 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/80 bg-white py-8 px-4 sm:px-6 mt-12 text-xs text-slate-500">
+      <footer className="border-t border-slate-200 bg-white py-8 px-4 sm:px-6 mt-12 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-900">RadarTech Brasil</span>
+            <span className="font-bold text-slate-900">Radar Tech Brasil</span>
             <span>•</span>
-            <span>Plataforma automatizada de eventos e hackathons de tecnologia</span>
+            <span>Central de Editais de Fomento, Aceleração e Inovação</span>
           </div>
 
           <div className="flex items-center gap-4 text-slate-500">
-            <span>Powered by Gemini 3.8 Flash & Google AI Studio</span>
-            <span>•</span>
             <button
               onClick={() => setIsAlertModalOpen(true)}
-              className="text-slate-600 hover:text-indigo-600 font-medium transition-colors"
+              className="text-slate-600 hover:text-slate-900 font-medium transition-colors cursor-pointer"
             >
               Criar Alerta
             </button>
             <span>•</span>
             <button
               onClick={() => setIsImportModalOpen(true)}
-              className="text-slate-600 hover:text-indigo-600 font-medium transition-colors"
+              className="text-slate-600 hover:text-slate-900 font-medium transition-colors cursor-pointer"
             >
               Cadastrar Edital
             </button>

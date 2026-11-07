@@ -29,6 +29,10 @@ export type ThematicVertical =
   | 'FinTech'
   | 'Geral / Agnóstico';
 
+export type MaturityLevel = 'Ideação' | 'Validação' | 'Tração' | 'Crescimento';
+
+export type ResourceOrigin = 'Federal' | 'Estadual' | 'Municipal' | 'Privado' | 'Internacional';
+
 export interface PrizeBreakdownItem {
   place: string; // e.g., "1º Lugar" ou "Valor Teto por Startup"
   reward: string; // e.g., "R$ 300.000 a fundo perdido"
@@ -43,7 +47,7 @@ export interface PrizeDetails {
   hasCounterpart?: boolean;
   counterpartPercentage?: number;
   breakdown?: PrizeBreakdownItem[];
-  perks?: string[]; // e.g., ["Créditos Cloud", "Isenção Fiscal", "Mentoria C-Level"]
+  perks?: string[];
 }
 
 export interface EventLocation {
@@ -64,17 +68,21 @@ export interface TechEvent {
   startDate: string; // YYYY-MM-DD
   endDate: string; // YYYY-MM-DD
   registrationDeadline: string; // YYYY-MM-DD or ISO with time
+  isContinuousFlow?: boolean; // Fluxo Contínuo
   location: EventLocation;
   organizer: string;
+  funder?: string; // Financiador (ex: FUNCAP, FINEP, CNPq, FAPESP)
+  resourceOrigin?: ResourceOrigin; // Origem do Recurso
+  maturityLevels?: MaturityLevel[]; // Maturidade (Ideação, Validação, Tração, Crescimento)
   websiteUrl: string;
   registrationUrl: string;
   tags: string[];
   verticals?: ThematicVertical[];
   prizes: PrizeDetails;
   featured: boolean;
-  targetAudience: string; // e.g., "Startups MEI/ME/EPP", "Pesquisadores", "Desenvolvedores"
-  officialNoticePdfUrl?: string; // Link direto do edital
-  eligibilityCriteria?: string[]; // Critérios eliminatórios resumidos
+  targetAudience: string;
+  officialNoticePdfUrl?: string;
+  eligibilityCriteria?: string[];
   isAutomatedDiscovery?: boolean;
   discoveredAt?: string;
   source?: string;
@@ -93,6 +101,15 @@ export interface EventFilters {
   selectedTag: string | 'all';
   selectedVertical?: ThematicVertical | 'all';
   fundingType?: FundingType | 'all';
+  
+  // Novos filtros:
+  maturity?: MaturityLevel | 'all';
+  isContinuousFlowOnly?: boolean;
+  deadlineLimit?: string; // Data limite (YYYY-MM-DD)
+  funder?: string; // "Selecione o financiador..."
+  resourceOrigin?: ResourceOrigin | 'all'; // "Selecione a origem..."
+  scope?: 'all' | 'Nacional' | 'Estadual' | 'Regional'; // Abrangência
+
   sortBy: 'featured' | 'prize_high' | 'date_asc' | 'deadline_asc';
 }
 

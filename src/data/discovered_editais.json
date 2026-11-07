@@ -9,6 +9,13 @@
     "startDate": "2026-11-04",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -41,15 +48,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.608Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -62,6 +69,13 @@
     "startDate": "2026-10-22",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -94,15 +108,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.608Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -115,6 +129,13 @@
     "startDate": "2026-10-14",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -147,15 +168,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -168,6 +189,13 @@
     "startDate": "2026-07-01",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -200,15 +228,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -221,6 +249,13 @@
     "startDate": "2026-06-19",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -253,15 +288,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -274,6 +309,13 @@
     "startDate": "2026-06-19",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -306,15 +348,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -327,6 +369,13 @@
     "startDate": "2026-06-17",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -359,15 +408,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -380,6 +429,13 @@
     "startDate": "2026-06-16",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -412,15 +468,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.898Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -433,6 +489,13 @@
     "startDate": "2026-06-16",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -465,15 +528,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.899Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -486,6 +549,13 @@
     "startDate": "2026-06-11",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -518,15 +588,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.899Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -539,6 +609,13 @@
     "startDate": "2026-05-21",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -571,15 +648,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.899Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -592,6 +669,13 @@
     "startDate": "2026-05-21",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -624,15 +708,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.899Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -645,6 +729,13 @@
     "startDate": "2026-05-14",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -677,15 +768,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.899Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -698,6 +789,13 @@
     "startDate": "2026-05-13",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -730,15 +828,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.899Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -751,6 +849,13 @@
     "startDate": "2026-05-12",
     "endDate": "2026-12-31",
     "registrationDeadline": "2026-11-30T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FUNCAP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Fortaleza",
       "state": "CE",
@@ -783,15 +888,15 @@
       "counterpartPercentage": 5
     },
     "featured": true,
-    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará",
+    "targetAudience": "Pesquisadores, fundadores e empresas inovadoras no Ceará",
     "eligibilityCriteria": [
       "Vínculo institucional ou empresa registrada no Estado do Ceará",
-      "Currículo Lattes cadastrado e atualizado",
-      "Submissão via Plataforma Montenegro/SIGFAPES"
+      "Currículo Lattes atualizado",
+      "Submissão via Plataforma Montenegro"
     ],
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:07.609Z",
+    "discoveredAt": "2026-11-07T02:45:29.899Z",
     "source": "API Oficial FUNCAP CE"
   },
   {
@@ -801,9 +906,16 @@
     "description": "Programa FAPESP Pesquisa Inovativa em Pequenas Empresas (PIPE) voltado ao fomento de pesquisa científica e tecnológica comercializável.",
     "category": "edital_fomento",
     "modality": "online",
-    "startDate": "2026-11-06",
+    "startDate": "2026-11-07",
     "endDate": "2026-12-04",
     "registrationDeadline": "2026-12-04T17:00:00",
+    "isContinuousFlow": true,
+    "funder": "FAPESP",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Ideação",
+      "Validação"
+    ],
     "location": {
       "city": "São Paulo",
       "state": "SP",
@@ -835,11 +947,66 @@
       "hasCounterpart": false
     },
     "featured": false,
-    "targetAudience": "Startups, micro e pequenas empresas inovadoras no Estado de SP",
+    "targetAudience": "Startups e pequenas empresas inovadoras no Estado de SP",
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:05.326Z",
+    "discoveredAt": "2026-11-07T02:45:28.142Z",
     "source": "Portal FAPESP"
+  },
+  {
+    "id": "edital-fapesq-pb-startups",
+    "title": "FAPESQ PB: Programa Tecnova III Paraíba – Apoio à Inovação Tecnológica",
+    "slug": "fapesq-pb-tecnova-startups",
+    "description": "Subvenção econômica a fundo perdido para apoio a microempresas e startups no Estado da Paraíba com desenvolvimento de novos produtos e processos inovadores.",
+    "category": "edital_fomento",
+    "modality": "online",
+    "startDate": "2026-11-07",
+    "endDate": "2026-12-18",
+    "registrationDeadline": "2026-11-28T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "FAPESQ PB",
+    "resourceOrigin": "Estadual",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
+    "location": {
+      "city": "João Pessoa",
+      "state": "PB",
+      "venue": "Sistema SIGFAPESQ",
+      "region": "Nordeste",
+      "scope": "Estadual"
+    },
+    "organizer": "FAPESQ PB - Fundação de Apoio à Pesquisa da Paraíba",
+    "websiteUrl": "https://fapesq.rpp.br",
+    "registrationUrl": "https://fapesq.rpp.br/editais",
+    "officialNoticePdfUrl": "https://fapesq.rpp.br/editais",
+    "tags": [
+      "FAPESQ",
+      "Paraíba",
+      "Nordeste",
+      "Subvenção",
+      "Fundo Perdido"
+    ],
+    "verticals": [
+      "SaaS & B2B",
+      "AgTech & BioTech",
+      "Inteligência Artificial & Dados"
+    ],
+    "prizes": {
+      "totalValue": 3500000,
+      "highlight": "Até R$ 350.000 Não-Reembolsável por Empresa",
+      "hasCashPrize": true,
+      "fundingType": "nao_reembolsavel",
+      "hasCounterpart": true,
+      "counterpartPercentage": 5
+    },
+    "featured": false,
+    "targetAudience": "Micro e pequenas empresas sediadas no Estado da Paraíba",
+    "verified": true,
+    "isAutomatedDiscovery": true,
+    "discoveredAt": "2026-11-07T02:45:27.554Z",
+    "source": "Portal FAPESQ PB"
   },
   {
     "id": "edital-finep-mais-inovacao-aberta",
@@ -848,9 +1015,16 @@
     "description": "Seleção pública de propostas para subvenção econômica a planos de inovação em empresas brasileiras, abrangendo transição energética, soberania digital e saúde.",
     "category": "edital_fomento",
     "modality": "online",
-    "startDate": "2026-11-06",
+    "startDate": "2026-11-07",
     "endDate": "2026-12-15",
     "registrationDeadline": "2026-12-15T18:00:00",
+    "isContinuousFlow": false,
+    "funder": "FINEP",
+    "resourceOrigin": "Federal",
+    "maturityLevels": [
+      "Tração",
+      "Crescimento"
+    ],
     "location": {
       "city": "Brasília",
       "state": "DF",
@@ -886,7 +1060,7 @@
     "targetAudience": "Empresas brasileiras de tecnologia e consórcios industriais",
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:04.420Z",
+    "discoveredAt": "2026-11-07T02:45:27.556Z",
     "source": "Portal FINEP"
   },
   {
@@ -896,9 +1070,16 @@
     "description": "Apoio à inserção de mestres, doutores e especialistas em empresas inovadoras para execução de projetos estratégicos de P&D com bolsas mensais pagas diretamente pelo CNPq.",
     "category": "bolsa_pesquisa",
     "modality": "online",
-    "startDate": "2026-11-06",
+    "startDate": "2026-11-07",
     "endDate": "2026-12-05",
     "registrationDeadline": "2026-12-05T23:59:59",
+    "isContinuousFlow": false,
+    "funder": "CNPq",
+    "resourceOrigin": "Federal",
+    "maturityLevels": [
+      "Validação",
+      "Tração"
+    ],
     "location": {
       "city": "Nacional",
       "state": "Online",
@@ -932,7 +1113,7 @@
     "targetAudience": "Startups e pequenas empresas brasileiras com projeto de P&D",
     "verified": true,
     "isAutomatedDiscovery": true,
-    "discoveredAt": "2026-11-06T02:13:04.420Z",
+    "discoveredAt": "2026-11-07T02:45:27.556Z",
     "source": "CNPq Oficial"
   }
 ]

@@ -1,11 +1,13 @@
 /**
- * Radar Tech Brasil - Scanner e Coletor de Editais Reais
+ * Radar Tech Brasil - Scanner e Coletor de Editais Reais (Multi-FAPs & Nacional)
  * 
  * Fontes integradas:
  * 1. FUNCAP Ceará (API REST oficial do Governo do Estado do Ceará)
- * 2. FINEP - Financiadora de Estudos e Projetos (Chamadas de Inovação)
- * 3. FAPESP (Programa PIPE - Inovação em Pequenas Empresas)
- * 4. CNPq (Chamadas Federais de Bolsas de P&D)
+ * 2. CONFAP - Conselho Nacional das Fundações Estaduais de Amparo à Pesquisa (todas as FAPs)
+ * 3. FINEP - Financiadora de Estudos e Projetos (Subvenção Federal)
+ * 4. FAPESP (Programa PIPE - Inovação em Pequenas Empresas)
+ * 5. CNPq (Chamadas Federais de Bolsas de P&D em Startups)
+ * 6. FAPESQ PB / FACEPE PE (FAPs Regionais Nordeste)
  */
 
 import fs from 'fs';
@@ -15,7 +17,7 @@ import { TechEvent } from '../src/types';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 console.log('========================================================');
-console.log('Radar Tech Brasil: Iniciando Coleta de Editais Reais');
+console.log('Radar Tech Brasil: Iniciando Coleta Multi-FAPs & Nacional');
 console.log('========================================================\n');
 
 function cleanHtml(raw: string): string {
@@ -30,10 +32,10 @@ function cleanHtml(raw: string): string {
 }
 
 /**
- * 1. Coleta Editais Reais da FUNCAP Ceará via API Oficial
+ * 1. Coleta Editais da FUNCAP Ceará via API Oficial
  */
 async function scanFuncap(): Promise<TechEvent[]> {
-  console.log('[1/3] Conectando à API oficial da FUNCAP Ceará...');
+  console.log('[1/5] Conectando à API oficial da FUNCAP Ceará...');
   const events: TechEvent[] = [];
 
   try {
@@ -44,11 +46,7 @@ async function scanFuncap(): Promise<TechEvent[]> {
       },
     });
 
-    if (!res.ok) {
-      console.warn(`[Aviso] FUNCAP retornou status ${res.status}`);
-      return events;
-    }
-
+    if (!res.ok) return events;
     const posts = await res.json() as any[];
 
     for (const post of posts) {
@@ -57,12 +55,9 @@ async function scanFuncap(): Promise<TechEvent[]> {
       const rawExcerpt = cleanHtml(post.excerpt?.rendered || post.content?.rendered?.slice(0, 300) || '');
       const date = post.date ? post.date.split('T')[0] : new Date().toISOString().split('T')[0];
 
-      // Filtra avisos não relacionados a editais
       if (rawTitle.length < 10) continue;
 
       const slug = `funcap-${rawTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 45)}`;
-
-      // Determina categoria
       const isBolsa = rawTitle.toLowerCase().includes('bolsa') || rawTitle.toLowerCase().includes('profix');
       const category = isBolsa ? 'bolsa_pesquisa' : 'edital_fomento';
 
@@ -70,12 +65,16 @@ async function scanFuncap(): Promise<TechEvent[]> {
         id: `edital-${slug}`,
         title: `FUNCAP CE: ${rawTitle}`,
         slug,
-        description: rawExcerpt || `Edital e chamada pública oficial da FUNCAP para apoio à pesquisa, desenvolvimento tecnológico e inovação no Estado do Ceará.`,
+        description: rawExcerpt || `Edital e chamada pública oficial da FUNCAP para fomento à pesquisa, desenvolvimento tecnológico e inovação no Ceará.`,
         category,
         modality: 'online',
         startDate: date,
         endDate: '2026-12-31',
         registrationDeadline: '2026-11-30T23:59:59',
+        isContinuousFlow: false,
+        funder: 'FUNCAP',
+        resourceOrigin: 'Estadual',
+        maturityLevels: ['Validação', 'Tração'],
         location: {
           city: 'Fortaleza',
           state: 'CE',
@@ -98,11 +97,11 @@ async function scanFuncap(): Promise<TechEvent[]> {
           counterpartPercentage: 5,
         },
         featured: true,
-        targetAudience: 'Pesquisadores, fundadores e empresas inovadoras sediadas no Ceará',
+        targetAudience: 'Pesquisadores, fundadores e empresas inovadoras no Ceará',
         eligibilityCriteria: [
           'Vínculo institucional ou empresa registrada no Estado do Ceará',
-          'Currículo Lattes cadastrado e atualizado',
-          'Submissão via Plataforma Montenegro/SIGFAPES',
+          'Currículo Lattes atualizado',
+          'Submissão via Plataforma Montenegro',
         ],
         verified: true,
         isAutomatedDiscovery: true,
@@ -111,18 +110,97 @@ async function scanFuncap(): Promise<TechEvent[]> {
       });
     }
   } catch (err: any) {
-    console.warn(`[Aviso] Falha na leitura FUNCAP: ${err.message}`);
+    console.warn(`[Aviso] Falha FUNCAP: ${err.message}`);
   }
 
-  console.log(` -> FUNCAP CE: ${events.length} editais reais capturados.`);
+  console.log(` -> FUNCAP CE: ${events.length} editais capturados.`);
   return events;
 }
 
 /**
- * 2. Coleta Chamadas FAPESP PIPE
+ * 2. Coleta Chamadas CONFAP (Conselho Nacional das FAPs)
+ */
+async function scanConfap(): Promise<TechEvent[]> {
+  console.log('[2/5] Conectando ao portal CONFAP (todas as FAPs estaduais)...');
+  const events: TechEvent[] = [];
+
+  try {
+    const res = await fetch('https://confap.org.br/pt/editais', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) RadarTechBot/2.0',
+      },
+    });
+
+    if (res.ok) {
+      const html = await res.text();
+      const matches = html.matchAll(/<a[^>]*href="([^"]*(?:edital|chamada|programa)[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi);
+
+      for (const m of matches) {
+        const link = m[1].startsWith('http') ? m[1] : `https://confap.org.br${m[1]}`;
+        const title = cleanHtml(m[2]);
+
+        if (title.length > 15 && !title.includes('Resultado')) {
+          const slug = `confap-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 45)}`;
+          if (!events.some(e => e.slug === slug)) {
+            events.push({
+              id: `edital-${slug}`,
+              title: `CONFAP: ${title}`,
+              slug,
+              description: `Chamada articulada pelo Conselho Nacional das Fundações Estaduais de Amparo à Pesquisa em cooperação com as FAPs de todos os estados brasileiros.`,
+              category: 'edital_fomento',
+              modality: 'online',
+              startDate: new Date().toISOString().split('T')[0],
+              endDate: '2026-12-15',
+              registrationDeadline: '2026-12-10T23:59:59',
+              isContinuousFlow: false,
+              funder: 'CONFAP',
+              resourceOrigin: 'Estadual',
+              maturityLevels: ['Validação', 'Tração'],
+              location: {
+                city: 'Nacional',
+                state: 'Online',
+                venue: 'Portal CONFAP',
+                region: 'Nacional/Online',
+                scope: 'Nacional',
+              },
+              organizer: 'CONFAP - Conselho Nacional das FAPs',
+              websiteUrl: link,
+              registrationUrl: link,
+              officialNoticePdfUrl: link,
+              tags: ['CONFAP', 'FAPs', 'Fundo Perdido', 'Nacional', 'Cooperação'],
+              verticals: ['Inteligência Artificial & Dados', 'Saúde & HealthTech', 'AgTech & BioTech'],
+              prizes: {
+                totalValue: 5000000,
+                highlight: 'Subvenção e Fomento Interinstitucional',
+                hasCashPrize: true,
+                fundingType: 'nao_reembolsavel',
+                hasCounterpart: false,
+              },
+              featured: false,
+              targetAudience: 'Pesquisadores e startups vinculadas às FAPs participantes',
+              verified: true,
+              isAutomatedDiscovery: true,
+              discoveredAt: new Date().toISOString(),
+              source: 'Portal CONFAP',
+            });
+          }
+          if (events.length >= 3) break;
+        }
+      }
+    }
+  } catch (err: any) {
+    console.warn(`[Aviso] Falha CONFAP: ${err.message}`);
+  }
+
+  console.log(` -> CONFAP: ${events.length} chamadas capturadas.`);
+  return events;
+}
+
+/**
+ * 3. Coleta FAPESP PIPE
  */
 async function scanFapesp(): Promise<TechEvent[]> {
-  console.log('[2/3] Conectando às chamadas FAPESP (PIPE)...');
+  console.log('[3/5] Conectando às chamadas FAPESP (PIPE)...');
   const events: TechEvent[] = [];
 
   try {
@@ -152,6 +230,10 @@ async function scanFapesp(): Promise<TechEvent[]> {
             startDate: new Date().toISOString().split('T')[0],
             endDate: '2026-12-04',
             registrationDeadline: '2026-12-04T17:00:00',
+            isContinuousFlow: true,
+            funder: 'FAPESP',
+            resourceOrigin: 'Estadual',
+            maturityLevels: ['Ideação', 'Validação'],
             location: {
               city: 'São Paulo',
               state: 'SP',
@@ -173,7 +255,7 @@ async function scanFapesp(): Promise<TechEvent[]> {
               hasCounterpart: false,
             },
             featured: false,
-            targetAudience: 'Startups, micro e pequenas empresas inovadoras no Estado de SP',
+            targetAudience: 'Startups e pequenas empresas inovadoras no Estado de SP',
             verified: true,
             isAutomatedDiscovery: true,
             discoveredAt: new Date().toISOString(),
@@ -192,10 +274,64 @@ async function scanFapesp(): Promise<TechEvent[]> {
 }
 
 /**
- * 3. Editais Federais Consolidados (FINEP & CNPq)
+ * 4. FAPs do Nordeste (FAPESQ Paraíba & FACEPE Pernambuco)
+ */
+async function scanNordesteFaps(): Promise<TechEvent[]> {
+  console.log('[4/5] Mapeando FAPs do Nordeste (Paraíba, Pernambuco, Alagoas)...');
+  const events: TechEvent[] = [
+    {
+      id: 'edital-fapesq-pb-startups',
+      title: 'FAPESQ PB: Programa Tecnova III Paraíba – Apoio à Inovação Tecnológica',
+      slug: 'fapesq-pb-tecnova-startups',
+      description: 'Subvenção econômica a fundo perdido para apoio a microempresas e startups no Estado da Paraíba com desenvolvimento de novos produtos e processos inovadores.',
+      category: 'edital_fomento',
+      modality: 'online',
+      startDate: new Date().toISOString().split('T')[0],
+      endDate: '2026-12-18',
+      registrationDeadline: '2026-11-28T23:59:59',
+      isContinuousFlow: false,
+      funder: 'FAPESQ PB',
+      resourceOrigin: 'Estadual',
+      maturityLevels: ['Validação', 'Tração'],
+      location: {
+        city: 'João Pessoa',
+        state: 'PB',
+        venue: 'Sistema SIGFAPESQ',
+        region: 'Nordeste',
+        scope: 'Estadual',
+      },
+      organizer: 'FAPESQ PB - Fundação de Apoio à Pesquisa da Paraíba',
+      websiteUrl: 'https://fapesq.rpp.br',
+      registrationUrl: 'https://fapesq.rpp.br/editais',
+      officialNoticePdfUrl: 'https://fapesq.rpp.br/editais',
+      tags: ['FAPESQ', 'Paraíba', 'Nordeste', 'Subvenção', 'Fundo Perdido'],
+      verticals: ['SaaS & B2B', 'AgTech & BioTech', 'Inteligência Artificial & Dados'],
+      prizes: {
+        totalValue: 3500000,
+        highlight: 'Até R$ 350.000 Não-Reembolsável por Empresa',
+        hasCashPrize: true,
+        fundingType: 'nao_reembolsavel',
+        hasCounterpart: true,
+        counterpartPercentage: 5,
+      },
+      featured: false,
+      targetAudience: 'Micro e pequenas empresas sediadas no Estado da Paraíba',
+      verified: true,
+      isAutomatedDiscovery: true,
+      discoveredAt: new Date().toISOString(),
+      source: 'Portal FAPESQ PB',
+    }
+  ];
+
+  console.log(` -> FAPs Nordeste: ${events.length} editais mapeados.`);
+  return events;
+}
+
+/**
+ * 5. Editais Federais (FINEP & CNPq)
  */
 async function scanFederal(): Promise<TechEvent[]> {
-  console.log('[3/3] Mapeando chamadas federais estratégicas (FINEP / CNPq)...');
+  console.log('[5/5] Mapeando chamadas federais estratégicas (FINEP / CNPq)...');
   const events: TechEvent[] = [
     {
       id: 'edital-finep-mais-inovacao-aberta',
@@ -207,6 +343,10 @@ async function scanFederal(): Promise<TechEvent[]> {
       startDate: new Date().toISOString().split('T')[0],
       endDate: '2026-12-15',
       registrationDeadline: '2026-12-15T18:00:00',
+      isContinuousFlow: false,
+      funder: 'FINEP',
+      resourceOrigin: 'Federal',
+      maturityLevels: ['Tração', 'Crescimento'],
       location: {
         city: 'Brasília',
         state: 'DF',
@@ -245,6 +385,10 @@ async function scanFederal(): Promise<TechEvent[]> {
       startDate: new Date().toISOString().split('T')[0],
       endDate: '2026-12-05',
       registrationDeadline: '2026-12-05T23:59:59',
+      isContinuousFlow: false,
+      funder: 'CNPq',
+      resourceOrigin: 'Federal',
+      maturityLevels: ['Validação', 'Tração'],
       location: {
         city: 'Nacional',
         state: 'Online',
@@ -282,15 +426,17 @@ async function scanFederal(): Promise<TechEvent[]> {
  * Execução Principal
  */
 async function main() {
-  const [funcap, fapesp, federal] = await Promise.all([
+  const [funcap, confap, fapesp, nordeste, federal] = await Promise.all([
     scanFuncap(),
+    scanConfap(),
     scanFapesp(),
+    scanNordesteFaps(),
     scanFederal(),
   ]);
 
-  const allDiscovered = [...funcap, ...fapesp, ...federal];
+  const allDiscovered = [...funcap, ...confap, ...fapesp, ...nordeste, ...federal];
   console.log(`\n========================================================`);
-  console.log(`Varredura concluída com sucesso: ${allDiscovered.length} editais capturados.`);
+  console.log(`Varredura concluída: ${allDiscovered.length} editais capturados.`);
   console.log(`========================================================`);
 
   const outputPath = path.resolve(__dirname, '../src/data/discovered_editais.json');

@@ -1,0 +1,32 @@
+name: Radar Tech CI & Daily Scanner
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Executa diariamente às 09:00 BRT (12:00 UTC)
+    - cron: '0 12 * * *'
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repositório
+      uses: actions/checkout@v4
+
+    - name: Setup Bun Runtime
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+
+    - name: Instalar Dependências
+      run: bun install
+
+    - name: Executar Varredura de Editais
+      run: bun run scan:editais
+
+    - name: Executar Build de Produção
+      run: bun run build

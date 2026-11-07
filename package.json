@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx server.ts",
     "scan:editais": "tsx scripts/scanner_editais.ts",
+    "notify:alerts": "tsx scripts/alert_notifier.ts",
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "preview": "vite preview",

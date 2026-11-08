@@ -1,5 +1,10 @@
 # Radar Tech Brasil
 
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 **Plataforma Civic Tech para monitoramento contínuo, centralização e análise de editais de fomento à inovação, programas de aceleração e hackathons no Brasil.**
 
 ---
@@ -134,4 +139,4 @@ O repositório inclui [`render.yaml`](file:///C:/Users/Usuário/Radar-Tech-Brasi
 
 ## Licença
 
-Projeto desenvolvido sob licença MIT.
+Distribuído sob a licença **MIT**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.

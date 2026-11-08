@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Trophy, MapPin, Calendar as CalendarIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Calendar as CalendarIcon, Landmark, Rocket } from 'lucide-react';
 import { TechEvent } from '../types';
 import { formatBRL, formatDateBR } from '../utils/eventUtils';
 
@@ -9,10 +9,8 @@ interface CalendarViewProps {
 }
 
 export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
-  // Current calendar month navigation (default to September 2026 or current active date)
   const [currentMonthDate, setCurrentMonthDate] = useState(() => {
-    // Find the earliest start date among events or use 2026-09
-    return new Date(2026, 8, 1); // Month is 0-indexed (8 = September)
+    return new Date();
   });
 
   const year = currentMonthDate.getFullYear();
@@ -35,12 +33,13 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
   const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 = Sunday
   const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
 
-  // Map events to day numbers in this month
+  // Map events to deadline day numbers in this month
   const eventsByDay: { [day: number]: TechEvent[] } = {};
 
   events.forEach((evt) => {
-    if (!evt.startDate) return;
-    const parts = evt.startDate.split('-');
+    const deadline = evt.registrationDeadline;
+    if (!deadline) return;
+    const parts = deadline.split('T')[0].split('-');
     if (parts.length === 3) {
       const evtYear = Number(parts[0]);
       const evtMonth = Number(parts[1]) - 1;
@@ -56,66 +55,72 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
   const weekDayLabels = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
   return (
-    <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+    <div className="bg-[#0B0F19]/90 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl mb-6 backdrop-blur-xl text-slate-200">
       {/* Calendar Header Navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-100">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10">
         <div>
-          <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
-            <CalendarIcon className="w-5 h-5 text-indigo-600" />
-            Cronograma de Eventos & Hackathons
+          <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+            <CalendarIcon className="w-5 h-5 text-cyan-400" />
+            Cronograma de Prazos Finais & Submissões
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Navegue pelos meses para planejar sua participação e entregas de projetos
+          <p className="text-xs text-slate-400 mt-0.5">
+            Visualize as datas limites de envio para editais de fomento e chamadas públicas
           </p>
           {/* Quick Legend */}
-          <div className="flex items-center gap-3 mt-2 text-[11px] font-bold">
-            <span className="inline-flex items-center gap-1 text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
-              🚀 Hackathons
+          <div className="flex items-center gap-3 mt-2 text-[11px] font-mono">
+            <span className="inline-flex items-center gap-1.5 text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/30">
+              <Landmark className="w-3 h-3" />
+              Editais de Fomento
             </span>
-            <span className="inline-flex items-center gap-1 text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
-              🎪 Conferências & Summits
+            <span className="inline-flex items-center gap-1.5 text-indigo-300 bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-500/30">
+              <Rocket className="w-3 h-3" />
+              Aceleração & Desafios
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+        {/* Month Selector Controls */}
+        <div className="flex items-center gap-2 self-start sm:self-auto bg-[#07090E] border border-white/10 rounded-xl p-1">
           <button
             onClick={handlePrevMonth}
-            className="p-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 shadow-xs transition-colors"
-            title="Mês anterior"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+            title="Mês Anterior"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-xs font-bold text-slate-900 min-w-[140px] text-center">
-            {monthNames[month]} de {year}
+          <span className="text-xs font-semibold font-mono text-white px-2">
+            {monthNames[month]} {year}
           </span>
           <button
             onClick={handleNextMonth}
-            className="p-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 shadow-xs transition-colors"
-            title="Próximo mês"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+            title="Próximo Mês"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Weekday headers */}
-      <div className="grid grid-cols-7 gap-2 mb-2 text-center text-xs font-bold uppercase tracking-wider text-slate-400">
-        {weekDayLabels.map((d, i) => (
-          <div key={i} className="py-1">
-            {d}
+      {/* Weekday Labels */}
+      <div className="grid grid-cols-7 gap-2 mb-2 text-center text-[10px] font-mono uppercase tracking-wider text-slate-500">
+        {weekDayLabels.map((lbl) => (
+          <div key={lbl} className="py-1">
+            {lbl}
           </div>
         ))}
       </div>
 
-      {/* Days Grid */}
+      {/* Calendar Days Grid */}
       <div className="grid grid-cols-7 gap-2">
-        {/* Empty slots for offset */}
+        {/* Leading empty slots */}
         {Array.from({ length: firstDayOfMonth }).map((_, i) => (
-          <div key={`empty-${i}`} className="min-h-[100px] rounded-2xl bg-slate-50/40 border border-dashed border-slate-200/60" />
+          <div
+            key={`empty-${i}`}
+            className="min-h-[90px] rounded-xl bg-white/[0.02] border border-white/[0.03] p-1.5 opacity-40"
+          />
         ))}
 
-        {/* Days of current month */}
+        {/* Days of the month */}
         {Array.from({ length: totalDaysInMonth }).map((_, i) => {
           const dayNum = i + 1;
           const dayEvents = eventsByDay[dayNum] || [];
@@ -124,59 +129,37 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
           return (
             <div
               key={`day-${dayNum}`}
-              className={`min-h-[110px] p-2.5 rounded-2xl border flex flex-col justify-between transition-all ${
+              className={`min-h-[90px] rounded-xl border p-2 flex flex-col justify-between transition-all ${
                 hasEvents
-                  ? 'bg-white border-indigo-200 shadow-xs hover:border-indigo-300'
-                  : 'bg-slate-50/60 border-slate-200/80 text-slate-400'
+                  ? 'bg-[#07090E] border-cyan-500/30 hover:border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.08)]'
+                  : 'bg-[#07090E]/60 border-white/5'
               }`}
             >
-              <div className="flex items-center justify-between mb-1.5">
-                <span className={`text-xs font-bold ${hasEvents ? 'text-slate-900' : 'text-slate-400'}`}>
+              <div className="flex items-center justify-between">
+                <span className={`text-xs font-mono font-semibold ${hasEvents ? 'text-cyan-400' : 'text-slate-500'}`}>
                   {dayNum}
                 </span>
                 {hasEvents && (
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
-                    {dayEvents.length}
-                  </span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
                 )}
               </div>
 
-              {/* Event pills inside day */}
-              <div className="space-y-1.5 overflow-hidden">
-                {dayEvents.slice(0, 2).map((evt) => {
-                  const isHackathon = evt.category === 'hackathon';
-                  return (
-                    <button
-                      key={evt.id}
-                      onClick={() => onSelectEvent(evt)}
-                      className={`w-full text-left p-1.5 rounded-xl border text-[11px] leading-tight transition-all truncate group cursor-pointer ${
-                        isHackathon
-                          ? 'bg-indigo-50/50 hover:bg-indigo-100/60 border-indigo-200/80 text-indigo-950'
-                          : 'bg-sky-50/50 hover:bg-sky-100/60 border-sky-200/80 text-sky-950'
-                      }`}
-                    >
-                      <div className="font-bold truncate flex items-center gap-1">
-                        <span>{isHackathon ? '🚀' : '🎪'}</span>
-                        <span className="truncate">{evt.title}</span>
-                      </div>
-                      {evt.prizes.totalValue > 0 ? (
-                        <div className="text-[10px] text-emerald-700 font-mono font-bold flex items-center gap-0.5 mt-0.5">
-                          <Trophy className="w-2.5 h-2.5 text-amber-500" />
-                          {formatBRL(evt.prizes.totalValue)}
-                        </div>
-                      ) : (
-                        <div className="text-[10px] text-slate-500 truncate mt-0.5">
-                          {evt.location.state === 'Online' ? 'Online' : evt.location.city}
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
-
+              {/* Event indicators in this cell */}
+              <div className="space-y-1 mt-1">
+                {dayEvents.slice(0, 2).map((evt) => (
+                  <div
+                    key={evt.id}
+                    onClick={() => onSelectEvent(evt)}
+                    className="text-[10px] font-sans truncate px-1.5 py-0.5 rounded bg-white/5 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-white/5 cursor-pointer transition-colors"
+                    title={evt.title}
+                  >
+                    {evt.title}
+                  </div>
+                ))}
                 {dayEvents.length > 2 && (
-                  <span className="text-[10px] text-slate-500 font-semibold pl-1 block">
-                    +{dayEvents.length - 2} outros
-                  </span>
+                  <div className="text-[9px] font-mono text-slate-500 text-center">
+                    +{dayEvents.length - 2} mais
+                  </div>
                 )}
               </div>
             </div>

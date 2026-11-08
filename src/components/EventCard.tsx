@@ -3,17 +3,18 @@ import {
   Calendar, 
   MapPin, 
   Bookmark, 
-  ExternalLink, 
   Share2, 
   Check, 
-  Building2, 
-  ShieldCheck, 
   Landmark,
   Rocket,
   GraduationCap,
   Code2,
   Coins,
-  Cloud
+  Repeat,
+  ShieldCheck,
+  Building,
+  Target,
+  ArrowRight
 } from 'lucide-react';
 import { TechEvent } from '../types';
 import { generateGoogleCalendarUrl } from '../utils/eventUtils';
@@ -39,7 +40,7 @@ export function EventCard({
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const shareText = `Oportunidade no Radar Tech: ${event.title}\nFomento/Aporte: ${event.prizes.highlight}\nPrazo final: ${event.registrationDeadline.split('T')[0]}\nLocal: ${event.location.city} - ${event.location.state}\nAcesse: ${event.registrationUrl || event.websiteUrl}`;
+    const shareText = `Oportunidade no Radar Tech: ${event.title}\nFomento/Aporte: ${event.prizes.highlight}\nPrazo final: ${event.registrationDeadline.split('T')[0]}\nFinanciador: ${event.funder || event.organizer}\nLocal: ${event.location.city} - ${event.location.state}\nAcesse: ${event.registrationUrl || event.websiteUrl}`;
     navigator.clipboard.writeText(shareText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -61,31 +62,31 @@ export function EventCard({
         return { 
           label: 'Edital de Fomento', 
           icon: Landmark,
-          className: 'bg-emerald-50 text-emerald-900 border-emerald-200' 
+          badgeClass: 'bg-cyan-950/60 text-cyan-300 border-cyan-500/30' 
         };
       case 'aceleracao':
         return { 
           label: 'Aceleração de Startups', 
           icon: Rocket,
-          className: 'bg-sky-50 text-sky-900 border-sky-200' 
+          badgeClass: 'bg-indigo-950/60 text-indigo-300 border-indigo-500/30' 
         };
       case 'bolsa_pesquisa':
         return { 
           label: 'Bolsa de P&D', 
           icon: GraduationCap,
-          className: 'bg-indigo-50 text-indigo-900 border-indigo-200' 
+          badgeClass: 'bg-emerald-950/60 text-emerald-300 border-emerald-500/30' 
         };
       case 'hackathon':
         return { 
           label: 'Hackathon / Desafio', 
           icon: Code2,
-          className: 'bg-slate-100 text-slate-800 border-slate-200' 
+          badgeClass: 'bg-violet-950/60 text-violet-300 border-violet-500/30' 
         };
       default:
         return { 
           label: 'Oportunidade', 
           icon: Landmark,
-          className: 'bg-slate-100 text-slate-700 border-slate-200' 
+          badgeClass: 'bg-slate-900 text-slate-300 border-white/10' 
         };
     }
   };
@@ -97,41 +98,24 @@ export function EventCard({
   return (
     <div
       onClick={() => onSelect(event)}
-      className="group relative cursor-pointer rounded-2xl bg-white border border-slate-200 hover:border-slate-400 hover:shadow-md transition-all duration-150 p-5 flex flex-col justify-between"
+      className="group relative cursor-pointer rounded-2xl bg-[#0B0F19]/90 border border-white/10 hover:border-cyan-500/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.12)] p-5 flex flex-col justify-between overflow-hidden"
     >
+      {/* Ambient background glow on hover */}
+      <div className="absolute top-0 right-0 w-36 h-36 bg-cyan-500/0 group-hover:bg-cyan-500/5 rounded-full blur-2xl transition-all duration-500 pointer-events-none" />
+
+      {/* Top Meta: Category + Countdown Badge */}
       <div>
-        {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex flex-wrap items-center gap-1.5">
-            {/* Category badge */}
-            <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md border ${categoryConfig.className}`}>
-              <CategoryIcon className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider border ${categoryConfig.badgeClass}`}>
+              <CategoryIcon className="w-3 h-3 shrink-0" />
               <span>{categoryConfig.label}</span>
             </span>
 
-            {/* Scope / Ceará badge */}
-            {isCeara && (
-              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-200">
-                Ceará
-              </span>
-            )}
-
-            {/* Funding type */}
-            {event.prizes.fundingType === 'nao_reembolsavel' && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Não-Reembolsável</span>
-              </span>
-            )}
-            {event.prizes.fundingType === 'equity_free' && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-sky-50 text-sky-800 border border-sky-200">
-                <span>Equity-Free</span>
-              </span>
-            )}
-            {event.prizes.fundingType === 'creditos_cloud' && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
-                <Cloud className="w-3.5 h-3.5 text-slate-500" />
-                <span>Créditos Cloud</span>
+            {event.isContinuousFlow && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                <Repeat className="w-2.5 h-2.5" />
+                <span>Fluxo Contínuo</span>
               </span>
             )}
           </div>
@@ -140,129 +124,123 @@ export function EventCard({
         </div>
 
         {/* Title */}
-        <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-900 transition-colors line-clamp-2 leading-snug">
+        <h3 className="text-base font-semibold text-white tracking-tight leading-snug group-hover:text-cyan-300 transition-colors line-clamp-2">
           {event.title}
         </h3>
 
-        {/* Organizer */}
-        <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium mt-1 mb-3">
-          <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          <span className="truncate">{event.organizer}</span>
-        </div>
-
-        {/* Financial highlight block */}
-        <div className="my-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-          <div className="flex items-center justify-between gap-2">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
-                Aporte / Premiação
-              </span>
-              <span className="text-sm font-bold text-slate-900">
-                {event.prizes.highlight}
-              </span>
-            </div>
-
-            {event.prizes.hasCounterpart !== undefined && (
-              <div className="text-right shrink-0">
-                <span className="text-[10px] block text-slate-500 font-medium">Contrapartida</span>
-                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-md border ${
-                  event.prizes.hasCounterpart 
-                    ? 'bg-amber-50 text-amber-900 border-amber-200' 
-                    : 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                }`}>
-                  {event.prizes.hasCounterpart ? `${event.prizes.counterpartPercentage || 5}%` : 'Sem contrapartida'}
-                </span>
-              </div>
-            )}
+        {/* Organizer / Financiador & Location */}
+        <div className="flex items-center flex-wrap gap-2 text-xs text-slate-400 mt-2">
+          <div className="flex items-center gap-1">
+            <Building className="w-3.5 h-3.5 text-slate-500" />
+            <span className="font-medium text-slate-300">{event.funder || event.organizer}</span>
+          </div>
+          <span className="text-slate-600">•</span>
+          <div className="flex items-center gap-1">
+            <MapPin className="w-3.5 h-3.5 text-slate-500" />
+            <span>
+              {isCeara ? (
+                <strong className="text-cyan-400 font-medium">Ceará (CE)</strong>
+              ) : event.location.state === 'Online' ? (
+                '100% Online'
+              ) : (
+                `${event.location.city} - ${event.location.state}`
+              )}
+            </span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-3">
+        <p className="text-xs text-slate-400 mt-2.5 line-clamp-2 leading-relaxed">
           {event.description}
         </p>
 
-        {/* Location & Modality metadata */}
-        <div className="grid grid-cols-2 gap-2 text-xs text-slate-500 pt-2 border-t border-slate-100">
-          <div className="flex items-center gap-1.5 truncate">
-            <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span className="truncate">
-              {event.location.city} • <strong className="text-slate-700">{event.location.state}</strong>
+        {/* Telemetry Highlight: Recurso & Elegibilidade */}
+        <div className="mt-4 p-3 rounded-xl bg-[#07090E] border border-white/5 group-hover:border-white/10 transition-colors">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+              Subvenção / Aporte:
+            </span>
+            <span className="text-xs font-mono font-bold text-emerald-400">
+              {event.prizes.highlight}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 truncate">
-            <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span className="truncate">
-              Prazo: <strong className="text-slate-800">{event.registrationDeadline.split('T')[0]}</strong>
+          {/* Secondary specs: Origem + Estágio */}
+          <div className="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
+            <span>
+              Origem:{' '}
+              <strong className="text-slate-300 font-sans">
+                {event.resourceOrigin || 'Pública'}
+              </strong>
             </span>
+            {event.maturityLevels && event.maturityLevels.length > 0 && (
+              <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/40 px-1.5 py-0.5 rounded border border-cyan-500/20">
+                {event.maturityLevels.join(' • ')}
+              </span>
+            )}
           </div>
         </div>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-1 mt-3">
+        <div className="flex flex-wrap gap-1.5 mt-3">
           {event.tags.slice(0, 3).map((tag) => (
-            <button
+            <span
               key={tag}
               onClick={(e) => {
-                e.stopPropagation();
-                onFilterByTag?.(tag);
+                if (onFilterByTag) {
+                  e.stopPropagation();
+                  onFilterByTag(tag);
+                }
               }}
-              className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
+              className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/40 border border-white/5 transition-colors cursor-pointer"
             >
               #{tag}
-            </button>
+            </span>
           ))}
           {event.tags.length > 3 && (
-            <span className="text-[11px] text-slate-400 font-medium px-1 self-center">
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-white/5 text-slate-400">
               +{event.tags.length - 3}
             </span>
           )}
         </div>
       </div>
 
-      {/* Card Footer Actions */}
-      <div className="pt-3.5 mt-3.5 border-t border-slate-100 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1">
+      {/* Footer Actions */}
+      <div className="mt-5 pt-3 border-t border-white/10 flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={handleFavorite}
             title={isFavorite ? 'Remover dos salvos' : 'Salvar oportunidade'}
-            className={`p-2 rounded-lg transition-all ${
+            className={`p-2 rounded-lg transition-all cursor-pointer ${
               isFavorite
-                ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+                ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/5'
             }`}
           >
-            <Bookmark className={`w-4 h-4 ${isFavorite ? 'fill-amber-600 text-amber-600' : ''}`} />
+            <Bookmark className={`w-3.5 h-3.5 ${isFavorite ? 'fill-amber-400' : ''}`} />
           </button>
 
           <button
             onClick={handleShare}
-            title="Compartilhar"
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            title="Copiar dados do edital"
+            className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/5 transition-all cursor-pointer"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
           </button>
 
           <button
             onClick={handleCalendar}
-            title="Adicionar ao Google Calendar"
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            title="Adicionar ao Google Agenda"
+            className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/5 transition-all cursor-pointer"
           >
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        <a
-          href={event.registrationUrl || event.websiteUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-all"
-        >
-          <span>Ver Edital</span>
-          <ExternalLink className="w-3.5 h-3.5" />
-        </a>
+        <div className="flex items-center gap-1 text-xs font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform">
+          <span>Ver Raio-X</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </div>
       </div>
     </div>
   );

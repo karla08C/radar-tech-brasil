@@ -42,27 +42,27 @@ export function BrazilMapView({
   }, [events]);
 
   // Regional breakdown
-  const regions: { name: BrazilianRegion; states: string[]; color: string }[] = [
-    { name: 'Sudeste', states: ['SP', 'RJ', 'MG', 'ES'], color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/30' },
-    { name: 'Sul', states: ['PR', 'SC', 'RS'], color: 'from-blue-500/20 to-indigo-500/10 border-blue-500/30' },
-    { name: 'Nordeste', states: ['PE', 'BA', 'CE', 'PB', 'RN', 'AL', 'SE', 'PI', 'MA'], color: 'from-amber-500/20 to-orange-500/10 border-amber-500/30' },
-    { name: 'Centro-Oeste', states: ['DF', 'GO', 'MT', 'MS'], color: 'from-purple-500/20 to-pink-500/10 border-purple-500/30' },
-    { name: 'Norte', states: ['AM', 'PA', 'TO', 'RO', 'AC', 'AP', 'RR'], color: 'from-cyan-500/20 to-sky-500/10 border-cyan-500/30' },
+  const regions: { name: BrazilianRegion; states: string[]; glow: string }[] = [
+    { name: 'Nordeste', states: ['PE', 'BA', 'CE', 'PB', 'RN', 'AL', 'SE', 'PI', 'MA'], glow: 'border-cyan-500/30' },
+    { name: 'Sudeste', states: ['SP', 'RJ', 'MG', 'ES'], glow: 'border-indigo-500/30' },
+    { name: 'Sul', states: ['PR', 'SC', 'RS'], glow: 'border-emerald-500/30' },
+    { name: 'Centro-Oeste', states: ['DF', 'GO', 'MT', 'MS'], glow: 'border-amber-500/30' },
+    { name: 'Norte', states: ['AM', 'PA', 'TO', 'RO', 'AC', 'AP', 'RR'], glow: 'border-violet-500/30' },
   ];
 
   const onlineCount = stateStats['Online']?.count || 0;
   const onlinePrizes = stateStats['Online']?.totalPrizes || 0;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm mb-6">
+    <div className="bg-[#0B0F19]/90 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl mb-6 backdrop-blur-xl text-slate-200">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-100">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10">
         <div>
-          <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-indigo-600" />
-            Distribuição de Hackathons pelo Brasil 🇧🇷
+          <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-cyan-400" />
+            Distribuição Territorial de Editais & Recursos (Brasil)
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-400 mt-0.5">
             Clique em qualquer região ou estado para filtrar as oportunidades instantaneamente
           </p>
         </div>
@@ -70,98 +70,75 @@ export function BrazilMapView({
         {/* 100% Online Quick Card */}
         <button
           onClick={() => onSelectState('Online')}
-          className={`px-4 py-2.5 rounded-2xl border flex items-center gap-3 transition-all ${
+          className={`px-4 py-2.5 rounded-xl border flex items-center gap-3 transition-all cursor-pointer ${
             selectedState === 'Online'
-              ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm'
-              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+              ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.15)]'
+              : 'bg-[#07090E] border-white/10 text-slate-300 hover:bg-white/5'
           }`}
         >
-          <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-            selectedState === 'Online' ? 'bg-white/20 text-white' : 'bg-indigo-50 text-indigo-600'
-          }`}>
+          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
             <Globe className="w-4 h-4" />
           </div>
           <div className="text-left">
-            <div className="text-xs font-bold">100% Online (Todo o Brasil)</div>
-            <div className={`text-[11px] font-bold ${
-              selectedState === 'Online' ? 'text-indigo-100' : 'text-indigo-600'
-            }`}>
-              {onlineCount} eventos • {formatBRL(onlinePrizes)}
+            <div className="text-xs font-semibold text-white">Submissão Remota</div>
+            <div className="text-[10px] font-mono text-cyan-400">
+              {onlineCount} chamadas • {formatBRL(onlinePrizes)}
             </div>
           </div>
         </button>
       </div>
 
       {/* Regional Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {regions.map((reg) => {
-          // Calculate sum of events and prizes in this region
-          let regionEventsCount = 0;
-          let regionPrizes = 0;
-
-          reg.states.forEach((uf) => {
-            regionEventsCount += stateStats[uf]?.count || 0;
-            regionPrizes += stateStats[uf]?.totalPrizes || 0;
-          });
-
           const isSelected = selectedRegion === reg.name;
+          const regEvents = events.filter((e) => e.location.region === reg.name);
+          const totalPrize = regEvents.reduce((acc, e) => acc + (e.prizes?.totalValue || 0), 0);
 
           return (
             <div
               key={reg.name}
-              className={`rounded-2xl border p-5 transition-all ${
+              onClick={() => onSelectRegion(reg.name)}
+              className={`p-4 rounded-xl border transition-all cursor-pointer bg-[#07090E] ${
                 isSelected
-                  ? 'border-indigo-600 bg-indigo-50/40 shadow-xs'
-                  : 'border-slate-200 bg-white hover:border-slate-300'
+                  ? 'border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.15)]'
+                  : 'border-white/10 hover:border-white/20'
               }`}
             >
-              <div className="flex items-center justify-between gap-2 mb-3.5">
-                <button
-                  onClick={() => onSelectRegion(reg.name)}
-                  className="text-left group"
-                >
-                  <h4 className="text-sm font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors flex items-center gap-1.5">
-                    {reg.name}
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-indigo-600" />
-                  </h4>
-                  <p className="text-[11px] text-slate-500">
-                    {regionEventsCount} {regionEventsCount === 1 ? 'evento ativo' : 'eventos ativos'}
-                  </p>
-                </button>
-
-                <span className="text-xs font-extrabold font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-xl">
-                  {formatBRL(regionPrizes)}
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-semibold text-sm text-white">{reg.name}</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-cyan-400 border border-white/5">
+                  {regEvents.length} chamadas
                 </span>
               </div>
 
-              {/* State Pills in this region */}
-              <div className="flex flex-wrap gap-1.5">
+              <div className="text-xs font-mono font-bold text-emerald-400 mb-3">
+                {formatBRL(totalPrize)}
+              </div>
+
+              {/* State Chips */}
+              <div className="flex flex-wrap gap-1">
                 {reg.states.map((uf) => {
-                  const info = stateStats[uf];
-                  const hasEvents = info && info.count > 0;
+                  const count = stateStats[uf]?.count || 0;
                   const isStateActive = selectedState === uf;
 
                   return (
                     <button
                       key={uf}
-                      onClick={() => onSelectState(uf)}
-                      className={`text-xs px-2.5 py-1 rounded-xl font-semibold transition-all border ${
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectState(uf);
+                      }}
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded-md transition-all cursor-pointer ${
                         isStateActive
-                          ? 'bg-indigo-600 text-white border-indigo-600 font-bold shadow-xs'
-                          : hasEvents
-                          ? 'bg-slate-50 hover:bg-indigo-50 text-slate-800 border-slate-200 hover:border-indigo-200'
-                          : 'bg-white text-slate-400 border-slate-200/60 hover:border-slate-300'
+                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
+                          : count > 0
+                          ? 'bg-white/10 text-slate-200 border border-white/10 hover:border-cyan-500/30'
+                          : 'bg-white/5 text-slate-600 border border-transparent'
                       }`}
-                      title={`${uf}: ${info?.count || 0} eventos`}
+                      title={`${uf}: ${count} oportunidades`}
                     >
-                      <span>{uf}</span>
-                      {hasEvents && (
-                        <span className={`ml-1 text-[10px] px-1 py-0.2 rounded-full ${
-                          isStateActive ? 'bg-white/20 text-white' : 'bg-indigo-100 text-indigo-700 font-bold'
-                        }`}>
-                          {info.count}
-                        </span>
-                      )}
+                      {uf} {count > 0 && <span className="opacity-70">({count})</span>}
                     </button>
                   );
                 })}

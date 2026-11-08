@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Clock, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 interface CountdownBadgeProps {
   deadline: string; // ISO format: YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss
@@ -60,8 +60,8 @@ export function CountdownBadge({ deadline, showHours = true, className = '' }: C
 
   if (timeLeft.isExpired) {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-100 text-slate-500 border border-slate-200 ${className}`}>
-        <Clock className="w-3.5 h-3.5 text-slate-400" />
+      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-slate-900/80 text-slate-400 border border-white/5 ${className}`}>
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-600"></span>
         <span>Prazo encerrado</span>
       </span>
     );
@@ -69,11 +69,14 @@ export function CountdownBadge({ deadline, showHours = true, className = '' }: C
 
   if (timeLeft.isUrgent) {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-rose-50 text-rose-800 border border-rose-200 ${className}`}>
-        <AlertCircle className="w-3.5 h-3.5 text-rose-700" />
+      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-amber-500/10 text-amber-300 border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.15)] ${className}`}>
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
+        </span>
         <span>
-          Encerra em {timeLeft.days > 0 ? `${timeLeft.days}d ` : ''}
-          {timeLeft.hours}h {timeLeft.minutes}m
+          {timeLeft.days > 0 ? `${timeLeft.days}d ` : ''}
+          {showHours ? `${timeLeft.hours}h ${timeLeft.minutes}m restantes` : `${timeLeft.days} dias`}
         </span>
       </span>
     );
@@ -81,22 +84,19 @@ export function CountdownBadge({ deadline, showHours = true, className = '' }: C
 
   if (timeLeft.isWarning) {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-amber-50 text-amber-900 border border-amber-200 ${className}`}>
-        <Clock className="w-3.5 h-3.5 text-amber-700" />
+      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 ${className}`}>
+        <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
         <span>
-          {timeLeft.days} {timeLeft.days === 1 ? 'dia' : 'dias'} restantes
-          {showHours ? ` (${timeLeft.hours}h)` : ''}
+          {timeLeft.days} dias restantes
         </span>
       </span>
     );
   }
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-50 text-slate-700 border border-slate-200 ${className}`}>
-      <CheckCircle2 className="w-3.5 h-3.5 text-slate-500" />
-      <span>
-        {timeLeft.days} dias restantes
-      </span>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-white/5 text-slate-300 border border-white/10 ${className}`}>
+      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+      <span>{timeLeft.days} dias restantes</span>
     </span>
   );
 }

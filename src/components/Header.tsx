@@ -1,4 +1,4 @@
-import { Sparkles, Bell, Bookmark, Radio, Landmark, Shield } from 'lucide-react';
+import { Sparkles, Bookmark, Landmark, ShieldCheck, ArrowDownToLine, Bell } from 'lucide-react';
 
 interface HeaderProps {
   onOpenAiScanner: () => void;
@@ -22,30 +22,33 @@ export function Header({
   totalEventsCount,
 }: HeaderProps) {
   return (
-    <header className="border-b border-slate-200 bg-white sticky top-0 z-40">
-      {/* Top micro-banner */}
-      <div className="bg-slate-900 text-slate-200 py-1.5 px-4 text-xs">
+    <header className="border-b border-white/10 bg-[#07090e]/85 backdrop-blur-xl sticky top-0 z-40">
+      {/* Top telemetry micro-banner */}
+      <div className="bg-[#05070a] border-b border-white/5 py-1.5 px-4 text-xs font-mono">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
             </span>
-            <span className="text-slate-200 font-semibold tracking-wide uppercase text-[11px]">
-              Civic Tech & Fomento à Inovação
+            <span className="text-cyan-400 font-semibold tracking-wider uppercase text-[10px]">
+              CIVIC TECH INTELLIGENCE
             </span>
-            <span className="hidden sm:inline text-slate-400">
-              • Monitoramento contínuo de editais (FUNCAP, FINEP, CNPq e FAPs estaduais)
+            <span className="hidden sm:inline text-slate-500">•</span>
+            <span className="hidden sm:inline text-slate-400 text-[11px]">
+              Varredura de editais públicos (FUNCAP, FINEP, CNPq, FAPESP e FAPs estaduais)
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] font-medium text-slate-300">
-            <span className="text-slate-200">
-              <strong className="text-white">{totalPrizesFormatted}</strong> mapeados em fomento e prêmios
+          <div className="flex items-center gap-3 text-[11px] text-slate-400">
+            <span>
+              <strong className="text-white font-semibold font-sans">{totalPrizesFormatted}</strong>{' '}
+              <span className="text-slate-400">em fomento</span>
             </span>
-            <span className="hidden md:inline text-slate-600">|</span>
-            <span className="hidden md:inline text-slate-300">
-              <strong className="text-white">{totalEventsCount}</strong> oportunidades ativas
+            <span className="text-slate-700">|</span>
+            <span>
+              <strong className="text-white font-semibold font-sans">{totalEventsCount}</strong>{' '}
+              <span className="text-slate-400">chamadas ativas</span>
             </span>
           </div>
         </div>
@@ -55,20 +58,20 @@ export function Header({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
         {/* Logo & Brand */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-slate-900 rounded-lg flex items-center justify-center text-white">
-            <Landmark className="w-5 h-5 text-slate-100" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+            <Landmark className="w-4 h-4 text-cyan-300" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-base font-bold tracking-tight text-slate-900">
+              <span className="text-base font-semibold tracking-tight text-white font-sans">
                 Radar Tech Brasil
               </span>
-              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
-                Editais & Fomento
+              <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
+                Civic Hub
               </span>
             </div>
-            <p className="hidden sm:block text-xs text-slate-500 font-normal">
-              Central de chamadas públicas, subvenção econômica e aceleração
+            <p className="hidden sm:block text-[11px] text-slate-400">
+              Observatório de Fomento, Aceleração e Inovação Pública
             </p>
           </div>
         </div>
@@ -78,16 +81,16 @@ export function Header({
           {/* Favorites Button */}
           <button
             onClick={onToggleFavoritesOnly}
-            className={`px-3 py-2 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all flex items-center gap-1.5 cursor-pointer ${
               showFavoritesOnly
-                ? 'bg-amber-50 text-amber-900 border-amber-300 font-semibold'
-                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                ? 'bg-amber-500/10 text-amber-300 border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.15)]'
+                : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10 hover:text-white'
             }`}
           >
-            <Bookmark className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-amber-600 text-amber-600' : 'text-slate-400'}`} />
+            <Bookmark className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-amber-400 text-amber-400' : 'text-slate-400'}`} />
             <span className="hidden sm:inline">Salvos</span>
             {favoriteCount > 0 && (
-              <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-1.5 py-0.2 rounded">
+              <span className="bg-white/10 text-slate-200 text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-md">
                 {favoriteCount}
               </span>
             )}
@@ -96,21 +99,19 @@ export function Header({
           {/* AI Notice Scanner */}
           <button
             onClick={onOpenAiScanner}
-            className="px-3.5 py-2 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-1.5 rounded-xl text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white border border-white/10 transition-all flex items-center gap-1.5 cursor-pointer"
           >
-            <Sparkles className="w-3.5 h-3.5 text-slate-600" />
-            <span className="hidden md:inline">Scanner de Editais</span>
-            <span className="md:hidden">Scanner</span>
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="hidden md:inline">Scanner IA</span>
           </button>
 
-          {/* Alerts Trigger */}
+          {/* Alertas */}
           <button
             onClick={onOpenAlertModal}
-            className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3.5 py-1.5 rounded-xl text-xs font-medium bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white shadow-lg shadow-cyan-500/20 transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Bell className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Alertas de Editais</span>
-            <span className="sm:hidden">Alertas</span>
+            <span>Criar Alerta</span>
           </button>
         </div>
       </div>

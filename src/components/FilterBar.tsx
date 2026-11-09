@@ -4,12 +4,9 @@ import {
   SlidersHorizontal,
   ChevronDown,
   ChevronUp,
-  Check,
   Landmark,
-  ShieldCheck,
   Layers,
   Clock,
-  Compass,
   Tag,
   Repeat,
   RotateCcw,
@@ -19,11 +16,11 @@ import {
   LayoutGrid,
   Calendar,
   MapPin,
-  Table
+  Table,
+  X
 } from 'lucide-react';
 import { 
   EventFilters, 
-  EventModality, 
   MaturityLevel, 
   ResourceOrigin 
 } from '../types';
@@ -88,43 +85,36 @@ export function FilterBar({
     'GovTech',
     'SaaS',
     'Inteligência Artificial',
-    'Bolsas P&D',
-    'Saúde',
-    'AgTech',
-    'FinTech',
-    'PIPE'
   ],
 }: FilterBarProps) {
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const hasActiveFilters =
-    filters.search !== '' ||
-    filters.selectedTag !== 'all' ||
-    filters.maturity !== 'all' ||
-    filters.isContinuousFlowOnly ||
-    filters.deadlineLimit !== '' ||
-    filters.funder !== 'all' ||
-    filters.resourceOrigin !== 'all' ||
-    filters.scope !== 'all' ||
-    filters.state !== 'all' ||
-    filters.modality !== 'all' ||
-    filters.timeframe !== 'all' ||
-    filters.hasCashPrizeOnly ||
-    filters.minPrizeValue > 0 ||
-    mainTab !== 'all';
+  // Count active filters (excluding default values)
+  const activeFilterCount = [
+    filters.selectedTag !== 'all',
+    filters.maturity !== 'all',
+    filters.isContinuousFlowOnly,
+    filters.deadlineLimit !== '',
+    filters.funder !== 'all',
+    filters.resourceOrigin !== 'all',
+    filters.scope !== 'all',
+    filters.state !== 'all',
+  ].filter(Boolean).length;
+
+  const hasActiveFilters = activeFilterCount > 0 || filters.search !== '' || mainTab !== 'all';
 
   return (
-    <div className="bg-[#0B0F19]/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl mb-6 p-4 sm:p-5 text-slate-200">
-      {/* Top Bar: Tabs + Search + View Modes */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        {/* Main Category Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-[#07090E] border border-white/10 self-start">
+    <div className="bg-[#0C0F17]/90 border border-white/8 rounded-2xl shadow-xl backdrop-blur-xl mb-6 p-4 sm:p-5 text-slate-200 transition-all">
+      {/* Level 1: Category Segmented Switcher & View Mode */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-white/6">
+        {/* Category Pills */}
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/6 overflow-x-auto">
           <button
             onClick={() => onChangeMainTab('all')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer ${
               mainTab === 'all'
-                ? 'bg-white/15 text-white font-semibold shadow-xs'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                ? 'bg-white/12 text-white font-semibold shadow-xs'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             Todas as Oportunidades
@@ -132,16 +122,16 @@ export function FilterBar({
 
           <button
             onClick={() => onChangeMainTab('editais')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               mainTab === 'editais'
                 ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30 shadow-[0_0_12px_rgba(6,182,212,0.15)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Landmark className="w-3.5 h-3.5" />
+            <Landmark className="w-3.5 h-3.5 text-cyan-400" />
             <span>Editais de Fomento</span>
             {countEditais > 0 && (
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-white/10 text-slate-300">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-cyan-500/10 text-cyan-300">
                 {countEditais}
               </span>
             )}
@@ -149,16 +139,16 @@ export function FilterBar({
 
           <button
             onClick={() => onChangeMainTab('aceleracao')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               mainTab === 'aceleracao'
-                ? 'bg-indigo-500/20 text-indigo-300 font-semibold border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                ? 'bg-violet-500/20 text-violet-300 font-semibold border border-violet-500/30 shadow-[0_0_12px_rgba(139,92,246,0.15)]'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Target className="w-3.5 h-3.5" />
+            <Target className="w-3.5 h-3.5 text-violet-400" />
             <span>Aceleração</span>
             {countAceleracao > 0 && (
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-white/10 text-slate-300">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-violet-500/10 text-violet-300">
                 {countAceleracao}
               </span>
             )}
@@ -166,84 +156,82 @@ export function FilterBar({
 
           <button
             onClick={() => onChangeMainTab('hackathons')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               mainTab === 'hackathons'
                 ? 'bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
             <span>Hackathons</span>
             {countHackathons > 0 && (
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-white/10 text-slate-300">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-emerald-500/10 text-emerald-300">
                 {countHackathons}
               </span>
             )}
           </button>
         </div>
 
-        {/* View Mode Toggle Controls */}
-        <div className="flex items-center gap-2 self-end lg:self-auto">
-          <div className="flex items-center p-1 rounded-xl bg-[#07090E] border border-white/10">
-            <button
-              onClick={() => onChangeViewMode('grid')}
-              title="Visualização em Cards"
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'grid'
-                  ? 'bg-white/15 text-white'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onChangeViewMode('table')}
-              title="Visualização em Tabela"
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'table'
-                  ? 'bg-white/15 text-white'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Table className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onChangeViewMode('map')}
-              title="Visualização em Mapa"
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'map'
-                  ? 'bg-white/15 text-white'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <MapPin className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onChangeViewMode('calendar')}
-              title="Visualização em Calendário"
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'calendar'
-                  ? 'bg-white/15 text-white'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Calendar className="w-4 h-4" />
-            </button>
-          </div>
+        {/* View Switchers */}
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/6 self-end sm:self-auto">
+          <button
+            onClick={() => onChangeViewMode('grid')}
+            title="Visualização em Cards"
+            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+              viewMode === 'grid'
+                ? 'bg-white/12 text-white'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onChangeViewMode('table')}
+            title="Visualização em Tabela"
+            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+              viewMode === 'table'
+                ? 'bg-white/12 text-white'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Table className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onChangeViewMode('map')}
+            title="Visualização em Mapa Territorial"
+            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+              viewMode === 'map'
+                ? 'bg-white/12 text-white'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <MapPin className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onChangeViewMode('calendar')}
+            title="Visualização em Calendário"
+            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+              viewMode === 'calendar'
+                ? 'bg-white/12 text-white'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Main Search and Quick Direct Filters */}
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-        {/* Search Bar */}
-        <div className="relative md:col-span-5">
+      {/* Level 2: Command Search Bar + Advanced Filters Button */}
+      <div className="mt-3.5 flex flex-col md:flex-row items-center gap-3">
+        {/* Search Input */}
+        <div className="relative w-full flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
-            placeholder="Buscar por edital, chamada, órgão (ex: Inovafit, FINEP, FUNCAP)..."
+            placeholder="Buscar por chamada, órgão ou área (ex: FUNCAP, Inovafit, IA, Subvenção)..."
             value={filters.search}
             onChange={(e) => onChange({ ...filters, search: e.target.value })}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/30 transition-all font-sans"
+            className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white/[0.04] border border-white/8 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/20 transition-all font-sans"
           />
           {filters.search && (
             <button
@@ -255,56 +243,51 @@ export function FilterBar({
           )}
         </div>
 
-        {/* Financiador Select */}
-        <div className="md:col-span-3">
-          <select
-            value={filters.funder || 'all'}
-            onChange={(e) => onChange({ ...filters, funder: e.target.value })}
-            className="w-full px-3 py-2.5 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/30 transition-all cursor-pointer"
-          >
-            <option value="all">Financiador: Selecione o financiador..</option>
-            {FUNDER_OPTIONS.map((funder) => (
-              <option key={funder} value={funder}>
-                {funder}
-              </option>
-            ))}
-          </select>
+        {/* Quick Filter Tag Shortcuts */}
+        <div className="hidden lg:flex items-center gap-1.5 overflow-x-auto">
+          {availableTags.slice(0, 4).map((tag) => {
+            const isSelected = filters.selectedTag === tag;
+            return (
+              <button
+                key={tag}
+                onClick={() => onChange({ ...filters, selectedTag: isSelected ? 'all' : tag })}
+                className={`text-[11px] font-mono px-2.5 py-1.5 rounded-lg border transition-all whitespace-nowrap cursor-pointer ${
+                  isSelected
+                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 font-semibold'
+                    : 'bg-white/[0.03] border-white/6 text-slate-400 hover:text-slate-200 hover:bg-white/[0.06]'
+                }`}
+              >
+                #{tag}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Abrangência Select */}
-        <div className="md:col-span-2">
-          <select
-            value={filters.scope || 'all'}
-            onChange={(e) => onChange({ ...filters, scope: e.target.value as any })}
-            className="w-full px-3 py-2.5 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/30 transition-all cursor-pointer"
-          >
-            <option value="all">Abrangência: Todas</option>
-            <option value="Nacional">Nacional</option>
-            <option value="Estadual">Estadual</option>
-            <option value="Regional">Regional</option>
-          </select>
-        </div>
-
-        {/* Advanced Filters Toggle & Reset Button */}
-        <div className="md:col-span-2 flex items-center gap-2">
+        {/* Advanced Filters Button with Counter */}
+        <div className="flex items-center gap-2 w-full md:w-auto">
           <button
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
-              showAdvanced || hasActiveFilters
-                ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300'
-                : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10'
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+              showAdvanced || activeFilterCount > 0
+                ? 'bg-violet-500/15 border-violet-500/40 text-violet-300 shadow-[0_0_15px_rgba(139,92,246,0.15)]'
+                : 'bg-white/[0.04] border-white/8 text-slate-300 hover:bg-white/[0.08]'
             }`}
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
-            <span>Filtros</span>
-            {showAdvanced ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            <span>Filtros Detalhados</span>
+            {activeFilterCount > 0 && (
+              <span className="bg-violet-500/30 text-violet-200 font-mono text-[10px] px-1.5 py-0.2 rounded-full font-bold">
+                {activeFilterCount}
+              </span>
+            )}
+            {showAdvanced ? <ChevronUp className="w-3 h-3 ml-0.5" /> : <ChevronDown className="w-3 h-3 ml-0.5" />}
           </button>
 
           {hasActiveFilters && (
             <button
               onClick={onReset}
               title="Limpar todos os filtros"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 border border-white/10 hover:border-rose-500/30 transition-all cursor-pointer"
+              className="p-2.5 rounded-xl bg-white/[0.04] hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 border border-white/8 hover:border-rose-500/30 transition-all cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -312,14 +295,34 @@ export function FilterBar({
         </div>
       </div>
 
-      {/* Advanced Filter Drawer */}
+      {/* Level 3: Advanced Filters Drawer (Progressive Disclosure) */}
       {showAdvanced && (
-        <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-200">
+        <div className="mt-4 pt-4 border-t border-white/8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-200">
+          {/* Financiador */}
+          <div>
+            <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
+              <Building className="w-3 h-3 text-cyan-400" />
+              <span>Financiador</span>
+            </label>
+            <select
+              value={filters.funder || 'all'}
+              onChange={(e) => onChange({ ...filters, funder: e.target.value })}
+              className="w-full px-3 py-2 rounded-xl bg-[#080B12] border border-white/8 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 cursor-pointer"
+            >
+              <option value="all">Todos os Financiadores</option>
+              {FUNDER_OPTIONS.map((funder) => (
+                <option key={funder} value={funder}>
+                  {funder}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Maturidade */}
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
-              <Target className="w-3 h-3 text-cyan-400" />
-              <span>Maturidade da Startup / Projeto</span>
+              <Target className="w-3 h-3 text-violet-400" />
+              <span>Maturidade do Projeto</span>
             </label>
             <div className="grid grid-cols-2 gap-1.5">
               {MATURITY_OPTIONS.map((lvl) => {
@@ -329,10 +332,10 @@ export function FilterBar({
                     key={lvl}
                     type="button"
                     onClick={() => onChange({ ...filters, maturity: isSelected ? 'all' : lvl })}
-                    className={`px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all text-center cursor-pointer ${
+                    className={`px-2 py-1.5 rounded-lg text-[11px] font-medium border transition-all text-center cursor-pointer ${
                       isSelected
-                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 font-semibold'
-                        : 'bg-[#07090E] border-white/10 text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                        ? 'bg-violet-500/20 text-violet-300 border-violet-500/40 font-semibold'
+                        : 'bg-[#080B12] border-white/8 text-slate-400 hover:text-slate-200 hover:bg-white/5'
                     }`}
                   >
                     {lvl}
@@ -342,18 +345,18 @@ export function FilterBar({
             </div>
           </div>
 
-          {/* Origem do Recurso */}
+          {/* Origem do Recurso & Abrangência */}
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
-              <Building className="w-3 h-3 text-indigo-400" />
+              <Layers className="w-3 h-3 text-emerald-400" />
               <span>Origem do Recurso</span>
             </label>
             <select
               value={filters.resourceOrigin || 'all'}
               onChange={(e) => onChange({ ...filters, resourceOrigin: e.target.value as any })}
-              className="w-full px-3 py-2 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 cursor-pointer"
+              className="w-full px-3 py-2 rounded-xl bg-[#080B12] border border-white/8 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 cursor-pointer"
             >
-              <option value="all">Selecione a origem..</option>
+              <option value="all">Todas as Origens</option>
               {RESOURCE_ORIGIN_OPTIONS.map((orig) => (
                 <option key={orig} value={orig}>
                   {orig}
@@ -362,96 +365,90 @@ export function FilterBar({
             </select>
           </div>
 
-          {/* Data Limite de Submissão */}
+          {/* Data Limite & Fluxo Contínuo */}
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
               <Clock className="w-3 h-3 text-amber-400" />
-              <span>Data Limite (Até)</span>
+              <span>Prazo Máximo de Envio</span>
             </label>
             <input
               type="date"
               value={filters.deadlineLimit || ''}
               onChange={(e) => onChange({ ...filters, deadlineLimit: e.target.value })}
-              className="w-full px-3 py-2 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80"
+              className="w-full px-3 py-1.5 rounded-xl bg-[#080B12] border border-white/8 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 mb-2"
             />
-          </div>
-
-          {/* Fluxo Contínuo & Timeframe */}
-          <div className="flex flex-col justify-between">
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
-              <Repeat className="w-3 h-3 text-emerald-400" />
-              <span>Regime de Submissão</span>
-            </label>
-            <label className="flex items-center gap-2 p-2 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-300 cursor-pointer hover:border-white/20 transition-all">
+            <label className="flex items-center gap-2 p-1.5 rounded-lg bg-white/[0.03] border border-white/6 text-xs text-slate-300 cursor-pointer hover:border-white/10">
               <input
                 type="checkbox"
                 checked={filters.isContinuousFlowOnly || false}
                 onChange={(e) => onChange({ ...filters, isContinuousFlowOnly: e.target.checked })}
                 className="rounded border-white/20 bg-slate-800 text-cyan-500 focus:ring-cyan-500/30"
               />
-              <span className="font-medium">Fluxo Contínuo (Sem prazo fixo)</span>
+              <span className="text-[11px]">Apenas Fluxo Contínuo</span>
             </label>
           </div>
         </div>
       )}
 
-      {/* Tags Row */}
-      <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center gap-1.5">
-        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mr-2 flex items-center gap-1">
-          <Tag className="w-3 h-3 text-slate-500" />
-          <span>Tags:</span>
-        </span>
+      {/* Active Filter Chips Bar (Shown only if user applied any filter) */}
+      {activeFilterCount > 0 && (
+        <div className="mt-3 pt-3 border-t border-white/6 flex flex-wrap items-center gap-1.5">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mr-1">
+            Filtros Ativos:
+          </span>
 
-        <button
-          onClick={() => onChange({ ...filters, selectedTag: 'all' })}
-          className={`px-2.5 py-1 rounded-full text-[11px] font-mono transition-all cursor-pointer ${
-            filters.selectedTag === 'all'
-              ? 'bg-white/15 text-white font-semibold'
-              : 'bg-white/5 text-slate-400 hover:text-slate-200 hover:bg-white/10'
-          }`}
-        >
-          Todas
-        </button>
+          {filters.selectedTag !== 'all' && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+              #{filters.selectedTag}
+              <button onClick={() => onChange({ ...filters, selectedTag: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+            </span>
+          )}
 
-        {availableTags.map((tag) => {
-          const isSelected = filters.selectedTag === tag;
-          return (
-            <button
-              key={tag}
-              onClick={() => onChange({ ...filters, selectedTag: isSelected ? 'all' : tag })}
-              className={`px-2.5 py-1 rounded-full text-[11px] font-mono transition-all cursor-pointer ${
-                isSelected
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold shadow-[0_0_10px_rgba(6,182,212,0.15)]'
-                  : 'bg-white/5 border border-white/5 text-slate-400 hover:text-slate-200 hover:bg-white/10'
-              }`}
-            >
-              #{tag}
-            </button>
-          );
-        })}
+          {filters.funder !== 'all' && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-violet-500/15 text-violet-300 border border-violet-500/30">
+              {filters.funder}
+              <button onClick={() => onChange({ ...filters, funder: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+            </span>
+          )}
 
-        {hasActiveFilters && (
+          {filters.maturity !== 'all' && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+              Maturidade: {filters.maturity}
+              <button onClick={() => onChange({ ...filters, maturity: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+            </span>
+          )}
+
+          {filters.isContinuousFlowOnly && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+              Fluxo Contínuo
+              <button onClick={() => onChange({ ...filters, isContinuousFlowOnly: false })} className="cursor-pointer hover:text-white">✕</button>
+            </span>
+          )}
+
+          {filters.state !== 'all' && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30">
+              Estado: {filters.state}
+              <button onClick={() => onChange({ ...filters, state: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+            </span>
+          )}
+
           <button
             onClick={onReset}
-            className="ml-auto text-xs font-mono text-slate-400 hover:text-cyan-300 transition-colors flex items-center gap-1 cursor-pointer"
+            className="text-[11px] font-mono text-slate-400 hover:text-rose-300 ml-auto cursor-pointer flex items-center gap-1"
           >
-            <RotateCcw className="w-3 h-3" />
-            <span>Limpar filtros</span>
+            <span>Limpar todos</span>
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Results counter indicator */}
-      <div className="mt-3 pt-2 text-[11px] font-mono text-slate-400 flex items-center justify-between border-t border-white/5">
+      {/* Results status indicator */}
+      <div className="mt-2.5 pt-2 text-[11px] font-mono text-slate-400 flex items-center justify-between border-t border-white/4">
         <span>
-          Encontradas <strong className="text-white font-sans">{totalResultsCount}</strong> chamadas públicas de inovação
+          Exibindo <strong className="text-white font-sans">{totalResultsCount}</strong> editais encontrados
         </span>
-        {filters.isContinuousFlowOnly && (
-          <span className="text-emerald-400 flex items-center gap-1">
-            <Repeat className="w-3 h-3" />
-            <span>Exibindo chamadas em regime de fluxo contínuo</span>
-          </span>
-        )}
+        <span className="text-slate-500">
+          Atualizado hoje às 09:00 BRT
+        </span>
       </div>
     </div>
   );

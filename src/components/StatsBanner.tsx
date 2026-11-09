@@ -1,4 +1,4 @@
-import { Trophy, Landmark, MapPin, Clock, ArrowRight, ShieldCheck, Flame } from 'lucide-react';
+import { Trophy, Landmark, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { TechEvent } from '../types';
 import { formatBRL, getDaysRemaining } from '../utils/eventUtils';
 
@@ -18,10 +18,7 @@ export function StatsBanner({
   onFilterEndingSoon,
   onFilterHighPrizes,
   onFilterEditais,
-  onFilterAceleracao,
   onFilterCeara,
-  onFilterHackathons,
-  onFilterConferences,
 }: StatsBannerProps) {
   const totalPrizeSum = events.reduce((acc, evt) => acc + (evt.prizes?.totalValue || 0), 0);
 
@@ -37,144 +34,108 @@ export function StatsBanner({
   }).length;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      {/* Metric 1: Total Mapeado */}
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+      {/* Metric 1: Total Mapeado (Violet Glow) */}
       <div
         onClick={onFilterHighPrizes}
-        className="cursor-pointer group relative rounded-2xl bg-[#0B0F19]/90 border border-white/10 p-5 flex flex-col justify-between hover:border-cyan-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(6,182,212,0.12)] min-h-[148px] overflow-hidden"
+        className="group relative cursor-pointer rounded-2xl bg-[#0C0F17]/80 hover:bg-[#121624] border border-white/8 hover:border-violet-500/40 p-4 transition-all duration-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.15)] overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-cyan-500/10 transition-colors" />
-
-        <div className="flex items-center justify-between text-slate-400">
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
-              Fomento Mapeado
-            </span>
-          </div>
-          <div className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
-            <Trophy className="w-3.5 h-3.5" />
-          </div>
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-violet-500 via-indigo-500 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+        
+        <div className="flex items-center justify-between text-slate-400 mb-2">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-violet-300/90 flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-violet-400"></span>
+            Fomento Total
+          </span>
+          <Trophy className="w-3.5 h-3.5 text-violet-400/70 group-hover:text-violet-300 transition-colors" />
         </div>
 
-        <div className="my-1.5 relative z-10">
-          <div className="text-2xl sm:text-[26px] font-bold tracking-tight text-white font-sans">
-            {formatBRL(totalPrizeSum)}
-          </div>
-          <p className="text-[11px] text-slate-400 mt-1 line-clamp-1">
-            Subvenção econômica, bolsas e prêmios
-          </p>
+        <div className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+          {formatBRL(totalPrizeSum)}
         </div>
 
-        <div className="text-[11px] font-mono text-cyan-400/90 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          <span>Ver maiores montantes</span>
-          <ArrowRight className="w-3 h-3" />
-        </div>
+        <p className="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>Subvenção & bolsas</span>
+          <ArrowRight className="w-3 h-3 text-violet-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+        </p>
       </div>
 
-      {/* Metric 2: Editais de Fomento */}
+      {/* Metric 2: Editais de Fomento (Cyan Glow) */}
       <div
-        onClick={onFilterEditais || onFilterConferences}
-        className="cursor-pointer group relative rounded-2xl bg-[#0B0F19]/90 border border-white/10 p-5 flex flex-col justify-between hover:border-indigo-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] min-h-[148px] overflow-hidden"
+        onClick={onFilterEditais}
+        className="group relative cursor-pointer rounded-2xl bg-[#0C0F17]/80 hover:bg-[#121624] border border-white/8 hover:border-cyan-500/40 p-4 transition-all duration-300 hover:shadow-[0_0_25px_rgba(6,182,212,0.15)] overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-indigo-500/10 transition-colors" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 via-teal-400 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
 
-        <div className="flex items-center justify-between text-slate-400">
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
-              Editais & FAPs
-            </span>
-          </div>
-          <div className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-indigo-400">
-            <Landmark className="w-3.5 h-3.5" />
-          </div>
+        <div className="flex items-center justify-between text-slate-400 mb-2">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300/90 flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+            Chamadas FAPs
+          </span>
+          <Landmark className="w-3.5 h-3.5 text-cyan-400/70 group-hover:text-cyan-300 transition-colors" />
         </div>
 
-        <div className="my-1.5 relative z-10">
-          <div className="text-2xl sm:text-[26px] font-bold tracking-tight text-white font-sans">
-            {editaisCount} editais
-          </div>
-          <p className="text-[11px] text-slate-400 mt-1 line-clamp-1">
-            FUNCAP, FINEP, FAPESP, CNPq e agências
-          </p>
+        <div className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+          {editaisCount} editais
         </div>
 
-        <div className="text-[11px] font-mono text-indigo-400/90 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          <span>Filtrar chamadas públicas</span>
-          <ArrowRight className="w-3 h-3" />
-        </div>
+        <p className="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>FUNCAP, FINEP, CNPq</span>
+          <ArrowRight className="w-3 h-3 text-cyan-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+        </p>
       </div>
 
-      {/* Metric 3: Foco Ceará & Nordeste */}
+      {/* Metric 3: Foco Ceará & Nordeste (Emerald Glow) */}
       <div
         onClick={onFilterCeara}
-        className="cursor-pointer group relative rounded-2xl bg-[#0B0F19]/90 border border-white/10 p-5 flex flex-col justify-between hover:border-emerald-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.12)] min-h-[148px] overflow-hidden"
+        className="group relative cursor-pointer rounded-2xl bg-[#0C0F17]/80 hover:bg-[#121624] border border-white/8 hover:border-emerald-500/40 p-4 transition-all duration-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-emerald-500/10 transition-colors" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-400 via-teal-500 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
 
-        <div className="flex items-center justify-between text-slate-400">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between text-slate-400 mb-2">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-300/90 flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
-              Ecossistema Ceará
-            </span>
-          </div>
-          <div className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400">
-            <MapPin className="w-3.5 h-3.5" />
-          </div>
+            Ceará & Nordeste
+          </span>
+          <MapPin className="w-3.5 h-3.5 text-emerald-400/70 group-hover:text-emerald-300 transition-colors" />
         </div>
 
-        <div className="my-1.5 relative z-10">
-          <div className="text-2xl sm:text-[26px] font-bold tracking-tight text-white font-sans">
-            {cearaCount} oportunidades
-          </div>
-          <p className="text-[11px] text-slate-400 mt-1 line-clamp-1">
-            FUNCAP, Secitece, Corredores Digitais, BNB
-          </p>
+        <div className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+          {cearaCount} editais
         </div>
 
-        <div className="text-[11px] font-mono text-emerald-400/90 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          <span>Ver chamadas CE</span>
-          <ArrowRight className="w-3 h-3" />
-        </div>
+        <p className="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>Secitece, BNB, Inovafit</span>
+          <ArrowRight className="w-3 h-3 text-emerald-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+        </p>
       </div>
 
-      {/* Metric 4: Prazos Críticos */}
+      {/* Metric 4: Prazos Críticos (Fuchsia / Amber Glow) */}
       <div
         onClick={onFilterEndingSoon}
-        className="cursor-pointer group relative rounded-2xl bg-[#0B0F19]/90 border border-white/10 p-5 flex flex-col justify-between hover:border-amber-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(245,158,11,0.12)] min-h-[148px] overflow-hidden"
+        className="group relative cursor-pointer rounded-2xl bg-[#0C0F17]/80 hover:bg-[#121624] border border-white/8 hover:border-fuchsia-500/40 p-4 transition-all duration-300 hover:shadow-[0_0_25px_rgba(236,72,153,0.15)] overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-amber-500/10 transition-colors" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-fuchsia-500 via-amber-400 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
 
-        <div className="flex items-center justify-between text-slate-400">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between text-slate-400 mb-2">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-fuchsia-300/90 flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fuchsia-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-fuchsia-400"></span>
             </span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
-              Prazos Críticos
-            </span>
-          </div>
-          <div className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-amber-400">
-            <Clock className="w-3.5 h-3.5" />
-          </div>
+            Prazos Críticos
+          </span>
+          <Clock className="w-3.5 h-3.5 text-fuchsia-400/70 group-hover:text-fuchsia-300 transition-colors" />
         </div>
 
-        <div className="my-1.5 relative z-10">
-          <div className="text-2xl sm:text-[26px] font-bold tracking-tight text-white font-sans">
-            {urgentCount} encerram logo
-          </div>
-          <p className="text-[11px] text-slate-400 mt-1 line-clamp-1">
-            Submissões encerrando em menos de 7 dias
-          </p>
+        <div className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+          {urgentCount} encerram logo
         </div>
 
-        <div className="text-[11px] font-mono text-amber-400/90 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-          <span>Ver prazos urgentes</span>
-          <ArrowRight className="w-3 h-3" />
-        </div>
+        <p className="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>Submissões &lt; 7 dias</span>
+          <ArrowRight className="w-3 h-3 text-fuchsia-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+        </p>
       </div>
     </div>
   );

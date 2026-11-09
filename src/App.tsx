@@ -2,19 +2,12 @@ import { useState, useEffect, useMemo } from 'react';
 import {
   Sparkles,
   Trophy,
-  Calendar,
-  MapPin,
-  Bookmark,
   Filter,
   Loader2,
   ArrowDownToLine,
-  Rocket,
-  ArrowRight,
-  ArrowLeft,
-  Landmark,
-  ShieldCheck,
-  Code2,
-  Target
+  Bookmark,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import { TechEvent, EventFilters, BrazilianRegion } from './types';
 import { INITIAL_EVENTS } from './data/initialEvents';
@@ -84,6 +77,7 @@ export default function App() {
   const [viewMode, setViewMode] = useState<'grid' | 'calendar' | 'map' | 'table'>('grid');
   const [selectedEvent, setSelectedEvent] = useState<TechEvent | null>(null);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [showStrategicBanner, setShowStrategicBanner] = useState(false);
 
   // Modals state
   const [isAiScannerOpen, setIsAiScannerOpen] = useState(false);
@@ -107,7 +101,7 @@ export default function App() {
     localStorage.setItem('radartech_favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  // Fetch and synchronize initial events from backend
+  // Fetch initial events from backend
   useEffect(() => {
     fetch('/api/events')
       .then((res) => res.json())
@@ -132,7 +126,7 @@ export default function App() {
 
   const handleSyncLiveEvents = async () => {
     setIsSyncing(true);
-    showToast('Sincronizando editais e chamadas públicas oficiais...');
+    showToast('Sincronizando editais oficiais em tempo real...');
     try {
       const res = await fetch('/api/events/sync-live', { method: 'POST' });
       const data = await res.json();
@@ -160,10 +154,10 @@ export default function App() {
   const toggleFavorite = (id: string) => {
     if (favorites.includes(id)) {
       setFavorites(favorites.filter((f) => f !== id));
-      showToast('Oportunidade removida dos salvos.');
+      showToast('Removido dos salvos.');
     } else {
       setFavorites([...favorites, id]);
-      showToast('Oportunidade salva com sucesso.');
+      showToast('Salvo com sucesso.');
     }
   };
 
@@ -333,14 +327,14 @@ export default function App() {
           }
         }
 
-        // Novo Filtro: Origem do Recurso (Federal, Estadual, Municipal, etc)
+        // Novo Filtro: Origem do Recurso
         if (filters.resourceOrigin && filters.resourceOrigin !== 'all') {
           if (evt.resourceOrigin !== filters.resourceOrigin) {
             return false;
           }
         }
 
-        // Novo Filtro: Abrangência (Nacional, Estadual, Regional)
+        // Novo Filtro: Abrangência
         if (filters.scope && filters.scope !== 'all') {
           if (evt.location.scope !== filters.scope) {
             return false;
@@ -359,7 +353,6 @@ export default function App() {
         if (filters.sortBy === 'date_asc') {
           return a.startDate.localeCompare(b.startDate);
         }
-        // Default 'featured'
         if (a.featured && !b.featured) return -1;
         if (!a.featured && b.featured) return 1;
         return (b.prizes?.totalValue || 0) - (a.prizes?.totalValue || 0);
@@ -396,14 +389,6 @@ export default function App() {
     setViewMode('grid');
   };
 
-  const handleFilterByTag = (tag: string) => {
-    setFilters({
-      ...filters,
-      selectedTag: tag,
-    });
-    setViewMode('grid');
-  };
-
   const handleSelectStateFromMap = (uf: string) => {
     setFilters({
       ...filters,
@@ -423,9 +408,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07090E] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white bg-cyera-grid relative">
-      {/* Ambient Radial Mesh Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 radial-glow-cyan pointer-events-none -z-0" />
+    <div className="min-h-screen bg-[#06070B] text-slate-100 flex flex-col selection:bg-violet-600 selection:text-white bg-cyera-grid relative overflow-x-hidden">
+      {/* Cyera Ambient Light Mesh */}
+      <div className="absolute top-0 left-1/4 w-[600px] h-[400px] radial-orb-violet pointer-events-none -z-0" />
+      <div className="absolute top-20 right-1/4 w-[500px] h-[400px] radial-orb-cyan pointer-events-none -z-0" />
 
       {/* Global Header */}
       <Header
@@ -439,43 +425,43 @@ export default function App() {
         totalEventsCount={events.length}
       />
 
-      {/* Floating Toast Message */}
+      {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#0B0F19] border border-cyan-500/30 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-2xl shadow-cyan-500/10 flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3 duration-200 backdrop-blur-xl">
-          <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 bg-[#0C0F17] border border-violet-500/30 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-2xl shadow-violet-500/10 flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3 duration-200 backdrop-blur-xl">
+          <Sparkles className="w-4 h-4 text-violet-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Main Container */}
       <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        {/* Hero Title & Mission (Cyera Enterprise Style) */}
-        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/50 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-3 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+        {/* Hero Section (Cyera Style: High Contrast & Generous Breathing Space) */}
+        <div className="pt-2 pb-6 sm:pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/25 text-violet-300 text-xs font-mono mb-3.5 shadow-[0_0_15px_rgba(139,92,246,0.15)]">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
               </span>
-              <span>OBSERVATÓRIO NACIONAL DE INOVAÇÃO & FOMENTO</span>
+              <span>OBSERVATÓRIO DE FOMENTO & INOVAÇÃO PÚBLICA</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              Editais Abertos, Subvenção & Aceleração
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+              Editais Abertos, Subvenção & Aceleração no Brasil
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-400 mt-2 max-w-2xl leading-relaxed">
-              Plataforma cívica que rastreia, classifica e audita chamadas públicas da FUNCAP, FINEP, CNPq e FAPs estaduais. Filtre por financiador, maturidade, origem do recurso e prazos em tempo real.
+            <p className="text-xs sm:text-sm text-slate-400 mt-2.5 max-w-2xl leading-relaxed">
+              Varredura contínua de oportunidades públicas da FUNCAP, FINEP, CNPq e FAPs estaduais. Filtre por financiador, estágio, subvenção e prazos de submissão sem ruído.
             </p>
           </div>
 
-          {/* Quick Actions / Sync CTA */}
-          <div className="self-start md:self-auto flex flex-wrap items-center gap-2.5">
+          {/* Quick Action Buttons */}
+          <div className="flex items-center gap-2.5 self-start md:self-auto shrink-0">
             <button
               onClick={handleSyncLiveEvents}
               disabled={isSyncing}
-              title="Sincronizar editais oficiais em tempo real"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-xs font-semibold text-white transition-all shadow-lg shadow-cyan-500/20 disabled:opacity-75 cursor-pointer active:scale-[0.98]"
+              title="Sincronizar portais públicos agora"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 text-xs font-semibold text-white transition-all shadow-lg shadow-violet-600/20 disabled:opacity-75 cursor-pointer active:scale-[0.98]"
             >
               {isSyncing ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -486,16 +472,26 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => setIsAiScannerOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-200 hover:text-white transition-all cursor-pointer"
+              onClick={() => setShowStrategicBanner(!showStrategicBanner)}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white border border-white/8 text-xs font-medium transition-all cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Scanner de Editais</span>
+              <Trophy className="w-3.5 h-3.5 text-amber-400" />
+              <span className="hidden sm:inline">Chamadas Estratégicas</span>
+              {showStrategicBanner ? <ChevronUp className="w-3 h-3 ml-0.5" /> : <ChevronDown className="w-3 h-3 ml-0.5" />}
             </button>
           </div>
         </div>
 
-        {/* High-Level Numbers Banner */}
+        {/* Strategic Grants Spotlight (Collapsible to preserve vertical UX space) */}
+        {showStrategicBanner && (
+          <PrizeSpotlight
+            events={events}
+            onSelectEvent={setSelectedEvent}
+            onFilterHighPrizes={handleFilterHighPrizes}
+          />
+        )}
+
+        {/* Compact Posture Metrics Strip */}
         <StatsBanner
           events={events}
           onFilterEndingSoon={handleFilterEndingSoon}
@@ -504,26 +500,13 @@ export default function App() {
             setMainTab('editais');
             setViewMode('grid');
           }}
-          onFilterAceleracao={() => {
-            setMainTab('aceleracao');
-            setViewMode('grid');
-          }}
           onFilterCeara={() => {
             setFilters({ ...filters, state: 'CE' });
             setViewMode('grid');
           }}
         />
 
-        {/* Featured Prizes Showcase */}
-        {!showFavoritesOnly && filters.minPrizeValue === 0 && filters.search === '' && (
-          <PrizeSpotlight
-            events={events}
-            onSelectEvent={setSelectedEvent}
-            onFilterHighPrizes={handleFilterHighPrizes}
-          />
-        )}
-
-        {/* Filter Bar com todos os novos filtros */}
+        {/* Progressive Disclosure Filter Bar */}
         <FilterBar
           filters={filters}
           onChange={setFilters}
@@ -548,7 +531,7 @@ export default function App() {
             <div className="flex items-center gap-2">
               <Bookmark className="w-4 h-4 text-amber-400 fill-amber-400" />
               <span>
-                Exibindo apenas suas <strong>{favorites.length}</strong> oportunidades salvas.
+                Exibindo suas <strong>{favorites.length}</strong> oportunidades salvas.
               </span>
             </div>
             <button
@@ -579,35 +562,35 @@ export default function App() {
             onToggleFavorite={toggleFavorite}
           />
         ) : (
-          /* Grid View */
+          /* Scannable Grid View */
           <div>
             {filteredEvents.length === 0 ? (
               /* Empty State */
-              <div className="text-center py-16 px-4 rounded-2xl bg-[#0B0F19]/90 border border-white/10 my-4 shadow-2xl">
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-cyan-400 flex items-center justify-center mx-auto mb-3">
+              <div className="text-center py-16 px-4 rounded-2xl bg-[#0C0F17]/80 border border-white/8 my-4 shadow-xl">
+                <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/8 text-violet-400 flex items-center justify-center mx-auto mb-3">
                   <Filter className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-semibold text-white">
-                  Nenhum edital encontrado para os parâmetros selecionados
+                  Nenhum edital encontrado para esses critérios
                 </h3>
                 <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
                   Tente ajustar a data limite, estágio de maturidade ou financiador selecionado.
                 </p>
 
-                <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
+                <div className="flex items-center justify-center gap-3 mt-5">
                   <button
                     onClick={() => {
                       setFilters(DEFAULT_FILTERS);
                       setMainTab('all');
                     }}
-                    className="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white transition-all shadow-md shadow-cyan-500/20 cursor-pointer"
+                    className="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 text-white transition-all shadow-md shadow-violet-600/20 cursor-pointer"
                   >
                     Limpar todos os filtros
                   </button>
                   <button
                     onClick={handleSyncLiveEvents}
                     disabled={isSyncing}
-                    className="flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer"
+                    className="flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 border border-white/8 transition-colors cursor-pointer"
                   >
                     {isSyncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowDownToLine className="w-3.5 h-3.5" />}
                     <span>Sincronizar Editais</span>
@@ -616,7 +599,7 @@ export default function App() {
               </div>
             ) : (
               /* Grid Results */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredEvents.map((evt) => (
                   <EventCard
                     key={evt.id}
@@ -624,7 +607,6 @@ export default function App() {
                     onSelect={setSelectedEvent}
                     isFavorite={favorites.includes(evt.id)}
                     onToggleFavorite={toggleFavorite}
-                    onFilterByTag={handleFilterByTag}
                   />
                 ))}
               </div>
@@ -634,25 +616,25 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-[#05070A] py-8 px-4 sm:px-6 mt-16 text-xs text-slate-500">
+      <footer className="border-t border-white/8 bg-[#040508] py-8 px-4 sm:px-6 mt-16 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-white">Radar Tech Brasil</span>
             <span>•</span>
-            <span className="text-slate-400">Observatório Cívico de Fomento à Inovação, Editais e Aceleração</span>
+            <span className="text-slate-400">Observatório Cívico de Fomento à Inovação e Editais Públicos</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-400">
+          <div className="flex items-center gap-4 text-slate-400 font-mono text-[11px]">
             <button
               onClick={() => setIsAlertModalOpen(true)}
-              className="hover:text-cyan-400 font-mono transition-colors cursor-pointer"
+              className="hover:text-cyan-400 transition-colors cursor-pointer"
             >
               Criar Alerta
             </button>
             <span>•</span>
             <button
               onClick={() => setIsImportModalOpen(true)}
-              className="hover:text-cyan-400 font-mono transition-colors cursor-pointer"
+              className="hover:text-cyan-400 transition-colors cursor-pointer"
             >
               Cadastrar Edital
             </button>
@@ -660,7 +642,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Full Details Modal */}
+      {/* Full Details Modal (Raio-X do Edital) */}
       <EventModal
         event={selectedEvent}
         onClose={() => setSelectedEvent(null)}

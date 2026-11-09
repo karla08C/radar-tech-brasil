@@ -6,82 +6,83 @@
   }
 
   body {
-    background-color: #06070B;
-    color: #f1f5f9;
+    background-color: #0B0E17;
+    color: #F1F5F9;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
   }
 }
 
-/* Cyera Signature Ambient Gradients & Glowing Effects */
-.bg-cyera-base {
-  background-color: #06070B;
+/* Taikai.network Design System Foundations */
+.bg-taikai-dark {
+  background-color: #0B0E17;
 }
 
-.bg-cyera-card {
-  background: rgba(13, 17, 27, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+.bg-taikai-card {
+  background-color: #121624;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.bg-cyera-card-hover:hover {
-  background: rgba(18, 23, 37, 0.85);
-  border-color: rgba(139, 92, 246, 0.35);
-  box-shadow: 0 0 30px -5px rgba(139, 92, 246, 0.15), 0 0 15px -3px rgba(6, 182, 212, 0.1);
+.bg-taikai-card:hover {
+  border-color: rgba(0, 242, 254, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.12);
 }
 
-/* Radiant glow orbs */
-.radial-orb-violet {
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%);
+/* Taikai Signature Cyan-Blue Gradients */
+.bg-taikai-gradient {
+  background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
 }
 
-.radial-orb-cyan {
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0) 70%);
+.bg-taikai-gradient-hover:hover {
+  background: linear-gradient(135deg, #22f5fe 0%, #60b2fe 100%);
 }
 
-.radial-orb-magenta {
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0) 70%);
+.text-taikai-gradient {
+  background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Gradient borders */
-.gradient-border-cyera {
-  position: relative;
-}
-.gradient-border-cyera::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(6, 182, 212, 0.2), transparent 60%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+/* Taikai Card Pattern Banners */
+.bg-pattern-editais {
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(79, 172, 254, 0.25) 100%),
+              radial-gradient(circle at 80% 20%, rgba(0, 242, 254, 0.3) 0%, transparent 60%);
 }
 
-/* Grid & dot pattern */
-.bg-cyera-grid {
+.bg-pattern-aceleracao {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(99, 102, 241, 0.3) 100%),
+              radial-gradient(circle at 80% 20%, rgba(192, 132, 252, 0.3) 0%, transparent 60%);
+}
+
+.bg-pattern-bolsas {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.25) 100%),
+              radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.3) 0%, transparent 60%);
+}
+
+.bg-pattern-hackathons {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(249, 115, 22, 0.25) 100%),
+              radial-gradient(circle at 80% 20%, rgba(251, 146, 60, 0.3) 0%, transparent 60%);
+}
+
+/* Subtle dot/mesh grid */
+.bg-taikai-grid {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 40px 40px;
+    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* Smooth sleek scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #06070B;
+  background: #0B0E17;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2433;
+  background: #1C2237;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #333d52;
+  background: #2D3748;
 }

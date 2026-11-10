@@ -3,86 +3,90 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
 
   body {
-    background-color: #0B0E17;
-    color: #F1F5F9;
+    background-color: #0B0F17;
+    color: #E2E8F0;
+    font-family: var(--font-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: -0.01em;
     overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+  }
+
+  code, kbd, samp, pre, .font-mono {
+    font-family: var(--font-mono);
   }
 }
 
-/* Taikai.network Design System Foundations */
-.bg-taikai-dark {
-  background-color: #0B0E17;
+/* Sober, Matte Institutional Design Tokens */
+.bg-canvas {
+  background-color: #0B0F17;
 }
 
-.bg-taikai-card {
-  background-color: #121624;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.bg-surface-card {
+  background-color: #121824;
+  border: 1px solid #1E293B;
 }
 
-.bg-taikai-card:hover {
-  border-color: rgba(0, 242, 254, 0.35);
-  box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.12);
+.bg-surface-card:hover {
+  background-color: #162030;
+  border-color: #334155;
 }
 
-/* Taikai Signature Cyan-Blue Gradients */
-.bg-taikai-gradient {
-  background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+.bg-surface-muted {
+  background-color: #0F141F;
 }
 
-.bg-taikai-gradient-hover:hover {
-  background: linear-gradient(135deg, #22f5fe 0%, #60b2fe 100%);
-}
-
-.text-taikai-gradient {
-  background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Taikai Card Pattern Banners */
-.bg-pattern-editais {
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(79, 172, 254, 0.25) 100%),
-              radial-gradient(circle at 80% 20%, rgba(0, 242, 254, 0.3) 0%, transparent 60%);
-}
-
-.bg-pattern-aceleracao {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(99, 102, 241, 0.3) 100%),
-              radial-gradient(circle at 80% 20%, rgba(192, 132, 252, 0.3) 0%, transparent 60%);
-}
-
-.bg-pattern-bolsas {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.25) 100%),
-              radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.3) 0%, transparent 60%);
-}
-
-.bg-pattern-hackathons {
-  background: linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(249, 115, 22, 0.25) 100%),
-              radial-gradient(circle at 80% 20%, rgba(251, 146, 60, 0.3) 0%, transparent 60%);
-}
-
-/* Subtle dot/mesh grid */
-.bg-taikai-grid {
+/* Subtle architectural grid - no neon */
+.bg-subtle-grid {
   background-image: 
-    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 24px 24px;
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
-/* Custom scrollbar */
+/* Sober card banner backgrounds */
+.bg-banner-fomento {
+  background: linear-gradient(180deg, #162030 0%, #121824 100%);
+  border-bottom: 1px solid #1E293B;
+}
+
+.bg-banner-aceleracao {
+  background: linear-gradient(180deg, #1A1D2E 0%, #121824 100%);
+  border-bottom: 1px solid #1E293B;
+}
+
+.bg-banner-bolsas {
+  background: linear-gradient(180deg, #142226 0%, #121824 100%);
+  border-bottom: 1px solid #1E293B;
+}
+
+.bg-banner-hackathons {
+  background: linear-gradient(180deg, #241A1E 0%, #121824 100%);
+  border-bottom: 1px solid #1E293B;
+}
+
+/* Refined, muted scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0E17;
+  background: #0B0F17;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1C2237;
+  background: #1E293B;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2D3748;
+  background: #334155;
 }

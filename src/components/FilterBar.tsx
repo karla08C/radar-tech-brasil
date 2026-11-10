@@ -7,7 +7,6 @@ import {
   Landmark,
   Layers,
   Clock,
-  Tag,
   Repeat,
   RotateCcw,
   Building,
@@ -16,8 +15,7 @@ import {
   LayoutGrid,
   Calendar,
   MapPin,
-  Table,
-  X
+  Table
 } from 'lucide-react';
 import { 
   EventFilters, 
@@ -89,7 +87,6 @@ export function FilterBar({
 }: FilterBarProps) {
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  // Count active filters (excluding default values)
   const activeFilterCount = [
     filters.selectedTag !== 'all',
     filters.maturity !== 'all',
@@ -104,16 +101,16 @@ export function FilterBar({
   const hasActiveFilters = activeFilterCount > 0 || filters.search !== '' || mainTab !== 'all';
 
   return (
-    <div className="bg-[#0C0F17]/90 border border-white/8 rounded-2xl shadow-xl backdrop-blur-xl mb-6 p-4 sm:p-5 text-slate-200 transition-all">
-      {/* Level 1: Category Segmented Switcher & View Mode */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-white/6">
+    <div className="bg-[#121824] border border-slate-800 rounded-xl mb-6 p-4 text-slate-200 transition-colors">
+      {/* Category Pills & View Switchers */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
         {/* Category Pills */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/6 overflow-x-auto">
+        <div className="flex items-center gap-1 p-1 rounded-lg bg-slate-900 border border-slate-800 overflow-x-auto">
           <button
             onClick={() => onChangeMainTab('all')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
               mainTab === 'all'
-                ? 'bg-white/12 text-white font-semibold shadow-xs'
+                ? 'bg-slate-800 text-white font-semibold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -122,16 +119,16 @@ export function FilterBar({
 
           <button
             onClick={() => onChangeMainTab('editais')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               mainTab === 'editais'
-                ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30 shadow-[0_0_12px_rgba(6,182,212,0.15)]'
+                ? 'bg-slate-800 text-white font-semibold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Landmark className="w-3.5 h-3.5 text-cyan-400" />
+            <Landmark className="w-3.5 h-3.5 text-slate-300" />
             <span>Editais de Fomento</span>
             {countEditais > 0 && (
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-cyan-500/10 text-cyan-300">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-700 text-slate-200">
                 {countEditais}
               </span>
             )}
@@ -139,16 +136,16 @@ export function FilterBar({
 
           <button
             onClick={() => onChangeMainTab('aceleracao')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               mainTab === 'aceleracao'
-                ? 'bg-violet-500/20 text-violet-300 font-semibold border border-violet-500/30 shadow-[0_0_12px_rgba(139,92,246,0.15)]'
+                ? 'bg-slate-800 text-white font-semibold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Target className="w-3.5 h-3.5 text-violet-400" />
+            <Target className="w-3.5 h-3.5 text-slate-300" />
             <span>Aceleração</span>
             {countAceleracao > 0 && (
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-violet-500/10 text-violet-300">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-700 text-slate-200">
                 {countAceleracao}
               </span>
             )}
@@ -156,16 +153,16 @@ export function FilterBar({
 
           <button
             onClick={() => onChangeMainTab('hackathons')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               mainTab === 'hackathons'
-                ? 'bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                ? 'bg-slate-800 text-white font-semibold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            <Sparkles className="w-3.5 h-3.5 text-slate-300" />
             <span>Hackathons</span>
             {countHackathons > 0 && (
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-emerald-500/10 text-emerald-300">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-700 text-slate-200">
                 {countHackathons}
               </span>
             )}
@@ -173,13 +170,13 @@ export function FilterBar({
         </div>
 
         {/* View Switchers */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/6 self-end sm:self-auto">
+        <div className="flex items-center gap-1 p-1 rounded-lg bg-slate-900 border border-slate-800 self-end sm:self-auto">
           <button
             onClick={() => onChangeViewMode('grid')}
             title="Visualização em Cards"
-            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+            className={`p-1.5 rounded-md transition-colors cursor-pointer ${
               viewMode === 'grid'
-                ? 'bg-white/12 text-white'
+                ? 'bg-slate-800 text-white'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -188,9 +185,9 @@ export function FilterBar({
           <button
             onClick={() => onChangeViewMode('table')}
             title="Visualização em Tabela"
-            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+            className={`p-1.5 rounded-md transition-colors cursor-pointer ${
               viewMode === 'table'
-                ? 'bg-white/12 text-white'
+                ? 'bg-slate-800 text-white'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -198,10 +195,10 @@ export function FilterBar({
           </button>
           <button
             onClick={() => onChangeViewMode('map')}
-            title="Visualização em Mapa Territorial"
-            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+            title="Visualização em Mapa"
+            className={`p-1.5 rounded-md transition-colors cursor-pointer ${
               viewMode === 'map'
-                ? 'bg-white/12 text-white'
+                ? 'bg-slate-800 text-white'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -210,9 +207,9 @@ export function FilterBar({
           <button
             onClick={() => onChangeViewMode('calendar')}
             title="Visualização em Calendário"
-            className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+            className={`p-1.5 rounded-md transition-colors cursor-pointer ${
               viewMode === 'calendar'
-                ? 'bg-white/12 text-white'
+                ? 'bg-slate-800 text-white'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -221,8 +218,8 @@ export function FilterBar({
         </div>
       </div>
 
-      {/* Level 2: Command Search Bar + Advanced Filters Button */}
-      <div className="mt-3.5 flex flex-col md:flex-row items-center gap-3">
+      {/* Search Bar + Filter Shortcuts */}
+      <div className="mt-3 flex flex-col md:flex-row items-center gap-3">
         {/* Search Input */}
         <div className="relative w-full flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -231,19 +228,19 @@ export function FilterBar({
             placeholder="Buscar por chamada, órgão ou área (ex: FUNCAP, Inovafit, IA, Subvenção)..."
             value={filters.search}
             onChange={(e) => onChange({ ...filters, search: e.target.value })}
-            className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white/[0.04] border border-white/8 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/20 transition-all font-sans"
+            className="w-full pl-10 pr-9 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-slate-600 transition-colors font-sans"
           />
           {filters.search && (
             <button
               onClick={() => onChange({ ...filters, search: '' })}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs cursor-pointer"
             >
-              ✕
+              x
             </button>
           )}
         </div>
 
-        {/* Quick Filter Tag Shortcuts */}
+        {/* Quick Tag Pills */}
         <div className="hidden lg:flex items-center gap-1.5 overflow-x-auto">
           {availableTags.slice(0, 4).map((tag) => {
             const isSelected = filters.selectedTag === tag;
@@ -251,10 +248,10 @@ export function FilterBar({
               <button
                 key={tag}
                 onClick={() => onChange({ ...filters, selectedTag: isSelected ? 'all' : tag })}
-                className={`text-[11px] font-mono px-2.5 py-1.5 rounded-lg border transition-all whitespace-nowrap cursor-pointer ${
+                className={`text-[11px] font-mono px-2.5 py-1.5 rounded-md border transition-colors whitespace-nowrap cursor-pointer ${
                   isSelected
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 font-semibold'
-                    : 'bg-white/[0.03] border-white/6 text-slate-400 hover:text-slate-200 hover:bg-white/[0.06]'
+                    ? 'bg-slate-700 text-white border-slate-600 font-semibold'
+                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
                 }`}
               >
                 #{tag}
@@ -263,20 +260,20 @@ export function FilterBar({
           })}
         </div>
 
-        {/* Advanced Filters Button with Counter */}
+        {/* Advanced Filters Button */}
         <div className="flex items-center gap-2 w-full md:w-auto">
           <button
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
               showAdvanced || activeFilterCount > 0
-                ? 'bg-violet-500/15 border-violet-500/40 text-violet-300 shadow-[0_0_15px_rgba(139,92,246,0.15)]'
-                : 'bg-white/[0.04] border-white/8 text-slate-300 hover:bg-white/[0.08]'
+                ? 'bg-slate-800 border-slate-700 text-white'
+                : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800/80'
             }`}
           >
-            <SlidersHorizontal className="w-3.5 h-3.5" />
+            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
             <span>Filtros Detalhados</span>
             {activeFilterCount > 0 && (
-              <span className="bg-violet-500/30 text-violet-200 font-mono text-[10px] px-1.5 py-0.2 rounded-full font-bold">
+              <span className="bg-slate-700 text-slate-200 font-mono text-[10px] px-1.5 py-0.2 rounded font-semibold">
                 {activeFilterCount}
               </span>
             )}
@@ -287,7 +284,7 @@ export function FilterBar({
             <button
               onClick={onReset}
               title="Limpar todos os filtros"
-              className="p-2.5 rounded-xl bg-white/[0.04] hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 border border-white/8 hover:border-rose-500/30 transition-all cursor-pointer"
+              className="p-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -295,19 +292,19 @@ export function FilterBar({
         </div>
       </div>
 
-      {/* Level 3: Advanced Filters Drawer (Progressive Disclosure) */}
+      {/* Advanced Filters Drawer */}
       {showAdvanced && (
-        <div className="mt-4 pt-4 border-t border-white/8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-200">
+        <div className="mt-4 pt-4 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-150">
           {/* Financiador */}
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
-              <Building className="w-3 h-3 text-cyan-400" />
+              <Building className="w-3 h-3 text-slate-400" />
               <span>Financiador</span>
             </label>
             <select
               value={filters.funder || 'all'}
               onChange={(e) => onChange({ ...filters, funder: e.target.value })}
-              className="w-full px-3 py-2 rounded-xl bg-[#080B12] border border-white/8 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 cursor-pointer"
+              className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-slate-600 cursor-pointer"
             >
               <option value="all">Todos os Financiadores</option>
               {FUNDER_OPTIONS.map((funder) => (
@@ -321,7 +318,7 @@ export function FilterBar({
           {/* Maturidade */}
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
-              <Target className="w-3 h-3 text-violet-400" />
+              <Target className="w-3 h-3 text-slate-400" />
               <span>Maturidade do Projeto</span>
             </label>
             <div className="grid grid-cols-2 gap-1.5">
@@ -332,10 +329,10 @@ export function FilterBar({
                     key={lvl}
                     type="button"
                     onClick={() => onChange({ ...filters, maturity: isSelected ? 'all' : lvl })}
-                    className={`px-2 py-1.5 rounded-lg text-[11px] font-medium border transition-all text-center cursor-pointer ${
+                    className={`px-2 py-1.5 rounded-md text-[11px] font-medium border transition-colors text-center cursor-pointer ${
                       isSelected
-                        ? 'bg-violet-500/20 text-violet-300 border-violet-500/40 font-semibold'
-                        : 'bg-[#080B12] border-white/8 text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                        ? 'bg-slate-700 text-white border-slate-600 font-semibold'
+                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {lvl}
@@ -345,16 +342,16 @@ export function FilterBar({
             </div>
           </div>
 
-          {/* Origem do Recurso & Abrangência */}
+          {/* Origem do Recurso */}
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
-              <Layers className="w-3 h-3 text-emerald-400" />
+              <Layers className="w-3 h-3 text-slate-400" />
               <span>Origem do Recurso</span>
             </label>
             <select
               value={filters.resourceOrigin || 'all'}
               onChange={(e) => onChange({ ...filters, resourceOrigin: e.target.value as any })}
-              className="w-full px-3 py-2 rounded-xl bg-[#080B12] border border-white/8 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 cursor-pointer"
+              className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-slate-600 cursor-pointer"
             >
               <option value="all">Todas as Origens</option>
               {RESOURCE_ORIGIN_OPTIONS.map((orig) => (
@@ -368,21 +365,21 @@ export function FilterBar({
           {/* Data Limite & Fluxo Contínuo */}
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
-              <Clock className="w-3 h-3 text-amber-400" />
+              <Clock className="w-3 h-3 text-slate-400" />
               <span>Prazo Máximo de Envio</span>
             </label>
             <input
               type="date"
               value={filters.deadlineLimit || ''}
               onChange={(e) => onChange({ ...filters, deadlineLimit: e.target.value })}
-              className="w-full px-3 py-1.5 rounded-xl bg-[#080B12] border border-white/8 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 mb-2"
+              className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-slate-600 mb-2"
             />
-            <label className="flex items-center gap-2 p-1.5 rounded-lg bg-white/[0.03] border border-white/6 text-xs text-slate-300 cursor-pointer hover:border-white/10">
+            <label className="flex items-center gap-2 p-1.5 rounded-md bg-slate-900 border border-slate-800 text-xs text-slate-300 cursor-pointer hover:border-slate-700">
               <input
                 type="checkbox"
                 checked={filters.isContinuousFlowOnly || false}
                 onChange={(e) => onChange({ ...filters, isContinuousFlowOnly: e.target.checked })}
-                className="rounded border-white/20 bg-slate-800 text-cyan-500 focus:ring-cyan-500/30"
+                className="rounded border-slate-700 bg-slate-800 text-slate-200 focus:ring-0"
               />
               <span className="text-[11px]">Apenas Fluxo Contínuo</span>
             </label>
@@ -390,64 +387,64 @@ export function FilterBar({
         </div>
       )}
 
-      {/* Active Filter Chips Bar (Shown only if user applied any filter) */}
+      {/* Active Filter Chips Bar */}
       {activeFilterCount > 0 && (
-        <div className="mt-3 pt-3 border-t border-white/6 flex flex-wrap items-center gap-1.5">
+        <div className="mt-3 pt-3 border-t border-slate-800 flex flex-wrap items-center gap-1.5">
           <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mr-1">
             Filtros Ativos:
           </span>
 
           {filters.selectedTag !== 'all' && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">
               #{filters.selectedTag}
-              <button onClick={() => onChange({ ...filters, selectedTag: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+              <button onClick={() => onChange({ ...filters, selectedTag: 'all' })} className="cursor-pointer hover:text-white">x</button>
             </span>
           )}
 
           {filters.funder !== 'all' && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-violet-500/15 text-violet-300 border border-violet-500/30">
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">
               {filters.funder}
-              <button onClick={() => onChange({ ...filters, funder: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+              <button onClick={() => onChange({ ...filters, funder: 'all' })} className="cursor-pointer hover:text-white">x</button>
             </span>
           )}
 
           {filters.maturity !== 'all' && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">
               Maturidade: {filters.maturity}
-              <button onClick={() => onChange({ ...filters, maturity: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+              <button onClick={() => onChange({ ...filters, maturity: 'all' })} className="cursor-pointer hover:text-white">x</button>
             </span>
           )}
 
           {filters.isContinuousFlowOnly && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">
               Fluxo Contínuo
-              <button onClick={() => onChange({ ...filters, isContinuousFlowOnly: false })} className="cursor-pointer hover:text-white">✕</button>
+              <button onClick={() => onChange({ ...filters, isContinuousFlowOnly: false })} className="cursor-pointer hover:text-white">x</button>
             </span>
           )}
 
           {filters.state !== 'all' && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30">
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">
               Estado: {filters.state}
-              <button onClick={() => onChange({ ...filters, state: 'all' })} className="cursor-pointer hover:text-white">✕</button>
+              <button onClick={() => onChange({ ...filters, state: 'all' })} className="cursor-pointer hover:text-white">x</button>
             </span>
           )}
 
           <button
             onClick={onReset}
-            className="text-[11px] font-mono text-slate-400 hover:text-rose-300 ml-auto cursor-pointer flex items-center gap-1"
+            className="text-[11px] font-mono text-slate-400 hover:text-slate-200 ml-auto cursor-pointer"
           >
-            <span>Limpar todos</span>
+            Limpar todos
           </button>
         </div>
       )}
 
-      {/* Results status indicator */}
-      <div className="mt-2.5 pt-2 text-[11px] font-mono text-slate-400 flex items-center justify-between border-t border-white/4">
+      {/* Results counter indicator */}
+      <div className="mt-2.5 pt-2 text-[11px] font-mono text-slate-400 flex items-center justify-between border-t border-slate-800/60">
         <span>
-          Exibindo <strong className="text-white font-sans">{totalResultsCount}</strong> editais encontrados
+          Exibindo <strong className="text-white font-sans">{totalResultsCount}</strong> oportunidades encontradas
         </span>
         <span className="text-slate-500">
-          Atualizado hoje às 09:00 BRT
+          Base atualizada
         </span>
       </div>
     </div>

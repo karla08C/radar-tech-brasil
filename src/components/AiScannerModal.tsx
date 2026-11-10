@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Sparkles, CheckCircle2, Loader2, ArrowRight, ShieldCheck, Terminal, Globe } from 'lucide-react';
+import { X, Sparkles, Loader2, Terminal } from 'lucide-react';
 import { TechEvent } from '../types';
 
 interface AiScannerModalProps {
@@ -55,7 +55,7 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
       setScanStep(4);
       setScanLog((prev) => [
         ...prev,
-        `Varredura concluída! ${data.discoveredCount || 2} novas oportunidades estruturadas e auditadas.`,
+        `Varredura concluída: ${data.discoveredCount || 2} novas oportunidades estruturadas e auditadas.`,
       ]);
 
       setTimeout(() => {
@@ -71,37 +71,34 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#05070A]/80 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
       <div
-        className="relative w-full max-w-lg bg-[#0B0F19] border border-white/10 rounded-2xl shadow-2xl p-6 sm:p-7 overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200"
+        className="relative w-full max-w-lg bg-[#121824] border border-slate-800 rounded-xl shadow-2xl p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close */}
         {!isScanning && (
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 transition-colors cursor-pointer"
+            className="absolute top-5 right-5 p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         )}
 
-        {/* Header */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.15)]">
-            <Sparkles className="w-5 h-5 text-cyan-300" />
+          <div className="w-9 h-9 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
+            <Sparkles className="w-4 h-4 text-slate-300" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-white tracking-tight">
+            <h3 className="text-base font-bold text-white font-['Plus_Jakarta_Sans']">
               Scanner de Editais com IA
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 font-sans">
               Varredura profunda em diários oficiais e plataformas de fomento
             </p>
           </div>
         </div>
 
-        {/* Form Controls */}
         {!isScanning ? (
           <div className="space-y-4">
             <div>
@@ -111,7 +108,7 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
               <select
                 value={focusTopic}
                 onChange={(e) => setFocusTopic(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-slate-600 cursor-pointer"
               >
                 <option value="Geral / Todos os Editais">Geral / Todos os Editais & Chamadas</option>
                 <option value="Inteligência Artificial e Dados">Inteligência Artificial & Dados</option>
@@ -129,7 +126,7 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
               <select
                 value={targetState}
                 onChange={(e) => setTargetState(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/80 cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-slate-600 cursor-pointer"
               >
                 <option value="Brasil Inteiro & Online">Brasil Inteiro (Nacional & Remoto)</option>
                 <option value="Ceará (CE) e Nordeste">Ceará (CE) & Nordeste</option>
@@ -149,37 +146,36 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
                 placeholder="Ex: subvenção econômica startups, bolsas RHAE..."
                 value={customQuery}
                 onChange={(e) => setCustomQuery(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#07090E] border border-white/10 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/30"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-slate-600"
               />
             </div>
 
             <div className="pt-2">
               <button
                 onClick={handleStartScan}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white text-xs font-semibold shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+                className="w-full py-2.5 rounded-lg bg-white hover:bg-slate-100 text-slate-900 text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
               >
-                <Sparkles className="w-4 h-4 text-cyan-200" />
+                <Sparkles className="w-4 h-4 text-slate-900" />
                 <span>Executar Varredura Inteligente</span>
               </button>
             </div>
           </div>
         ) : (
-          /* Live Terminal Scanning Output */
           <div className="py-4 space-y-4">
             <div className="flex items-center justify-center gap-3">
-              <Loader2 className="w-6 h-6 text-cyan-400 animate-spin" />
-              <span className="text-xs font-mono text-cyan-300">
-                Processando fontes públicas em tempo real...
+              <Loader2 className="w-5 h-5 text-slate-300 animate-spin" />
+              <span className="text-xs font-mono text-slate-300">
+                Processando fontes públicas oficiais...
               </span>
             </div>
 
-            <div className="bg-[#05070A] border border-white/10 rounded-xl p-3.5 font-mono text-[11px] text-slate-400 space-y-1.5 min-h-[120px]">
-              <div className="text-slate-500 flex items-center gap-1.5 pb-1 border-b border-white/5">
-                <Terminal className="w-3 h-3 text-cyan-400" />
+            <div className="bg-[#0B0F17] border border-slate-800 rounded-lg p-3.5 font-mono text-[11px] text-slate-400 space-y-1.5 min-h-[110px]">
+              <div className="text-slate-500 flex items-center gap-1.5 pb-1 border-b border-slate-800/80">
+                <Terminal className="w-3 h-3 text-slate-400" />
                 <span>TELEMETRIA DE EXECUÇÃO</span>
               </div>
               {scanLog.map((log, i) => (
-                <div key={i} className="text-cyan-400/90 leading-tight">
+                <div key={i} className="text-slate-300 leading-tight">
                   &gt; {log}
                 </div>
               ))}

@@ -1,91 +1,93 @@
 import { TechEvent } from '../types';
 
-export function formatBRL(amount: number): string {
-  if (!amount || amount === 0) return 'Gratuito / Sem Prêmio';
-  return new Intl.NumberFormat('pt-BR', {
+export function formatBRL(value: number): string {
+  if (value >= 1_000_000) {
+    const millions = value / 1_000_000;
+    return `R$ ${millions.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 1 })} mi`;
+  }
+  if (value >= 1_000) {
+    const thousands = value / 1_000;
+    return `R$ ${thousands.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}k`;
+  }
+  return value.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     maximumFractionDigits: 0,
-  }).format(amount);
+  });
 }
 
-export function formatDateBR(dateStr: string): string {
-  if (!dateStr) return '';
-  const parts = dateStr.split('-');
+export function formatDateBR(dateString: string): string {
+  if (!dateString) return '';
+  const dateOnly = dateString.split('T')[0];
+  const parts = dateOnly.split('-');
   if (parts.length === 3) {
-    const [year, month, day] = parts;
-    const date = new Date(Number(year), Number(month) - 1, Number(day));
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    }).format(date);
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
   }
-  return dateStr;
+  return dateString;
 }
 
-export function formatDateRange(startStr: string, endStr: string): string {
-  if (!startStr) return '';
-  if (!endStr || startStr === endStr) {
-    return formatDateBR(startStr);
+export function formatDateRange(start: string, end?: string): string {
+  if (!start) return '';
+  const formattedStart = formatDateBR(start);
+  if (!end || end === start) {
+    return formattedStart;
   }
-  return `${formatDateBR(startStr)} até ${formatDateBR(endStr)}`;
+  const formattedEnd = formatDateBR(end);
+  return `${formattedStart} - ${formattedEnd}`;
 }
 
-export function getDaysRemaining(deadlineStr: string): number {
-  if (!deadlineStr) return 999;
-  const parts = deadlineStr.split('-');
-  if (parts.length !== 3) return 999;
-  const deadline = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), 23, 59, 59);
-  const now = new Date();
-  const diffTime = deadline.getTime() - now.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
+export function getDaysRemaining(deadline: string): number {
+  if (!deadline) return 0;
+  const target = deadline.includes('T')
+    ? new Date(deadline).getTime()
+    : new Date(`${deadline}T23:59:59`).getTime();
+  const now = new Date().getTime();
+  const diff = target - now;
+  return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
-export function getStatusBadge(deadlineStr: string, endDateStr: string): {
+export function getStatusBadge(deadline: string, isContinuous?: boolean): {
   label: string;
   colorClass: string;
-  status: 'open' | 'urgent' | 'closed';
+  status: 'open' | 'urgent' | 'closed' | 'continuous';
 } {
-  const days = getDaysRemaining(deadlineStr);
-  const endDays = getDaysRemaining(endDateStr);
-
-  if (endDays < 0) {
+  if (isContinuous) {
     return {
-      label: 'Evento Encerrado',
-      colorClass: 'bg-slate-100 text-slate-600 border-slate-200',
-      status: 'closed',
+      label: 'Fluxo Contínuo',
+      colorClass: 'bg-emerald-950/40 text-emerald-300 border-emerald-500/30',
+      status: 'continuous',
     };
   }
+
+  const days = getDaysRemaining(deadline);
 
   if (days < 0) {
     return {
       label: 'Inscrições Encerradas',
-      colorClass: 'bg-slate-100 text-slate-600 border-slate-200',
+      colorClass: 'bg-slate-900 text-slate-400 border-slate-800',
       status: 'closed',
     };
   }
 
-  if (days <= 3) {
+  if (days <= 2) {
     return {
-      label: `Encerra em ${days === 0 ? 'poucas horas!' : `${days} dia${days > 1 ? 's' : ''}!`} 🔥`,
-      colorClass: 'bg-rose-50 text-rose-700 border-rose-200 font-bold',
+      label: days === 0 ? 'Encerra hoje' : `Encerra em ${days} dia${days > 1 ? 's' : ''}`,
+      colorClass: 'bg-rose-950/40 text-rose-300 border-rose-500/30',
       status: 'urgent',
     };
   }
 
   if (days <= 7) {
     return {
-      label: `Últimos ${days} dias de inscrição`,
-      colorClass: 'bg-amber-50 text-amber-800 border-amber-200 font-bold',
+      label: `Restam ${days} dias`,
+      colorClass: 'bg-amber-950/40 text-amber-300 border-amber-500/30',
       status: 'urgent',
     };
   }
 
   return {
     label: 'Inscrições Abertas',
-    colorClass: 'bg-emerald-50 text-emerald-800 border-emerald-200 font-bold',
+    colorClass: 'bg-slate-900 text-slate-300 border-slate-800',
     status: 'open',
   };
 }
@@ -93,7 +95,7 @@ export function getStatusBadge(deadlineStr: string, endDateStr: string): {
 export function generateGoogleCalendarUrl(event: TechEvent): string {
   const title = encodeURIComponent(`[${event.category.toUpperCase()}] ${event.title}`);
   const details = encodeURIComponent(
-    `${event.description}\n\n🏆 Premiação: ${event.prizes.highlight}\n📍 Local: ${event.location.city} - ${event.location.state} (${event.modality})\n🔗 Mais informações e Inscrições: ${event.registrationUrl || event.websiteUrl}`
+    `${event.description}\n\nFomento: ${event.prizes.highlight}\nFinanciador: ${event.funder || event.organizer}\nLocal: ${event.location.city} - ${event.location.state} (${event.modality})\nMais informações e Inscrições: ${event.registrationUrl || event.websiteUrl}`
   );
   const location = encodeURIComponent(
     event.modality === 'online'
@@ -105,36 +107,4 @@ export function generateGoogleCalendarUrl(event: TechEvent): string {
   const endFormatted = (event.endDate || event.startDate).replace(/-/g, '') + 'T180000';
 
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startFormatted}/${endFormatted}`;
-}
-
-export function downloadIcsFile(event: TechEvent): void {
-  const startFormatted = event.startDate.replace(/-/g, '') + 'T090000Z';
-  const endFormatted = (event.endDate || event.startDate).replace(/-/g, '') + 'T180000Z';
-
-  const icsContent = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//RadarTech Brasil//PT-BR',
-    'CALSCALE:GREGORIAN',
-    'BEGIN:VEVENT',
-    `SUMMARY:[${event.category.toUpperCase()}] ${event.title}`,
-    `DESCRIPTION:${event.description.replace(/\n/g, '\\n')} - Premiação: ${event.prizes.highlight}`,
-    `LOCATION:${event.modality === 'online' ? 'Online' : `${event.location.city} - ${event.location.state}`}`,
-    `DTSTART:${startFormatted}`,
-    `DTEND:${endFormatted}`,
-    `URL:${event.registrationUrl || event.websiteUrl}`,
-    'STATUS:CONFIRMED',
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].join('\r\n');
-
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', `${event.slug || 'evento'}.ics`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
 }

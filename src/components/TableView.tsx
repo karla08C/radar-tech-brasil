@@ -1,6 +1,6 @@
-import { ExternalLink, Bookmark, Landmark, Rocket, GraduationCap, Code2, Repeat } from 'lucide-react';
+import { ExternalLink, Bookmark, Repeat } from 'lucide-react';
 import { TechEvent } from '../types';
-import { formatBRL, formatDateBR, getDaysRemaining } from '../utils/eventUtils';
+import { formatBRL, formatDateBR } from '../utils/eventUtils';
 import { CountdownBadge } from './CountdownBadge';
 
 interface TableViewProps {
@@ -18,35 +18,35 @@ export function TableView({ events, onSelectEvent, favorites, onToggleFavorite }
   const getCategoryConfig = (cat: string) => {
     switch (cat) {
       case 'edital_fomento':
-        return { label: 'Edital de Fomento', badge: 'bg-cyan-950/60 text-cyan-300 border-cyan-500/30' };
+        return { label: 'Edital de Fomento', badge: 'bg-slate-800 text-slate-200 border-slate-700' };
       case 'aceleracao':
-        return { label: 'Aceleração', badge: 'bg-indigo-950/60 text-indigo-300 border-indigo-500/30' };
+        return { label: 'Aceleração', badge: 'bg-slate-800 text-slate-200 border-slate-700' };
       case 'bolsa_pesquisa':
-        return { label: 'Bolsa P&D', badge: 'bg-emerald-950/60 text-emerald-300 border-emerald-500/30' };
+        return { label: 'Bolsa P&D', badge: 'bg-slate-800 text-slate-200 border-slate-700' };
       case 'hackathon':
-        return { label: 'Hackathon', badge: 'bg-violet-950/60 text-violet-300 border-violet-500/30' };
+        return { label: 'Hackathon', badge: 'bg-slate-800 text-slate-200 border-slate-700' };
       default:
-        return { label: 'Oportunidade', badge: 'bg-slate-900 text-slate-300 border-white/10' };
+        return { label: 'Oportunidade', badge: 'bg-slate-800 text-slate-200 border-slate-700' };
     }
   };
 
   return (
-    <div className="bg-[#0B0F19]/90 border border-white/10 rounded-2xl overflow-hidden shadow-2xl mb-6 backdrop-blur-xl">
+    <div className="bg-[#121824] border border-slate-800 rounded-xl overflow-hidden mb-6">
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs text-slate-300">
-          <thead className="bg-[#07090E] text-slate-400 uppercase font-mono text-[10px] tracking-wider border-b border-white/10">
+          <thead className="bg-[#0B0F17] text-slate-400 uppercase font-mono text-[10px] tracking-wider border-b border-slate-800">
             <tr>
-              <th className="py-4 px-5">Categoria</th>
-              <th className="py-4 px-5">Edital / Chamada</th>
-              <th className="py-4 px-4">Financiador</th>
-              <th className="py-4 px-4">Local (UF)</th>
-              <th className="py-4 px-4">Inscrições até</th>
-              <th className="py-4 px-5 text-right">Subvenção / Aporte</th>
-              <th className="py-4 px-4 text-center">Contagem</th>
-              <th className="py-4 px-5 text-center">Ações</th>
+              <th className="py-3.5 px-4">Categoria</th>
+              <th className="py-3.5 px-4">Edital / Chamada</th>
+              <th className="py-3.5 px-3">Financiador</th>
+              <th className="py-3.5 px-3">Local (UF)</th>
+              <th className="py-3.5 px-3">Inscrições até</th>
+              <th className="py-3.5 px-4 text-right">Subvenção / Aporte</th>
+              <th className="py-3.5 px-3 text-center">Status</th>
+              <th className="py-3.5 px-4 text-center">Ações</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5 font-sans">
+          <tbody className="divide-y divide-slate-800/80 font-sans">
             {events.map((evt) => {
               const isFav = favorites.includes(evt.id);
               const catConfig = getCategoryConfig(evt.category);
@@ -55,18 +55,18 @@ export function TableView({ events, onSelectEvent, favorites, onToggleFavorite }
                 <tr
                   key={evt.id}
                   onClick={() => onSelectEvent(evt)}
-                  className="hover:bg-white/5 transition-colors cursor-pointer group"
+                  className="hover:bg-slate-800/40 transition-colors cursor-pointer group"
                 >
                   {/* Category Type */}
-                  <td className="py-3.5 px-5 whitespace-nowrap">
-                    <span className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border ${catConfig.badge}`}>
+                  <td className="py-3 px-4 whitespace-nowrap">
+                    <span className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border ${catConfig.badge}`}>
                       {catConfig.label}
                     </span>
                   </td>
 
                   {/* Title & Scope */}
-                  <td className="py-3.5 px-5 max-w-[280px]">
-                    <div className="font-semibold text-white group-hover:text-cyan-300 transition-colors truncate">
+                  <td className="py-3 px-4 max-w-[280px]">
+                    <div className="font-semibold text-white group-hover:text-slate-200 transition-colors truncate font-['Plus_Jakarta_Sans']">
                       {evt.title}
                     </div>
                     <div className="text-[11px] text-slate-400 truncate mt-0.5 flex items-center gap-1.5">
@@ -76,49 +76,49 @@ export function TableView({ events, onSelectEvent, favorites, onToggleFavorite }
                           <span>Fluxo Contínuo</span>
                         </span>
                       )}
-                      <span>•</span>
+                      <span>-</span>
                       <span>{evt.resourceOrigin || 'Recurso Público'}</span>
                     </div>
                   </td>
 
                   {/* Financiador */}
-                  <td className="py-3.5 px-4 whitespace-nowrap text-slate-300 font-medium">
+                  <td className="py-3 px-3 whitespace-nowrap text-slate-300 font-medium">
                     {evt.funder || evt.organizer}
                   </td>
 
                   {/* Location */}
-                  <td className="py-3.5 px-4 whitespace-nowrap font-mono text-[11px] text-slate-400">
+                  <td className="py-3 px-3 whitespace-nowrap font-mono text-[11px] text-slate-400">
                     {evt.location.state === 'Online'
-                      ? '100% Online'
+                      ? '100% Remoto'
                       : `${evt.location.city} (${evt.location.state})`}
                   </td>
 
                   {/* Registration Deadline */}
-                  <td className="py-3.5 px-4 whitespace-nowrap font-mono text-[11px] text-slate-200">
-                    {evt.isContinuousFlow ? 'Fluxo Contínuo' : formatDateBR(evt.registrationDeadline)}
+                  <td className="py-3 px-3 whitespace-nowrap font-mono text-[11px] text-slate-200">
+                    {evt.isContinuousFlow ? 'Fluxo Contínuo' : formatDateBR(eventRegistrationDeadline(evt))}
                   </td>
 
                   {/* Grant / Prize Amount */}
-                  <td className="py-3.5 px-5 whitespace-nowrap text-right">
+                  <td className="py-3 px-4 whitespace-nowrap text-right">
                     <span className="font-mono font-bold text-emerald-400">
                       {evt.prizes.highlight || formatBRL(evt.prizes.totalValue)}
                     </span>
                   </td>
 
                   {/* Countdown Badge */}
-                  <td className="py-3.5 px-4 whitespace-nowrap text-center">
+                  <td className="py-3 px-3 whitespace-nowrap text-center">
                     <CountdownBadge deadline={evt.registrationDeadline} showHours={false} />
                   </td>
 
                   {/* Action Buttons */}
-                  <td className="py-3.5 px-5 whitespace-nowrap text-center">
+                  <td className="py-3 px-4 whitespace-nowrap text-center">
                     <div className="flex items-center justify-center gap-1.5" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => onToggleFavorite(evt.id)}
-                        className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+                        className={`p-1.5 rounded border transition-colors cursor-pointer ${
                           isFav
-                            ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                            : 'text-slate-400 hover:text-white border-white/10 hover:bg-white/10'
+                            ? 'bg-amber-950/40 text-amber-300 border-amber-600/50'
+                            : 'text-slate-400 hover:text-white border-slate-700 hover:bg-slate-800'
                         }`}
                         title="Salvar"
                       >
@@ -129,7 +129,7 @@ export function TableView({ events, onSelectEvent, favorites, onToggleFavorite }
                         href={evt.registrationUrl || evt.websiteUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 border border-cyan-500/40 transition-colors cursor-pointer"
+                        className="p-1.5 rounded bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-colors cursor-pointer"
                         title="Abrir inscrição oficial"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -144,4 +144,8 @@ export function TableView({ events, onSelectEvent, favorites, onToggleFavorite }
       </div>
     </div>
   );
+}
+
+function eventRegistrationDeadline(evt: TechEvent): string {
+  return evt.registrationDeadline;
 }

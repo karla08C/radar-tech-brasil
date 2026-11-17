@@ -137,6 +137,21 @@ O repositório inclui [`render.yaml`](file:///C:/Users/Usuário/Radar-Tech-Brasi
 
 ---
 
+## Acompanhamento de candidaturas
+
+Use o seletor **Candidatura** nos cards ou no raio-X para acompanhar um edital. A área **Minhas candidaturas** apresenta as etapas Na Mira / Interesse, Em Elaboração, Submetido, Aprovado / Contemplado e Não Selecionado. Altere a etapa pelo seletor ou arrastando o card entre as colunas.
+
+Informe o **valor individual da proposta** no quadro. O total em disputa soma propostas em elaboração e submetidas; o aprovado soma candidaturas contempladas. O orçamento global dos editais não entra nesses totais. Valores não informados são sinalizados e não somados.
+
+Os dados ficam no `localStorage` deste navegador, separados dos favoritos. Selecionar **Não acompanhar** remove a candidatura e o valor informado. Eles não são sincronizados entre dispositivos.
+
+Verificações da funcionalidade:
+
+```bash
+node --import tsx --test tests/applications.test.ts
+node node_modules/typescript/bin/tsc --noEmit
+```
+
 ## Licença
 
 Distribuído sob a licença **MIT**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.

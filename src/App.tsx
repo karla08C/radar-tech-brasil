@@ -9,7 +9,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import { TechEvent, EventFilters, BrazilianRegion } from './types';
+import { TechEvent, EventFilters, BrazilianRegion, ApplicationsByEvent, ApplicationStatus } from './types';
 import { INITIAL_EVENTS } from './data/initialEvents';
 import { formatBRL, getDaysRemaining } from './utils/eventUtils';
 import { Header } from './components/Header';
@@ -24,6 +24,8 @@ import { TableView } from './components/TableView';
 import { AiScannerModal } from './components/AiScannerModal';
 import { ImportEditalModal } from './components/ImportEditalModal';
 import { AlertModal } from './components/AlertModal';
+import { ApplicationsView } from './components/ApplicationsView';
+import { APPLICATION_STORAGE_KEY, parseApplications } from './utils/applicationUtils';
 
 const DEFAULT_FILTERS: EventFilters = {
   search: '',
@@ -45,6 +47,41 @@ const DEFAULT_FILTERS: EventFilters = {
 };
 
 export default function App() {
+  const [workspaceView, setWorkspaceView] = useState<'opportunities' | 'applications'>('opportunities');
+  const [applications, setApplications] = useState<ApplicationsByEvent>(() => {
+    try {
+      return parseApplications(localStorage.getItem(APPLICATION_STORAGE_KEY));
+    } catch {
+      return {};
+    }
+  });
+  const [applicationSaveError, setApplicationSaveError] = useState(false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(APPLICATION_STORAGE_KEY, JSON.stringify(applications));
+      setApplicationSaveError(false);
+    } catch {
+      setApplicationSaveError(true);
+    }
+  }, [applications]);
+
+  const handleApplicationStatus = (eventId: string, status: ApplicationStatus | '') => {
+    setApplications(previous => {
+      const next = { ...previous };
+      if (!status) delete next[eventId];
+      else next[eventId] = { ...previous[eventId], eventId, status, updatedAt: new Date().toISOString() };
+      return next;
+    });
+  };
+
+  const handleApplicationAmount = (eventId: string, amount?: number) => {
+    setApplications(previous => {
+      if (!previous[eventId]) return previous;
+      return { ...previous, [eventId]: { ...previous[eventId], amount, updatedAt: new Date().toISOString() } };
+    });
+  };
+
   const [events, setEvents] = useState<TechEvent[]>(() => {
     const saved = localStorage.getItem('radartech_custom_events');
     if (saved) {
@@ -479,6 +516,15 @@ export default function App() {
           }}
         />
 
+        <div className="mb-5 flex gap-2" role="group" aria-label="Área de trabalho">
+          <button onClick={() => setWorkspaceView('opportunities')} aria-pressed={workspaceView === 'opportunities'} className={`rounded-lg border px-4 py-2 text-xs font-semibold ${workspaceView === 'opportunities' ? 'bg-white text-slate-900 border-white' : 'bg-slate-900 text-slate-300 border-slate-700'}`}>Oportunidades</button>
+          <button onClick={() => setWorkspaceView('applications')} aria-pressed={workspaceView === 'applications'} className={`rounded-lg border px-4 py-2 text-xs font-semibold ${workspaceView === 'applications' ? 'bg-white text-slate-900 border-white' : 'bg-slate-900 text-slate-300 border-slate-700'}`}>Minhas candidaturas ({Object.keys(applications).length})</button>
+        </div>
+        {applicationSaveError && <p role="alert" className="mb-4 text-sm text-amber-300">Não foi possível salvar as candidaturas neste navegador. As alterações atuais serão perdidas ao recarregar a página.</p>}
+        {workspaceView === 'applications' ? (
+          <ApplicationsView events={events} applications={applications} onStatusChange={handleApplicationStatus} onAmountChange={handleApplicationAmount} onSelectEvent={setSelectedEvent} />
+        ) : (
+        <>
         {/* Filter Bar */}
         <FilterBar
           filters={filters}
@@ -580,11 +626,15 @@ export default function App() {
                     onSelect={setSelectedEvent}
                     isFavorite={favorites.includes(evt.id)}
                     onToggleFavorite={toggleFavorite}
+                    applicationStatus={applications[evt.id]?.status}
+                    onApplicationStatusChange={handleApplicationStatus}
                   />
                 ))}
               </div>
             )}
           </div>
+        )}
+        </>
         )}
       </main>
 
@@ -618,6 +668,8 @@ export default function App() {
       {/* Modals */}
       <EventModal
         event={selectedEvent}
+        applicationStatus={selectedEvent ? applications[selectedEvent.id]?.status : undefined}
+        onApplicationStatusChange={handleApplicationStatus}
         onClose={() => setSelectedEvent(null)}
         isFavorite={selectedEvent ? favorites.includes(selectedEvent.id) : false}
         onToggleFavorite={toggleFavorite}

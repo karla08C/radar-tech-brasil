@@ -13,7 +13,8 @@ import {
   Building,
   Banknote
 } from 'lucide-react';
-import { TechEvent } from '../types';
+import { TechEvent, ApplicationStatus } from '../types';
+import { ApplicationStatusSelect } from './ApplicationStatusSelect';
 import { CountdownBadge } from './CountdownBadge';
 
 interface EventCardProps {
@@ -23,6 +24,8 @@ interface EventCardProps {
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   onFilterByTag?: (tag: string) => void;
+  applicationStatus?: ApplicationStatus;
+  onApplicationStatusChange: (eventId: string, status: ApplicationStatus | '') => void;
 }
 
 export function EventCard({
@@ -30,6 +33,8 @@ export function EventCard({
   onSelect,
   isFavorite,
   onToggleFavorite,
+  applicationStatus,
+  onApplicationStatusChange,
 }: EventCardProps) {
   const [copied, setCopied] = useState(false);
 
@@ -180,6 +185,9 @@ export function EventCard({
             </div>
           </div>
 
+          <div className="mb-3">
+            <ApplicationStatusSelect eventTitle={event.title} status={applicationStatus} onChange={status => onApplicationStatusChange(event.id, status)} />
+          </div>
           {/* Tags */}
           <div className="flex flex-wrap gap-1 mb-2">
             {event.tags.slice(0, 3).map((tag) => (

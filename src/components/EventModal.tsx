@@ -18,7 +18,8 @@ import {
   Banknote,
   Info
 } from 'lucide-react';
-import { TechEvent } from '../types';
+import { TechEvent, ApplicationStatus } from '../types';
+import { ApplicationStatusSelect } from './ApplicationStatusSelect';
 import { formatBRL, formatDateBR, generateGoogleCalendarUrl } from '../utils/eventUtils';
 import { CountdownBadge } from './CountdownBadge';
 
@@ -27,9 +28,11 @@ interface EventModalProps {
   onClose: () => void;
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
+  applicationStatus?: ApplicationStatus;
+  onApplicationStatusChange: (eventId: string, status: ApplicationStatus | '') => void;
 }
 
-export function EventModal({ event, onClose, isFavorite, onToggleFavorite }: EventModalProps) {
+export function EventModal({ event, onClose, isFavorite, onToggleFavorite, applicationStatus, onApplicationStatusChange }: EventModalProps) {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'prizes' | 'rules' | 'timeline'>('overview');
 
@@ -154,6 +157,9 @@ export function EventModal({ event, onClose, isFavorite, onToggleFavorite }: Eve
             {event.title}
           </h2>
 
+          <div className="mt-3">
+            <ApplicationStatusSelect eventTitle={event.title} status={applicationStatus} onChange={status => onApplicationStatusChange(event.id, status)} />
+          </div>
           {/* Sub-Navigation Tabs */}
           <div className="flex items-center gap-3 mt-3 pt-2 border-t border-slate-800/80 overflow-x-auto">
             <button
@@ -259,7 +265,7 @@ export function EventModal({ event, onClose, isFavorite, onToggleFavorite }: Eve
                   {event.prizes.highlight}
                 </div>
                 <p className="text-slate-400 mt-1 text-xs">
-                  {event.prizes.description || 'Recursos públicos não-reembolsáveis destinados ao fomento de pesquisa, desenvolvimento e escalabilidade de negócios inovadores.'}
+                  Recursos públicos não-reembolsáveis destinados ao fomento de pesquisa, desenvolvimento e escalabilidade de negócios inovadores.
                 </p>
               </div>
 
@@ -289,15 +295,12 @@ export function EventModal({ event, onClose, isFavorite, onToggleFavorite }: Eve
                   <span>Critérios de Elegibilidade & CNPJ</span>
                 </h4>
                 <div className="text-slate-300 space-y-2">
-                  <p>- <strong>Quem pode submeter:</strong> {event.eligibility?.whoCanParticipate || 'Startups, microempresas (ME), EPPs, pesquisadores ou grupos organizados.'}</p>
-                  {event.eligibility?.teamSize && (
-                    <p>- <strong>Formação de Equipe:</strong> {event.eligibility.teamSize}</p>
-                  )}
-                  {event.eligibility?.requirements && (
+                  <p>- <strong>Quem pode submeter:</strong> {event.targetAudience || 'Startups, microempresas (ME), EPPs, pesquisadores ou grupos organizados.'}</p>
+                  {event.eligibilityCriteria && event.eligibilityCriteria.length > 0 && (
                     <div>
                       <p className="mt-2 font-semibold text-slate-200">- Requisitos Obrigatórios do Edital:</p>
                       <ul className="list-disc pl-5 mt-1 space-y-1 text-slate-400">
-                        {event.eligibility.requirements.map((req, i) => (
+                        {event.eligibilityCriteria.map((req, i) => (
                           <li key={i}>{req}</li>
                         ))}
                       </ul>

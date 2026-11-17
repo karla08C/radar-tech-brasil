@@ -131,3 +131,15 @@ export interface AlertSubscription {
   selectedVerticals: ThematicVertical[];
   createdAt: string;
 }
+
+export type ApplicationStatus = 'interesse' | 'elaboracao' | 'submetido' | 'aprovado' | 'nao_selecionado';
+
+export interface EventApplication {
+  eventId: string;
+  status: ApplicationStatus;
+  /** Valor da proposta individual em BRL, nunca o orçamento global do edital. */
+  amount?: number;
+  updatedAt: string;
+}
+
+export type ApplicationsByEvent = Record<string, EventApplication>;

@@ -17,20 +17,20 @@ export function PrizeSpotlight({ events, onSelectEvent, onFilterHighPrizes }: Pr
   if (topPrizeEvents.length === 0) return null;
 
   return (
-    <section className="rounded-xl border border-slate-800 bg-[#121824] p-5 mb-6">
+    <section className="rounded-xl border border-stone-200 bg-white p-5 mb-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-stone-200">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
-            <Trophy className="w-4 h-4 text-slate-300" />
+          <div className="w-8 h-8 rounded-lg bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
+            <Trophy className="w-4 h-4 text-stone-700" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm sm:text-base font-bold text-white tracking-tight font-['Plus_Jakarta_Sans']">
-                Chamadas Estratégicas de Alto Valor
+              <h2 className="text-sm sm:text-base font-semibold text-stone-900 tracking-tight font-sans">
+                Oportunidades em destaque
               </h2>
-              <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                Top Montantes
+              <span className="text-[11px] px-2 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200">
+                Maiores aportes
               </span>
             </div>
           </div>
@@ -38,7 +38,7 @@ export function PrizeSpotlight({ events, onSelectEvent, onFilterHighPrizes }: Pr
 
         <button
           onClick={onFilterHighPrizes}
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300 hover:text-white transition-colors self-start sm:self-auto bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1 rounded-md cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs font-sans text-stone-700 hover:text-stone-900 transition-colors self-start sm:self-auto bg-stone-100 hover:bg-stone-200 border border-stone-200 px-3 py-1 rounded-md cursor-pointer"
         >
           <span>Ver aportes R$ 500k+</span>
           <ArrowRight className="w-3 h-3" />
@@ -51,32 +51,32 @@ export function PrizeSpotlight({ events, onSelectEvent, onFilterHighPrizes }: Pr
           <div
             key={evt.id}
             onClick={() => onSelectEvent(evt)}
-            className="group cursor-pointer rounded-lg border border-slate-800 bg-[#0F141F] hover:bg-slate-900 hover:border-slate-700 p-3.5 transition-colors flex flex-col justify-between"
+            className="group cursor-pointer rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-50 hover:border-stone-200 p-3.5 transition-colors flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                <span className="text-[11px] px-2 py-0.5 rounded bg-stone-100 text-stone-700 border border-stone-200">
                   {evt.funder || evt.organizer}
                 </span>
-                <span className="text-[10px] font-mono text-slate-400">
+                <span className="text-[11px] text-stone-500">
                   {evt.location.state === 'Online' ? '100% Online' : evt.location.state}
                 </span>
               </div>
 
-              <h3 className="text-xs sm:text-sm font-bold text-white leading-snug line-clamp-2 font-['Plus_Jakarta_Sans'] group-hover:text-slate-200 transition-colors">
+              <h3 className="text-xs sm:text-sm font-semibold text-stone-900 leading-snug line-clamp-2 font-sans group-hover:text-stone-800 transition-colors">
                 {evt.title}
               </h3>
             </div>
 
-            <div className="mt-3 pt-2.5 border-t border-slate-800 flex items-center justify-between">
+            <div className="mt-3 pt-2.5 border-t border-stone-200 flex items-center justify-between">
               <div>
-                <span className="text-sm font-bold font-mono text-emerald-400">
+                <span className="text-sm font-semibold font-sans text-emerald-700">
                   {evt.prizes.highlight || formatBRL(evt.prizes.totalValue)}
                 </span>
               </div>
-              <span className="text-xs font-semibold text-slate-300 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                <span>Inspecionar</span>
-                <ArrowRight className="w-3 h-3 text-slate-400" />
+              <span className="text-xs font-semibold text-stone-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span>Ver detalhes</span>
+                <ArrowRight className="w-3 h-3 text-stone-500" />
               </span>
             </div>
           </div>

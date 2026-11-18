@@ -59,34 +59,36 @@ Elegibilidade: Empresas com CNPJ ativo no Ceará há mais de 6 meses.`);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/35 ">
       <div
-        className="relative w-full max-w-lg bg-[#121824] border border-slate-800 rounded-xl shadow-2xl p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200"
+        role="dialog" aria-modal="true" aria-label="Cadastrar edital"
+        className="relative w-full max-w-lg bg-white border border-stone-200 rounded-xl shadow-xl p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-stone-800"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors cursor-pointer"
+          aria-label="Fechar"
+          className="absolute top-5 right-5 p-1.5 rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-500 hover:text-stone-900 border border-stone-200 transition-colors cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
 
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-9 h-9 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
-            <Landmark className="w-4 h-4 text-slate-300" />
+          <div className="w-9 h-9 rounded-lg bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
+            <Landmark className="w-4 h-4 text-stone-700" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white font-['Plus_Jakarta_Sans']">
-              Cadastrar / Ingerir Novo Edital
+            <h3 className="text-base font-semibold text-stone-900 font-sans">
+              Cadastrar edital
             </h3>
-            <p className="text-xs text-slate-400 font-sans">
+            <p className="text-xs text-stone-500 font-sans">
               Cole o link oficial ou o texto do edital para extração automática via IA
             </p>
           </div>
         </div>
 
         {errorMsg && (
-          <div className="mb-4 p-3 rounded-lg bg-rose-950/40 border border-rose-600/50 text-rose-300 text-xs flex items-center gap-2">
+          <div className="mb-4 p-3 rounded-lg bg-rose-50/40 border border-rose-200/50 text-rose-700 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -95,37 +97,39 @@ Elegibilidade: Empresas com CNPJ ativo no Ceará há mais de 6 meses.`);
         <form onSubmit={handleImport} className="space-y-4">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+              <label className="text-[11px] text-stone-500">
                 Texto do Edital ou Resumo
               </label>
               <button
                 type="button"
                 onClick={fillExample}
-                className="text-[10px] font-mono text-slate-300 hover:text-white underline cursor-pointer"
+                className="text-[11px] text-stone-700 hover:text-stone-900 underline cursor-pointer"
               >
                 Preencher exemplo (FUNCAP)
               </button>
             </div>
             <textarea
               rows={5}
+              aria-label="Texto do edital ou resumo"
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Cole aqui trechos do regulamento, edital da FAP, valores de subvenção..."
-              className="w-full p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-slate-600 font-sans leading-relaxed"
+              className="w-full p-3 rounded-lg bg-stone-50 border border-stone-200 text-xs text-stone-800 placeholder:text-stone-400 focus:border-brand-600 font-sans leading-relaxed"
             />
           </div>
 
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
-              <LinkIcon className="w-3 h-3 text-slate-400" />
+            <label className="block text-[11px] text-stone-500 mb-1 flex items-center gap-1.5">
+              <LinkIcon className="w-3 h-3 text-stone-500" />
               <span>Link do Edital ou Portal Oficial</span>
             </label>
             <input
               type="url"
+              aria-label="Link do edital ou portal oficial"
               value={sourceUrl}
               onChange={(e) => setSourceUrl(e.target.value)}
               placeholder="https://finep.gov.br/chamadas-publicas/edital-123"
-              className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-slate-600"
+              className="w-full px-3.5 py-2.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-stone-800 placeholder:text-stone-400 focus:border-brand-600"
             />
           </div>
 
@@ -133,17 +137,17 @@ Elegibilidade: Empresas com CNPJ ativo no Ceará há mais de 6 meses.`);
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2.5 rounded-lg bg-white hover:bg-slate-100 text-slate-900 text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 shadow-xs"
+              className="w-full py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 "
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin text-slate-900" />
-                  <span>Extraindo Parâmetros do Edital...</span>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Lendo informações do edital...</span>
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 text-slate-900" />
-                  <span>Processar e Cadastrar no Radar</span>
+                  <Sparkles className="w-4 h-4" />
+                  <span>Adicionar ao Radar</span>
                 </>
               )}
             </button>

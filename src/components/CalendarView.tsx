@@ -53,44 +53,44 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
   const weekDayLabels = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
   return (
-    <div className="bg-[#121824] border border-slate-800 rounded-xl p-5 sm:p-6 mb-6 text-slate-200">
+    <div className="bg-white border border-stone-200 rounded-xl p-5 sm:p-6 mb-6 text-stone-800">
       {/* Calendar Header Navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-stone-200">
         <div>
-          <h3 className="text-lg font-bold text-white flex items-center gap-2 font-['Plus_Jakarta_Sans']">
-            <CalendarIcon className="w-5 h-5 text-slate-300" />
-            Cronograma de Prazos Finais & Submissões
+          <h3 className="text-lg font-semibold text-stone-900 flex items-center gap-2 font-sans">
+            <CalendarIcon className="w-5 h-5 text-stone-700" />
+            Calendário de inscrições
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5 font-sans">
-            Datas limites de envio para editais de fomento e chamadas públicas
+          <p className="text-xs text-stone-500 mt-0.5 font-sans">
+            Consulte os prazos de inscrição de cada oportunidade.
           </p>
-          <div className="flex items-center gap-3 mt-2 text-[11px] font-mono">
-            <span className="inline-flex items-center gap-1.5 text-slate-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
-              <Landmark className="w-3 h-3 text-slate-400" />
+          <div className="flex items-center gap-3 mt-2 text-[11px] font-sans">
+            <span className="inline-flex items-center gap-1.5 text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-200">
+              <Landmark className="w-3 h-3 text-stone-500" />
               Editais de Fomento
             </span>
-            <span className="inline-flex items-center gap-1.5 text-slate-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
-              <Rocket className="w-3 h-3 text-slate-400" />
+            <span className="inline-flex items-center gap-1.5 text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-200">
+              <Rocket className="w-3 h-3 text-stone-500" />
               Aceleração & Desafios
             </span>
           </div>
         </div>
 
         {/* Month Selector Controls */}
-        <div className="flex items-center gap-2 self-start sm:self-auto bg-slate-900 border border-slate-800 rounded-lg p-1">
+        <div className="flex items-center gap-2 self-start sm:self-auto bg-stone-50 border border-stone-200 rounded-lg p-1">
           <button
             onClick={handlePrevMonth}
-            className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1 rounded text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer"
             title="Mês Anterior"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-xs font-semibold font-mono text-white px-2">
+          <span className="text-xs font-semibold font-sans text-stone-900 px-2">
             {monthNames[month]} {year}
           </span>
           <button
             onClick={handleNextMonth}
-            className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1 rounded text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer"
             title="Próximo Mês"
           >
             <ChevronRight className="w-4 h-4" />
@@ -99,7 +99,7 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
       </div>
 
       {/* Weekday Labels */}
-      <div className="grid grid-cols-7 gap-1.5 mb-2 text-center text-[10px] font-mono uppercase tracking-wider text-slate-500 font-medium">
+      <div className="grid grid-cols-7 gap-1.5 mb-2 text-center text-[11px] text-stone-500 font-medium">
         {weekDayLabels.map((lbl) => (
           <div key={lbl} className="py-1">
             {lbl}
@@ -112,7 +112,7 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
         {Array.from({ length: firstDayOfMonth }).map((_, i) => (
           <div
             key={`empty-${i}`}
-            className="min-h-[80px] rounded-lg bg-slate-900/40 border border-slate-800/40 p-1.5 opacity-30"
+            className="min-h-[80px] rounded-lg bg-stone-50/40 border border-stone-200/40 p-1.5 opacity-30"
           />
         ))}
 
@@ -126,12 +126,12 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
               key={`day-${dayNum}`}
               className={`min-h-[80px] rounded-lg border p-1.5 flex flex-col justify-between transition-colors ${
                 hasEvents
-                  ? 'bg-slate-900 border-slate-700 hover:border-slate-600'
-                  : 'bg-slate-900/60 border-slate-800/60'
+                  ? 'bg-stone-50 border-stone-200 hover:border-stone-300'
+                  : 'bg-stone-50/60 border-stone-200/60'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className={`text-xs font-mono font-semibold ${hasEvents ? 'text-white' : 'text-slate-500'}`}>
+                <span className={`text-xs font-sans font-semibold ${hasEvents ? 'text-stone-900' : 'text-stone-500'}`}>
                   {dayNum}
                 </span>
                 {hasEvents && (
@@ -144,14 +144,14 @@ export function CalendarView({ events, onSelectEvent }: CalendarViewProps) {
                   <div
                     key={evt.id}
                     onClick={() => onSelectEvent(evt)}
-                    className="text-[10px] font-sans truncate px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 cursor-pointer transition-colors"
+                    className="text-[11px] truncate px-1.5 py-0.5 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 hover:text-stone-900 border border-stone-200 cursor-pointer transition-colors"
                     title={evt.title}
                   >
                     {evt.title}
                   </div>
                 ))}
                 {dayEvents.length > 2 && (
-                  <div className="text-[9px] font-mono text-slate-500 text-center">
+                  <div className="text-[9px] font-sans text-stone-500 text-center">
                     +{dayEvents.length - 2} mais
                   </div>
                 )}

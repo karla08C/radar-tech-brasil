@@ -71,30 +71,32 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/35 ">
       <div
-        className="relative w-full max-w-lg bg-[#121824] border border-slate-800 rounded-xl shadow-2xl p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200"
+        role="dialog" aria-modal="true" aria-label="Buscar editais com IA"
+        className="relative w-full max-w-lg bg-white border border-stone-200 rounded-xl shadow-xl p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-stone-800"
         onClick={(e) => e.stopPropagation()}
       >
         {!isScanning && (
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors cursor-pointer"
+          aria-label="Fechar"
+            className="absolute top-5 right-5 p-1.5 rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-500 hover:text-stone-900 border border-stone-200 transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         )}
 
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-9 h-9 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
-            <Sparkles className="w-4 h-4 text-slate-300" />
+          <div className="w-9 h-9 rounded-lg bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
+            <Sparkles className="w-4 h-4 text-stone-700" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white font-['Plus_Jakarta_Sans']">
-              Scanner de Editais com IA
+            <h3 className="text-base font-semibold text-stone-900 font-sans">
+              Buscar editais com IA
             </h3>
-            <p className="text-xs text-slate-400 font-sans">
-              Varredura profunda em diários oficiais e plataformas de fomento
+            <p className="text-xs text-stone-500 font-sans">
+              Encontre chamadas públicas por área e localização.
             </p>
           </div>
         </div>
@@ -102,13 +104,14 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
         {!isScanning ? (
           <div className="space-y-4">
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-[11px] text-stone-500 mb-1">
                 Eixo Temático de Inovação
               </label>
               <select
+                aria-label="Área de interesse"
                 value={focusTopic}
                 onChange={(e) => setFocusTopic(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-slate-600 cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-stone-800 focus:border-brand-600 cursor-pointer"
               >
                 <option value="Geral / Todos os Editais">Geral / Todos os Editais & Chamadas</option>
                 <option value="Inteligência Artificial e Dados">Inteligência Artificial & Dados</option>
@@ -120,13 +123,14 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
             </div>
 
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-[11px] text-stone-500 mb-1">
                 Região / Estado Alvo
               </label>
               <select
+                aria-label="Região ou estado"
                 value={targetState}
                 onChange={(e) => setTargetState(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-slate-600 cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-stone-800 focus:border-brand-600 cursor-pointer"
               >
                 <option value="Brasil Inteiro & Online">Brasil Inteiro (Nacional & Remoto)</option>
                 <option value="Ceará (CE) e Nordeste">Ceará (CE) & Nordeste</option>
@@ -138,44 +142,45 @@ export function AiScannerModal({ isOpen, onClose, onEventsDiscovered }: AiScanne
             </div>
 
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-[11px] text-stone-500 mb-1">
                 Termo de Busca Específico (Opcional)
               </label>
               <input
                 type="text"
                 placeholder="Ex: subvenção econômica startups, bolsas RHAE..."
+                aria-label="Termo de busca específico"
                 value={customQuery}
                 onChange={(e) => setCustomQuery(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-slate-600"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-stone-800 placeholder:text-stone-400 focus:border-brand-600"
               />
             </div>
 
             <div className="pt-2">
               <button
                 onClick={handleStartScan}
-                className="w-full py-2.5 rounded-lg bg-white hover:bg-slate-100 text-slate-900 text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                className="w-full py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer "
               >
-                <Sparkles className="w-4 h-4 text-slate-900" />
-                <span>Executar Varredura Inteligente</span>
+                <Sparkles className="w-4 h-4" />
+                <span>Buscar oportunidades</span>
               </button>
             </div>
           </div>
         ) : (
           <div className="py-4 space-y-4">
             <div className="flex items-center justify-center gap-3">
-              <Loader2 className="w-5 h-5 text-slate-300 animate-spin" />
-              <span className="text-xs font-mono text-slate-300">
+              <Loader2 className="w-5 h-5 text-stone-700 animate-spin" />
+              <span className="text-xs font-sans text-stone-700">
                 Processando fontes públicas oficiais...
               </span>
             </div>
 
-            <div className="bg-[#0B0F17] border border-slate-800 rounded-lg p-3.5 font-mono text-[11px] text-slate-400 space-y-1.5 min-h-[110px]">
-              <div className="text-slate-500 flex items-center gap-1.5 pb-1 border-b border-slate-800/80">
-                <Terminal className="w-3 h-3 text-slate-400" />
-                <span>TELEMETRIA DE EXECUÇÃO</span>
+            <div className="bg-[#f6faf8] border border-stone-200 rounded-lg p-3.5 font-sans text-[11px] text-stone-500 space-y-1.5 min-h-[110px]">
+              <div className="text-stone-500 flex items-center gap-1.5 pb-1 border-b border-stone-200/80">
+                <Terminal className="w-3 h-3 text-stone-500" />
+                <span>Andamento da busca</span>
               </div>
               {scanLog.map((log, i) => (
-                <div key={i} className="text-slate-300 leading-tight">
+                <div key={i} className="text-stone-700 leading-tight">
                   &gt; {log}
                 </div>
               ))}

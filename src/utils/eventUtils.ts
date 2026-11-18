@@ -52,7 +52,7 @@ export function getStatusBadge(deadline: string, isContinuous?: boolean): {
   if (isContinuous) {
     return {
       label: 'Fluxo Contínuo',
-      colorClass: 'bg-emerald-950/40 text-emerald-300 border-emerald-500/30',
+      colorClass: 'bg-emerald-50/40 text-emerald-800 border-emerald-200/30',
       status: 'continuous',
     };
   }
@@ -62,7 +62,7 @@ export function getStatusBadge(deadline: string, isContinuous?: boolean): {
   if (days < 0) {
     return {
       label: 'Inscrições Encerradas',
-      colorClass: 'bg-slate-900 text-slate-400 border-slate-800',
+      colorClass: 'bg-stone-50 text-stone-500 border-stone-200',
       status: 'closed',
     };
   }
@@ -70,7 +70,7 @@ export function getStatusBadge(deadline: string, isContinuous?: boolean): {
   if (days <= 2) {
     return {
       label: days === 0 ? 'Encerra hoje' : `Encerra em ${days} dia${days > 1 ? 's' : ''}`,
-      colorClass: 'bg-rose-950/40 text-rose-300 border-rose-500/30',
+      colorClass: 'bg-rose-50/40 text-rose-700 border-rose-200/30',
       status: 'urgent',
     };
   }
@@ -78,14 +78,14 @@ export function getStatusBadge(deadline: string, isContinuous?: boolean): {
   if (days <= 7) {
     return {
       label: `Restam ${days} dias`,
-      colorClass: 'bg-amber-950/40 text-amber-300 border-amber-500/30',
+      colorClass: 'bg-amber-50/40 text-amber-800 border-amber-500/30',
       status: 'urgent',
     };
   }
 
   return {
     label: 'Inscrições Abertas',
-    colorClass: 'bg-slate-900 text-slate-300 border-slate-800',
+    colorClass: 'bg-stone-50 text-stone-700 border-stone-200',
     status: 'open',
   };
 }

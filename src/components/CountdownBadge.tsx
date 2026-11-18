@@ -59,8 +59,8 @@ export function CountdownBadge({ deadline, showHours = true, className = '' }: C
 
   if (timeLeft.isExpired) {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-slate-800 text-slate-400 border border-slate-700 ${className}`}>
-        <span className="h-1.5 w-1.5 rounded-full bg-slate-500"></span>
+      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] bg-stone-100 text-stone-500 border border-stone-200 ${className}`}>
+        <span className="h-1.5 w-1.5 rounded-full bg-stone-400"></span>
         <span>Encerrado</span>
       </span>
     );
@@ -68,11 +68,12 @@ export function CountdownBadge({ deadline, showHours = true, className = '' }: C
 
   if (timeLeft.isUrgent) {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-amber-950/60 text-amber-300 border border-amber-600/50 ${className}`}>
-        <span className="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] bg-amber-50/60 text-amber-800 border border-amber-200/50 ${className}`}>
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
         <span>
-          {timeLeft.days > 0 ? `${timeLeft.days}d ` : ''}
-          {showHours ? `${timeLeft.hours}h ${timeLeft.minutes}m` : `${timeLeft.days} dias`}
+          {showHours
+            ? `${timeLeft.days > 0 ? `${timeLeft.days}d ` : ''}${timeLeft.hours}h ${timeLeft.minutes}m`
+            : timeLeft.days === 0 ? 'Encerra hoje' : `Restam ${timeLeft.days} dia${timeLeft.days === 1 ? '' : 's'}`}
         </span>
       </span>
     );
@@ -80,7 +81,7 @@ export function CountdownBadge({ deadline, showHours = true, className = '' }: C
 
   if (timeLeft.isWarning) {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700 ${className}`}>
+      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] bg-stone-100 text-stone-700 border border-stone-200 ${className}`}>
         <span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
         <span>
           {timeLeft.days} dias restantes
@@ -90,7 +91,7 @@ export function CountdownBadge({ deadline, showHours = true, className = '' }: C
   }
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700 ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] bg-stone-100 text-stone-700 border border-stone-200 ${className}`}>
       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
       <span>{timeLeft.days} dias restantes</span>
     </span>

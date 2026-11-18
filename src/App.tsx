@@ -425,7 +425,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-slate-100 flex flex-col selection:bg-slate-700 selection:text-white bg-subtle-grid relative overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-[#f6faf8] text-stone-900 flex flex-col selection:bg-brand-100 selection:text-brand-700 relative font-sans">
       {/* Global Header */}
       <Header
         onOpenAiScanner={() => setIsAiScannerOpen(true)}
@@ -440,29 +440,20 @@ export default function App() {
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#162030] border border-slate-700 text-white text-xs font-semibold px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3 duration-200">
-          <Sparkles className="w-4 h-4 text-slate-300 shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 bg-white border border-stone-200 text-stone-900 text-sm font-medium px-4 py-3 rounded-lg shadow-md flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3 duration-200">
+          <Sparkles className="w-4 h-4 text-stone-700 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Main Container */}
-      <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Hero Section */}
-        <div className="pt-2 pb-6 sm:pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="pb-8 sm:pb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 text-xs font-mono mb-3">
-              <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-              <span>OBSERVATÓRIO DE FOMENTO & INOVAÇÃO PÚBLICA</span>
-            </div>
-
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight font-['Plus_Jakarta_Sans']">
-              Editais Abertos, Subvenção & Aceleração no Brasil
-            </h1>
-
-            <p className="text-xs sm:text-sm text-slate-400 mt-2 max-w-2xl leading-relaxed font-sans">
-              Centralização e auditoria contínua de chamadas públicas da FUNCAP, FINEP, CNPq e FAPs estaduais. Filtre por financiador, estágio, subvenção e prazos de submissão sem ruído.
-            </p>
+            <p className="mb-3 text-xs font-medium text-brand-600">Fomento e inovação no Brasil</p>
+            <h1 className="max-w-xl text-3xl font-semibold leading-[1.2] tracking-tight text-stone-900 sm:text-4xl">Encontre o próximo passo<br className="hidden sm:block" /> para a sua ideia.</h1>
+            <p className="mt-4 max-w-lg text-sm leading-7 text-stone-500">Explore editais, bolsas e programas de aceleração. Encontre oportunidades para o seu projeto e acompanhe cada candidatura.</p>
           </div>
 
           {/* Quick Action Buttons */}
@@ -471,22 +462,24 @@ export default function App() {
               onClick={handleSyncLiveEvents}
               disabled={isSyncing}
               title="Sincronizar portais públicos agora"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white hover:bg-slate-100 text-slate-900 text-xs font-semibold transition-colors disabled:opacity-75 cursor-pointer shadow-xs"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold transition-colors disabled:opacity-75 cursor-pointer "
             >
               {isSyncing ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
                 <ArrowDownToLine className="w-3.5 h-3.5" />
               )}
-              <span>{isSyncing ? 'Sincronizando...' : 'Sincronizar Editais'}</span>
+              <span>{isSyncing ? 'Sincronizando...' : 'Atualizar editais'}</span>
             </button>
 
             <button
               onClick={() => setShowStrategicBanner(!showStrategicBanner)}
-              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-medium transition-colors cursor-pointer"
+              aria-label="Mostrar destaques"
+              aria-expanded={showStrategicBanner}
+              className="button-quiet"
             >
-              <Trophy className="w-3.5 h-3.5 text-slate-400" />
-              <span className="hidden sm:inline">Chamadas Estratégicas</span>
+              <Trophy className="w-3.5 h-3.5 text-stone-500" />
+              <span className="hidden sm:inline">Destaques</span>
               {showStrategicBanner ? <ChevronUp className="w-3 h-3 ml-0.5" /> : <ChevronDown className="w-3 h-3 ml-0.5" />}
             </button>
           </div>
@@ -516,11 +509,11 @@ export default function App() {
           }}
         />
 
-        <div className="mb-5 flex gap-2" role="group" aria-label="Área de trabalho">
-          <button onClick={() => setWorkspaceView('opportunities')} aria-pressed={workspaceView === 'opportunities'} className={`rounded-lg border px-4 py-2 text-xs font-semibold ${workspaceView === 'opportunities' ? 'bg-white text-slate-900 border-white' : 'bg-slate-900 text-slate-300 border-slate-700'}`}>Oportunidades</button>
-          <button onClick={() => setWorkspaceView('applications')} aria-pressed={workspaceView === 'applications'} className={`rounded-lg border px-4 py-2 text-xs font-semibold ${workspaceView === 'applications' ? 'bg-white text-slate-900 border-white' : 'bg-slate-900 text-slate-300 border-slate-700'}`}>Minhas candidaturas ({Object.keys(applications).length})</button>
+        <div className="mb-6 flex gap-6 border-b border-stone-200" role="group" aria-label="Área de trabalho">
+          <button onClick={() => setWorkspaceView('opportunities')} aria-pressed={workspaceView === 'opportunities'} className={`border-b-2 px-0 pb-3 pt-1 text-sm font-medium ${workspaceView === 'opportunities' ? 'text-brand-600 border-brand-600' : 'text-stone-500 border-transparent hover:text-stone-900'}`}>Oportunidades</button>
+          <button onClick={() => setWorkspaceView('applications')} aria-pressed={workspaceView === 'applications'} className={`border-b-2 px-0 pb-3 pt-1 text-sm font-medium ${workspaceView === 'applications' ? 'text-brand-600 border-brand-600' : 'text-stone-500 border-transparent hover:text-stone-900'}`}>Minhas candidaturas ({Object.keys(applications).length})</button>
         </div>
-        {applicationSaveError && <p role="alert" className="mb-4 text-sm text-amber-300">Não foi possível salvar as candidaturas neste navegador. As alterações atuais serão perdidas ao recarregar a página.</p>}
+        {applicationSaveError && <p role="alert" className="mb-4 text-sm text-amber-800">Não foi possível salvar as candidaturas neste navegador. As alterações atuais serão perdidas ao recarregar a página.</p>}
         {workspaceView === 'applications' ? (
           <ApplicationsView events={events} applications={applications} onStatusChange={handleApplicationStatus} onAmountChange={handleApplicationAmount} onSelectEvent={setSelectedEvent} />
         ) : (
@@ -546,16 +539,16 @@ export default function App() {
 
         {/* Favorites only filter banner */}
         {showFavoritesOnly && (
-          <div className="mb-6 p-4 rounded-lg bg-amber-950/40 border border-amber-600/50 flex items-center justify-between text-xs text-amber-200">
+          <div className="mb-6 p-4 rounded-lg bg-amber-50/40 border border-amber-200/50 flex items-center justify-between text-xs text-amber-800">
             <div className="flex items-center gap-2">
-              <Bookmark className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <Bookmark className="w-4 h-4 text-amber-700 fill-amber-400" />
               <span>
-                Exibindo suas <strong>{favorites.length}</strong> oportunidades salvas.
+                Você salvou <strong>{favorites.length}</strong> oportunidades salvas.
               </span>
             </div>
             <button
               onClick={() => setShowFavoritesOnly(false)}
-              className="text-xs font-mono text-amber-300 hover:underline cursor-pointer"
+              className="text-xs font-sans text-amber-800 hover:underline cursor-pointer"
             >
               Ver todas as oportunidades
             </button>
@@ -585,14 +578,14 @@ export default function App() {
           <div>
             {filteredEvents.length === 0 ? (
               /* Empty State */
-              <div className="text-center py-16 px-4 rounded-xl bg-[#121824] border border-slate-800 my-4">
-                <div className="w-12 h-12 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <div className="text-center py-16 px-4 rounded-xl bg-white border border-stone-200 my-4">
+                <div className="w-12 h-12 rounded-lg bg-stone-50 border border-stone-200 text-stone-500 flex items-center justify-center mx-auto mb-3">
                   <Filter className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-white font-['Plus_Jakarta_Sans']">
+                <h3 className="text-base font-semibold text-stone-900 font-sans">
                   Nenhum edital encontrado para esses critérios
                 </h3>
-                <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
+                <p className="text-xs text-stone-500 mt-1 max-w-md mx-auto">
                   Tente ajustar a data limite, estágio de maturidade ou financiador selecionado.
                 </p>
 
@@ -602,17 +595,17 @@ export default function App() {
                       setFilters(DEFAULT_FILTERS);
                       setMainTab('all');
                     }}
-                    className="px-4 py-2 text-xs font-semibold rounded-lg bg-white hover:bg-slate-100 text-slate-900 transition-colors cursor-pointer"
+                    className="px-4 py-2 text-xs font-semibold rounded-lg bg-brand-600 hover:bg-brand-700 text-white transition-colors cursor-pointer"
                   >
                     Limpar todos os filtros
                   </button>
                   <button
                     onClick={handleSyncLiveEvents}
                     disabled={isSyncing}
-                    className="flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-colors cursor-pointer"
+                    className="flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200 transition-colors cursor-pointer"
                   >
                     {isSyncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowDownToLine className="w-3.5 h-3.5" />}
-                    <span>Sincronizar Editais</span>
+                    <span>Atualizar editais</span>
                   </button>
                 </div>
               </div>
@@ -639,25 +632,25 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 bg-[#0B0F17] py-8 px-4 sm:px-6 mt-16 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="border-t border-stone-200 bg-[#f6faf8] py-8 px-4 sm:px-6 mt-16 text-xs text-stone-500">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-white">Radar Tech Brasil</span>
+            <span className="font-semibold text-stone-900">Radar Tech Brasil</span>
             <span>•</span>
-            <span className="text-slate-400">Observatório Cívico de Fomento à Inovação e Editais Públicos</span>
+            <span className="text-stone-500">Oportunidades para ideias que merecem acontecer.</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-400 font-mono text-[11px]">
+          <div className="flex items-center gap-4 text-stone-500 font-sans text-[11px]">
             <button
               onClick={() => setIsAlertModalOpen(true)}
-              className="hover:text-white transition-colors cursor-pointer"
+              className="hover:text-stone-900 transition-colors cursor-pointer"
             >
               Criar Alerta
             </button>
             <span>•</span>
             <button
               onClick={() => setIsImportModalOpen(true)}
-              className="hover:text-white transition-colors cursor-pointer"
+              className="hover:text-stone-900 transition-colors cursor-pointer"
             >
               Cadastrar Edital
             </button>

@@ -152,6 +152,20 @@ node --import tsx --test tests/applications.test.ts
 node node_modules/typescript/bin/tsc --noEmit
 ```
 
+## Lembretes de submissão
+
+No raio-X de um edital, a aba **Cronograma & Prazos** oferece o link para o Google Agenda e o download de um arquivo `.ics` para importar no Outlook ou Apple Calendar. Ambos usam `registrationDeadline`, em vez das datas de início e término do programa.
+
+Prazos com horário preservam o fuso explícito; quando ele não existe, o horário é interpretado como Brasília (UTC-03). Prazos que possuem apenas data geram um evento de dia inteiro. O `.ics` inclui um aviso uma hora antes para prazos com horário ou um dia antes para datas sem horário. Revise as notificações no aplicativo de calendário após importar; no Google Agenda, configure o aviso antes de salvar.
+
+Editais de fluxo contínuo e prazos inválidos não geram lembretes de encerramento. Sempre consulte eventuais retificações no portal oficial.
+
+Testes de candidaturas e calendário:
+
+```bash
+node --import tsx --test tests/*.test.ts
+```
+
 ## Licença
 
 Distribuído sob a licença **MIT**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.

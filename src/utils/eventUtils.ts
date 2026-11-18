@@ -1,5 +1,3 @@
-import { TechEvent } from '../types';
-
 export function formatBRL(value: number): string {
   if (value >= 1_000_000) {
     const millions = value / 1_000_000;
@@ -92,19 +90,4 @@ export function getStatusBadge(deadline: string, isContinuous?: boolean): {
   };
 }
 
-export function generateGoogleCalendarUrl(event: TechEvent): string {
-  const title = encodeURIComponent(`[${event.category.toUpperCase()}] ${event.title}`);
-  const details = encodeURIComponent(
-    `${event.description}\n\nFomento: ${event.prizes.highlight}\nFinanciador: ${event.funder || event.organizer}\nLocal: ${event.location.city} - ${event.location.state} (${event.modality})\nMais informações e Inscrições: ${event.registrationUrl || event.websiteUrl}`
-  );
-  const location = encodeURIComponent(
-    event.modality === 'online'
-      ? 'Online / Remoto'
-      : `${event.location.venue || ''}, ${event.location.city} - ${event.location.state}, Brasil`
-  );
-
-  const startFormatted = event.startDate.replace(/-/g, '') + 'T090000';
-  const endFormatted = (event.endDate || event.startDate).replace(/-/g, '') + 'T180000';
-
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startFormatted}/${endFormatted}`;
-}
+export { generateGoogleCalendarUrl } from './calendarUtils';

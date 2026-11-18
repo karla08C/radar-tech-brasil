@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { 
   X, 
-  Calendar, 
   MapPin, 
   ExternalLink, 
   Bookmark, 
@@ -20,7 +19,8 @@ import {
 } from 'lucide-react';
 import { TechEvent, ApplicationStatus } from '../types';
 import { ApplicationStatusSelect } from './ApplicationStatusSelect';
-import { formatBRL, formatDateBR, generateGoogleCalendarUrl } from '../utils/eventUtils';
+import { formatBRL, formatDateBR } from '../utils/eventUtils';
+import { CalendarReminderActions } from './CalendarReminderActions';
 import { CountdownBadge } from './CountdownBadge';
 
 interface EventModalProps {
@@ -336,13 +336,7 @@ export function EventModal({ event, onClose, isFavorite, onToggleFavorite, appli
                 </div>
               </div>
 
-              <button
-                onClick={() => window.open(generateGoogleCalendarUrl(event), '_blank')}
-                className="w-full py-2.5 rounded-lg bg-[#0B0F17] hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 flex items-center justify-center gap-2 transition-colors cursor-pointer font-medium"
-              >
-                <Calendar className="w-4 h-4 text-slate-400" />
-                <span>Salvar Prazo no Google Agenda</span>
-              </button>
+              <CalendarReminderActions key={event.id} event={event} />
             </div>
           )}
         </div>

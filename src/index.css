@@ -9,17 +9,18 @@
   }
 
   body {
-    background-color: #0B0F17;
+    background-color: #0A0E17;
     color: #E2E8F0;
     font-family: var(--font-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
+    font-weight: 700;
   }
 
   code, kbd, samp, pre, .font-mono {
@@ -27,66 +28,106 @@
   }
 }
 
-/* Sober, Matte Institutional Design Tokens */
+/* Modern Vivid Architecture Design Tokens */
 .bg-canvas {
-  background-color: #0B0F17;
+  background-color: #0A0E17;
 }
 
 .bg-surface-card {
-  background-color: #121824;
+  background-color: #111726;
   border: 1px solid #1E293B;
 }
 
 .bg-surface-card:hover {
-  background-color: #162030;
+  background-color: #151D30;
   border-color: #334155;
 }
 
 .bg-surface-muted {
-  background-color: #0F141F;
+  background-color: #0D121F;
 }
 
-/* Subtle architectural grid - no neon */
+/* Vivid Subtle Architectural Grid */
 .bg-subtle-grid {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
-/* Sober card banner backgrounds */
+/* Vivid, High-Energy Category Banners */
 .bg-banner-fomento {
-  background: linear-gradient(180deg, #162030 0%, #121824 100%);
-  border-bottom: 1px solid #1E293B;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.16) 0%, rgba(17, 23, 38, 0.95) 100%);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .bg-banner-aceleracao {
-  background: linear-gradient(180deg, #1A1D2E 0%, #121824 100%);
-  border-bottom: 1px solid #1E293B;
+  background: linear-gradient(180deg, rgba(139, 92, 246, 0.18) 0%, rgba(17, 23, 38, 0.95) 100%);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.25);
 }
 
 .bg-banner-bolsas {
-  background: linear-gradient(180deg, #142226 0%, #121824 100%);
-  border-bottom: 1px solid #1E293B;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.18) 0%, rgba(17, 23, 38, 0.95) 100%);
+  border-bottom: 1px solid rgba(14, 165, 233, 0.25);
 }
 
 .bg-banner-hackathons {
-  background: linear-gradient(180deg, #241A1E 0%, #121824 100%);
-  border-bottom: 1px solid #1E293B;
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.18) 0%, rgba(17, 23, 38, 0.95) 100%);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.25);
 }
 
-/* Refined, muted scrollbar */
+/* Subtle Luminous Borders */
+.glow-border-emerald {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.12);
+}
+
+.glow-border-violet {
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 15px -3px rgba(139, 92, 246, 0.12);
+}
+
+.glow-border-amber {
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 0 15px -3px rgba(245, 158, 11, 0.12);
+}
+
+.glow-border-sky {
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 0 15px -3px rgba(14, 165, 233, 0.12);
+}
+
+/* Text Gradients */
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #FFFFFF 30%, #34D399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-violet {
+  background: linear-gradient(135deg, #FFFFFF 30%, #A78BFA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-amber {
+  background: linear-gradient(135deg, #FFFFFF 30%, #FBBF24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Refined custom scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0F17;
+  background: #0A0E17;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #253347;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #3B4E68;
 }

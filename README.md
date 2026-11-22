@@ -166,6 +166,10 @@ Testes de candidaturas e calendário:
 node --import tsx --test tests/*.test.ts
 ```
 
+## Sobre o projeto
+
+A página **Sobre o projeto** (`#/sobre`), acessível pelo cabeçalho e pelo rodapé, apresenta a missão Civic Tech, as fontes monitoradas e formas de colaborar pelo GitHub. A navegação usa hash para permitir acesso direto e recarregamento também no GitHub Pages, sem configuração de redirecionamentos. O link da marca e o botão de retorno levam às oportunidades, preservando os filtros e candidaturas durante a navegação.
+
 ## Licença
 
 Distribuído sob a licença **MIT**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.

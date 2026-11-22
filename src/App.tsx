@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Sparkles,
   Trophy,
@@ -12,6 +12,7 @@ import {
 import { TechEvent, EventFilters, BrazilianRegion, ApplicationsByEvent, ApplicationStatus } from './types';
 import { INITIAL_EVENTS } from './data/initialEvents';
 import { formatBRL, getDaysRemaining } from './utils/eventUtils';
+import { AboutPage } from './components/AboutPage';
 import { Header } from './components/Header';
 import { PrizeSpotlight } from './components/PrizeSpotlight';
 import { StatsBanner } from './components/StatsBanner';
@@ -47,6 +48,23 @@ const DEFAULT_FILTERS: EventFilters = {
 };
 
 export default function App() {
+  const [isAboutPage, setIsAboutPage] = useState(() => window.location.hash.replace(/\/$/, '') === '#/sobre');
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleNavigation = () => {
+      setIsAboutPage(window.location.hash.replace(/\/$/, '') === '#/sobre');
+      window.scrollTo(0, 0);
+      mainRef.current?.focus({ preventScroll: true });
+    };
+    window.addEventListener('hashchange', handleNavigation);
+    return () => window.removeEventListener('hashchange', handleNavigation);
+  }, []);
+
+  useEffect(() => {
+    document.title = isAboutPage ? 'Sobre o Projeto | Radar Tech Brasil' : 'Radar Tech Brasil';
+  }, [isAboutPage]);
+
   const [workspaceView, setWorkspaceView] = useState<'opportunities' | 'applications'>('opportunities');
   const [applications, setApplications] = useState<ApplicationsByEvent>(() => {
     try {
@@ -428,12 +446,17 @@ export default function App() {
     <div className="min-h-screen bg-[#f6faf8] text-stone-900 flex flex-col selection:bg-brand-100 selection:text-brand-700 relative font-sans">
       {/* Global Header */}
       <Header
+        isAboutPage={isAboutPage}
         onOpenAiScanner={() => setIsAiScannerOpen(true)}
         onOpenImportModal={() => setIsImportModalOpen(true)}
         onOpenAlertModal={() => setIsAlertModalOpen(true)}
         favoriteCount={favorites.length}
         showFavoritesOnly={showFavoritesOnly}
-        onToggleFavoritesOnly={() => setShowFavoritesOnly(!showFavoritesOnly)}
+        onToggleFavoritesOnly={() => {
+          setShowFavoritesOnly(!showFavoritesOnly);
+          setWorkspaceView('opportunities');
+          window.location.hash = '/';
+        }}
         totalPrizesFormatted={formatBRL(totalPrizeSum)}
         totalEventsCount={events.length}
       />
@@ -447,7 +470,9 @@ export default function App() {
       )}
 
       {/* Main Container */}
-      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <main ref={mainRef} tabIndex={-1} className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        {isAboutPage ? <AboutPage /> : (
+        <>
         {/* Hero Section */}
         <div className="pb-8 sm:pb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="max-w-3xl">
@@ -629,18 +654,22 @@ export default function App() {
         )}
         </>
         )}
+        </>
+        )}
       </main>
 
       {/* Footer */}
       <footer className="border-t border-stone-200 bg-[#f6faf8] py-8 px-4 sm:px-6 mt-16 text-xs text-stone-500">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <span className="font-semibold text-stone-900">Radar Tech Brasil</span>
             <span>•</span>
             <span className="text-stone-500">Oportunidades para ideias que merecem acontecer.</span>
           </div>
 
           <div className="flex items-center gap-4 text-stone-500 font-sans text-[11px]">
+            <a href="#/sobre" aria-current={isAboutPage ? 'page' : undefined} className="hover:text-stone-900 transition-colors">Sobre o projeto</a>
+            <span aria-hidden="true">•</span>
             <button
               onClick={() => setIsAlertModalOpen(true)}
               className="hover:text-stone-900 transition-colors cursor-pointer"
